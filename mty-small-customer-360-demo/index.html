@@ -528,6 +528,48 @@
       return new Intl.NumberFormat('fi-FI', { style: 'currency', currency: 'EUR' }).format(amount);
     }
 
+   return `
+        <h3 class="detail-title">${escapeHtml(title)}</h3>
+        <div class="detail-subtitle">${escapeHtml(item.companyName || '')}</div>
+        <div class="info-grid">
+          ${fields.map(f => info(labels[f] || f, f === 'amount' ? formatCurrency(item[f]) : (item[f] || '-'))).join('')}
+        </div>`;
+    }
+
+    function actionsForAsset(asset) {
+      const actions = state.data.detailActions || {};
+      if (asset.type === 'Matkapuhelin liittymä' && asset.category === 'Target') return actions['Matkapuhelin liittymä Target'] || [];
+      if (asset.type === 'Matkapuhelin liittymä') return actions['Matkapuhelin liittymä Legacy'] || [];
+      return actions[asset.type] || [];
+    }
+
+    function info(name, value) {
+      return `<div class="info"><div class="name">${escapeHtml(name)}</div><div class="val">${escapeHtml(String(value))}</div></div>`;
+    }
+
+    function iconFor(type, item) {
+      if (type === 'assets') {
+        if (item.type === 'Matkapuhelin liittymä') return '📱';
+        if (item.type === 'Laite') return '💻';
+        if (item.type === 'Yritysnetti') return '🌐';
+        if (item.type === 'Lisenssi') return '🔑';
+      }
+      return { orders: '📦', invoices: '🧾', requests: '🛠️', incidents: '⚠️' }[type] || '•';
+    }
+
+    function badgeClass(value) {
+      const v = String(value || '').toLowerCase();
+      if (v.includes('target')) return 'target';
+      if (v.includes('legacy')) return 'legacy';
+      if (v.includes('avoin') || v.includes('tilauksessa') || v.includes('selvityksessä') || v.includes('käsittelyssä')) return 'open';
+      return '';
+    }
+
+    function formatCurrency(value) {
+      const amount = Number(value || 0);
+      return new Intl.NumberFormat('fi-FI', { style: 'currency', currency: 'EUR' }).format(amount);
+    }
+
     function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, char => ({
     '&': '&amp;',
@@ -537,6 +579,14 @@
     '"': '&quot;'
   }[char]));
 }
+
+
+    loadData().catch(error => {
+      document.body.innerHTML = `<main style="padding:32px;font-family:Segoe UI,Arial"><h1>Demoa ei voitu ladata</h1><p>${escapeHtml(error.message)}</p><p>Varmista, että data-kansio on mukana GitHubissa.</p></main>`;
+    });
+  </script>
+</body>
+</html>
 
 
     loadData().catch(error => {
