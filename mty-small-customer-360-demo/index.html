@@ -529,10 +529,15 @@
     }
 
     function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>'"]/g, char => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-      }[char]));
-    }
+  return String(value ?? '').replace(/[&<>'"]/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[char]));
+}
+
 
     loadData().catch(error => {
       document.body.innerHTML = `<main style="padding:32px;font-family:Segoe UI,Arial"><h1>Demoa ei voitu ladata</h1><p>${escapeHtml(error.message)}</p><p>Varmista, että data-kansio on mukana GitHubissa.</p></main>`;
