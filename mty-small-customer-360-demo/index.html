@@ -391,13 +391,15 @@
       list.innerHTML = items.map(item => rowTemplate(item, state.activeTab)).join('');
       list.querySelectorAll('.row').forEach(row => {
         row.addEventListener('click', () => {
-    if (state.activeTab === 'assets') {
-        window.location.href =
-            `asset-detail.html?id=${row.dataset.id}`;
-    }
 
-      });
-    }
+        if (state.activeTab === 'assets') {
+            window.location.href =
+                `asset-detail.html?id=${row.dataset.id}`;
+        }
+
+    });
+});
+
 
     function rowTemplate(item, type) {
       const icon = iconFor(type, item);
