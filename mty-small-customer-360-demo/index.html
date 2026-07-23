@@ -391,9 +391,11 @@
       list.innerHTML = items.map(item => rowTemplate(item, state.activeTab)).join('');
       list.querySelectorAll('.row').forEach(row => {
         row.addEventListener('click', () => {
-          state.selectedItem = { id: row.dataset.id, type: state.activeTab };
-          renderDetail();
-        });
+    if (state.activeTab === 'assets') {
+        window.location.href =
+            `asset-detail.html?id=${row.dataset.id}`;
+    }
+
       });
     }
 
