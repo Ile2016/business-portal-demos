@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Asset Detail</title>
+
+<style>
+
+body{
+    font-family:"Segoe UI",Arial,sans-serif;
+    margin:0;
+    background:#f5f7fa;
+}
+
+.header{
+    background:#990ae3;
+    color:white;
+    padding:24px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:24px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.label{
+    color:#666;
+    font-size:12px;
+}
+
+.value{
+    font-weight:600;
+    margin-top:4px;
+}
+
+.button{
+    display:block;
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#0078d4;
+    color:white;
+    cursor:pointer;
+}
+
+.button:hover{
+    background:#106ebe;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <a class="back" href="index.html">
+        ← Takaisin
+    </a>
+
+    <h1 id="assetName">
+        Asset
+    </h1>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Yleistiedot</h2>
+
+        <div class="grid">
+
+            <div>
+                <div class="label">Yritys</div>
+                <div class="value" id="company"></div>
+            </div>
+
+            <div>
+                <div class="label">Tyyppi</div>
+                <div class="value" id="type"></div>
+            </div>
+
+            <div>
+                <div class="label">Käyttäjä</div>
+                <div class="value" id="user"></div>
+            </div>
+
+            <div>
+                <div class="label">Kategoria</div>
+                <div class="value" id="category"></div>
+            </div>
+
+            <div>
+                <div class="label">Tuote / Nopeus</div>
+                <div class="value" id="product"></div>
+            </div>
+
+            <div>
+                <div class="label">Määräaika päättyy</div>
+                <div class="value" id="contract"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Toiminnot</h2>
+
+        <div id="actions"></div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Liittyvät tilaukset</h2>
+
+        <div id="orders"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+async function load() {
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const id = params.get("id");
+
+    const assets =
+        await fetch("data/assets.json")
+        .then(r => r.json());
+
+    const orders =
+        await fetch("data/orders.json")
+        .then(r => r.json());
+
+    const detailActions =
+        await fetch("data/detail-actions.json")
+        .then(r => r.json());
+
+    const asset =
+        assets.find(a => a.id === id);
+
+    if(!asset){
+        document.body.innerHTML =
+            "<h1>Assetia ei löytynyt</h1>";
+        return;
+    }
+
+    document.getElementById("assetName").innerText =
+        asset.name;
+
+    document.getElementById("company").innerText =
+        asset.companyName;
+
+    document.getElementById("type").innerText =
+        asset.type;
+
+    document.getElementById("user").innerText =
+        asset.user || "-";
+
+    document.getElementById("category").innerText =
+        asset.category;
+
+    document.getElementById("product").innerText =
+        asset.subscriptionTypeOrSpeed || "-";
+
+    document.getElementById("contract").innerText =
+        asset.fixedTermEndDate || "-";
+
+    let actionKey = asset.type;
+
+    if(asset.type === "Matkapuhelin liittymä"){
+
+        if(asset.category === "Target"){
+            actionKey =
+               "Matkapuhelin liittymä Target";
+        }
+        else{
+            actionKey =
+               "Matkapuhelin liittymä Legacy";
+        }
+    }
+
+    const actions =
+        detailActions[actionKey] || [];
+
+    document.getElementById("actions").innerHTML =
+        actions.map(a =>
+        `<button class="button">${a}</button>`
+        ).join("");
+
+    const relatedOrders =
+        orders.filter(o =>
+            o.user === asset.user ||
+            o.item === asset.name
+        );
+
+    document.getElementById("orders").innerHTML =
+        relatedOrders.length
+        ?
+        relatedOrders.map(o =>
+        `
+        <div style="padding:10px;border-bottom:1px solid #eee;">
+            <strong>${o.productType}</strong><br>
+            ${o.item}<br>
+            ${o.status}
+        </div>
+        `
+        ).join("")
+        :
+        "Ei liittyviä tilauksia";
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>
 
