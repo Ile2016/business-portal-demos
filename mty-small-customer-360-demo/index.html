@@ -340,6 +340,61 @@
       line-height: 1.4;
     }
 
+
+
+    .kpi.active {
+      border-color: var(--telia);
+      background: #fbf5ff;
+      box-shadow: 0 12px 30px rgba(153, 10, 227, 0.16);
+    }
+
+    .filter-banner {
+      margin: 8px 8px 0;
+      padding: 10px 14px;
+      border: 1px solid #ead7ff;
+      background: #f8f5ff;
+      color: #55208a;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .detail-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .detail-link:hover { text-decoration: underline; }
+
+    .summary-card {
+      border: 1px solid var(--border);
+      background: #fbfcfe;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .summary-card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 14px;
+    }
+
+    .summary-row:last-child { border-bottom: 0; }
+
+    .summary-row strong { font-size: 15px; }
+
     @media (max-width: 1100px) {
       .toolbar { grid-template-columns: 1fr; }
       .kpis { grid-template-columns: repeat(2, 1fr); }
@@ -501,6 +556,7 @@
       companySelect.value = state.selectedCompanyId;
       companySelect.addEventListener('change', e => {
         state.selectedCompanyId = e.target.value;
+        state.statusFilter = null;
         state.selectedItem = null;
         renderAll();
       });
@@ -610,17 +666,21 @@
         ['Avoimet viat', openIncidents.length, 'incidents', 'openIncidents']
       ];
 
-      document.getElementById('kpiArea').innerHTML = kpis.map(([label, value, tab, filter]) => `
-        <article class="kpi" data-tab="${tab}" data-filter="${filter}">
-          <div class="label">${label}</div>
-          <div class="value">${value}</div>
-        </article>`).join('');
+      document.getElementById('kpiArea').innerHTML = kpis.map(([label, value, tab, filter]) => {
+        const isActive = state.activeTab === tab && (state.statusFilter || '') === filter;
+        return `
+          <article class="kpi ${isActive ? 'active' : ''}" data-tab="${tab}" data-filter="${filter}">
+            <div class="label">${label}</div>
+            <div class="value">${value}</div>
+          </article>`;
+      }).join('');
 
       document.querySelectorAll('.kpi').forEach(card => {
         card.addEventListener('click', () => {
           state.activeTab = card.dataset.tab;
           state.statusFilter = card.dataset.filter || null;
           state.selectedItem = null;
+          renderKpis();
           renderTabs();
           renderList();
           renderDetail();
@@ -647,6 +707,15 @@
       if (!toggle) return;
       toggle.style.display = state.activeTab === 'assets' && state.searchMode === 'customer' ? 'flex' : 'none';
       updateAssetViewButtons();
+    }
+
+
+
+    function activeFilterLabel() {
+      if (state.statusFilter === 'openInvoices') return 'Suodatus: vain avoimet laskut';
+      if (state.statusFilter === 'openRequests') return 'Suodatus: vain avoimet palvelupyynnöt';
+      if (state.statusFilter === 'openIncidents') return 'Suodatus: vain avoimet vikailmoitukset';
+      return '';
     }
 
     function renderList() {
@@ -685,8 +754,12 @@
       }
 
 
+      const filterPrefix = activeFilterLabel()
+        ? `<div class="filter-banner">${activeFilterLabel()}</div>`
+        : '';
+
       if (state.activeTab === 'assets' && state.assetView === 'tile') {
-        list.innerHTML = `
+        list.innerHTML = `${filterPrefix}
           <div class="tile-grid">
             ${items.map(tileTemplate).join('')}
           </div>`;
@@ -700,7 +773,7 @@
         return;
       }
 
-      list.innerHTML = items.map(item => rowTemplate(item, state.activeTab)).join('');
+      list.innerHTML = filterPrefix + items.map(item => rowTemplate(item, state.activeTab)).join('');
       list.querySelectorAll('.row').forEach(row => {
         row.addEventListener('click', () => {
           if (state.activeTab === 'assets') {
@@ -817,6 +890,7 @@
           <div>
             <div class="primary">${escapeHtml(primary)}</div>
             <div class="secondary">${escapeHtml(secondary)}</div>
+            ${type === 'assets' ? `<a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">Näytä tiedot →</a>` : ''}
           </div>
           <span class="badge ${badgeClass(badge)}">${escapeHtml(badge)}</span>
         </div>`;
@@ -835,13 +909,40 @@
           <div style="margin-top:12px">
             <span class="badge ${badgeClass(item.category)}">${escapeHtml(item.category || '')}</span>
           </div>
+          <a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">Näytä tiedot →</a>
         </div>`;
+    }
+
+
+
+    function customerSummary() {
+      const company = state.data.companies.find(c => c.companyId === state.selectedCompanyId);
+      const assets = companyItems('assets');
+      const invoices = companyItems('invoices');
+      const orders = companyItems('orders');
+      const requests = companyItems('requests');
+      const incidents = companyItems('incidents');
+      const openInvoices = invoices.filter(i => i.status === 'Avoinna');
+      const openRequests = requests.filter(r => r.status !== 'Valmis');
+      const openIncidents = incidents.filter(i => i.status !== 'Ratkaistu');
+
+      return `
+        <div class="summary-card">
+          <h3>Yrityksen yhteenveto</h3>
+          <div class="summary-row"><span>Yritys</span><strong>${escapeHtml(company?.companyName || '-')}</strong></div>
+          <div class="summary-row"><span>Assetit</span><strong>${assets.length}</strong></div>
+          <div class="summary-row"><span>Tilaukset</span><strong>${orders.length}</strong></div>
+          <div class="summary-row"><span>Avoimet laskut</span><strong>${openInvoices.length}</strong></div>
+          <div class="summary-row"><span>Avoimet pyynnöt</span><strong>${openRequests.length}</strong></div>
+          <div class="summary-row"><span>Avoimet viat</span><strong>${openIncidents.length}</strong></div>
+        </div>
+        <div class="empty">Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.</div>`;
     }
 
     function renderDetail() {
       const area = document.getElementById('detailArea');
       if (!state.selectedItem) {
-        area.innerHTML = '<div class="empty">Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.</div>';
+        area.innerHTML = customerSummary();
         return;
       }
       const item = (state.data[state.selectedItem.type] || []).find(x => x.id === state.selectedItem.id);
