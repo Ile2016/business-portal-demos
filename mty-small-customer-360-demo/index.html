@@ -89,6 +89,14 @@
       border-radius: 16px;
       padding: 18px;
       box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .kpi:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: #ead7ff;
     }
 
     .kpi .label { color: var(--muted); font-size: 13px; }
@@ -423,6 +431,7 @@
       activeTab: 'assets',
       searchMode: 'customer',
       assetView: 'list',
+      statusFilter: null,
       selectedCompanyId: '',
       selectedItem: null,
       data: {}
@@ -521,6 +530,7 @@
         const btn = e.target.closest('button[data-tab]');
         if (!btn) return;
         state.activeTab = btn.dataset.tab;
+        state.statusFilter = null;
         state.selectedItem = null;
         renderAll();
       });
@@ -591,18 +601,31 @@
       const openInvoices = invoices.filter(i => i.status === 'Avoinna');
       const openRequests = requests.filter(r => r.status !== 'Valmis');
       const openIncidents = incidents.filter(i => i.status !== 'Ratkaistu');
+
       const kpis = [
-        ['Assetit', assets.length],
-        ['Avoimet laskut', openInvoices.length],
-        ['Tilaukset', orders.length],
-        ['Avoimet pyynnöt', openRequests.length],
-        ['Avoimet viat', openIncidents.length]
+        ['Assetit', assets.length, 'assets', ''],
+        ['Avoimet laskut', openInvoices.length, 'invoices', 'openInvoices'],
+        ['Tilaukset', orders.length, 'orders', ''],
+        ['Avoimet pyynnöt', openRequests.length, 'requests', 'openRequests'],
+        ['Avoimet viat', openIncidents.length, 'incidents', 'openIncidents']
       ];
-      document.getElementById('kpiArea').innerHTML = kpis.map(([label, value]) => `
-        <article class="kpi">
+
+      document.getElementById('kpiArea').innerHTML = kpis.map(([label, value, tab, filter]) => `
+        <article class="kpi" data-tab="${tab}" data-filter="${filter}">
           <div class="label">${label}</div>
           <div class="value">${value}</div>
         </article>`).join('');
+
+      document.querySelectorAll('.kpi').forEach(card => {
+        card.addEventListener('click', () => {
+          state.activeTab = card.dataset.tab;
+          state.statusFilter = card.dataset.filter || null;
+          state.selectedItem = null;
+          renderTabs();
+          renderList();
+          renderDetail();
+        });
+      });
     }
 
     function renderTabs() {
@@ -632,6 +655,16 @@
       const q = document.getElementById('searchInput').value.toLowerCase();
       const typeFilter = document.getElementById('typeSelect').value;
       let items = companyItems(state.activeTab);
+
+      if (state.statusFilter === 'openInvoices') {
+        items = items.filter(item => item.status === 'Avoinna');
+      }
+      if (state.statusFilter === 'openRequests') {
+        items = items.filter(item => item.status !== 'Valmis');
+      }
+      if (state.statusFilter === 'openIncidents') {
+        items = items.filter(item => item.status !== 'Ratkaistu');
+      }
 
       if (state.activeTab === 'assets') {
         if (typeFilter !== 'all') items = items.filter(a => a.type === typeFilter);
