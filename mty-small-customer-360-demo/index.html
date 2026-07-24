@@ -400,16 +400,7 @@
       renderAll();
     }
 
-    async function loadOptionalJson(path, fallback) {
-      try {
-        const response = await fetch(path, { cache: 'no-store' });
-        if (!response.ok) return fallback;
-        const data = await response.json();
-        return Array.isArray(data) ? data : fallback;
-      } catch (error) {
-        return fallback;
-      }
-    }
+   async function loadOptionalJson(path, fallback) {2  try {3    const response = await fetch(path, { cache: 'no-store' });4 5    console.log("response.ok:", response.ok);6    console.log("response.status:", response.status);7 8    const data = await response.json();9 10    console.log("JSON DATA:", data);11    console.log("JSON LENGTH:", data.length);12 13    return data;14 15  } catch (error) {16    console.error("CONTENT SEARCH ERROR:", error);17    return fallback;18  }19}
 
     function pickDefaultCompany() {
       const preferred = state.data.companies.find(c => c.companyName === 'Testi Ilkka Koivunen Oy');
