@@ -13,9 +13,6 @@
       --border: #e5e7eb;
       --telia: #990ae3;
       --blue: #0078d4;
-      --green: #107c10;
-      --orange: #f59e0b;
-      --red: #d13438;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
 
@@ -249,6 +246,7 @@
     .ai-answer h3 { margin: 0 0 8px; font-size: 22px; }
     .ai-answer-text { line-height: 1.6; color: var(--text); }
     .source-list { display: grid; gap: 10px; margin-top: 16px; }
+
     .source-link {
       display: block;
       border: 1px solid var(--border);
@@ -259,8 +257,10 @@
       text-decoration: none;
       font-weight: 700;
     }
+
     .source-link:hover { text-decoration: underline; }
     .suggestion-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
     .suggestion-button {
       border: 1px solid #ead7ff;
       background: #f8f5ff;
@@ -291,16 +291,19 @@
         <label for="companySelect">Valitse yritys</label>
         <select id="companySelect"></select>
       </div>
+
       <div>
         <label for="searchInput" id="searchLabel">Hae asseteista</label>
         <input id="searchInput" type="search" placeholder="Esim. numero, käyttäjä, laite..." />
       </div>
+
       <div>
         <label for="typeSelect">Rajaa tyyppi</label>
         <select id="typeSelect">
           <option value="all">Kaikki</option>
         </select>
       </div>
+
       <div>
         <label>Hakutyyppi</label>
         <div class="search-mode">
@@ -379,13 +382,30 @@
       { id: 'incidents', label: 'Vikailmoitukset' }
     ];
 
-    async function loadData() {2  const entries = await Promise.all(3    Object.entries(files).map(async ([key, path]) => {4      const response = await fetch(path);5      if (!response.ok) {6        throw new Error(`Dataa ei voitu ladata: ${path}`);7      }8      return [key, await response.json()];9    })10  );11 12  state.data = Object.fromEntries(entries);13 14  state.data.contentSearch =15    await loadOptionalJson('data/content-search.json', []);16 17  console.log("contentSearch", state.data.contentSearch);18  console.log("contentSearch length", state.data.contentSearch?.length);19 20  state.selectedCompanyId = pickDefaultCompany();21  initControls();22  renderAll();23}
+    async function loadData() {
+      const entries = await Promise.all(
+        Object.entries(files).map(async ([key, path]) => {
+          const response = await fetch(path);
+          if (!response.ok) {
+            throw new Error(`Dataa ei voitu ladata: ${path}`);
+          }
+          return [key, await response.json()];
+        })
+      );
+
+      state.data = Object.fromEntries(entries);
+      state.data.contentSearch = await loadOptionalJson('data/content-search.json', []);
+      state.selectedCompanyId = pickDefaultCompany();
+      initControls();
+      renderAll();
+    }
 
     async function loadOptionalJson(path, fallback) {
       try {
-        const response = await fetch(path);
+        const response = await fetch(path, { cache: 'no-store' });
         if (!response.ok) return fallback;
-        return await response.json();
+        const data = await response.json();
+        return Array.isArray(data) ? data : fallback;
       } catch (error) {
         return fallback;
       }
