@@ -379,19 +379,7 @@
       { id: 'incidents', label: 'Vikailmoitukset' }
     ];
 
-    async function loadData() {
-      const entries = await Promise.all(Object.entries(files).map(async ([key, path]) => {
-        const response = await fetch(path);
-        if (!response.ok) throw new Error(`Dataa ei voitu ladata: ${path}`);
-        return [key, await response.json()];
-      }));
-
-      state.data = Object.fromEntries(entries);
-      state.data.contentSearch =2  await loadOptionalJson('data/content-search.json', []);3 4console.log("contentSearch", state.data.contentSearch);
-      state.selectedCompanyId = pickDefaultCompany();
-      initControls();
-      renderAll();
-    }
+    async function loadData() {2  const entries = await Promise.all(3    Object.entries(files).map(async ([key, path]) => {4      const response = await fetch(path);5      if (!response.ok) {6        throw new Error(`Dataa ei voitu ladata: ${path}`);7      }8      return [key, await response.json()];9    })10  );11 12  state.data = Object.fromEntries(entries);13 14  state.data.contentSearch =15    await loadOptionalJson('data/content-search.json', []);16 17  console.log("contentSearch", state.data.contentSearch);18  console.log("contentSearch length", state.data.contentSearch?.length);19 20  state.selectedCompanyId = pickDefaultCompany();21  initControls();22  renderAll();23}
 
     async function loadOptionalJson(path, fallback) {
       try {
