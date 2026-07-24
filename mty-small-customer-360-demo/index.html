@@ -387,7 +387,7 @@
       }));
 
       state.data = Object.fromEntries(entries);
-      state.data.contentSearch = await loadOptionalJson('data/content-search.json', []);
+      state.data.contentSearch =2  await loadOptionalJson('data/content-search.json', []);3 4console.log("contentSearch", state.data.contentSearch);
       state.selectedCompanyId = pickDefaultCompany();
       initControls();
       renderAll();
