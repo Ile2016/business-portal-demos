@@ -271,6 +271,67 @@
       cursor: pointer;
     }
 
+
+
+    .view-toggle {
+      display: flex;
+      gap: 10px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      background: #fbfcfe;
+    }
+
+    .view-btn {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .view-btn.active {
+      background: var(--telia);
+      color: white;
+      border-color: var(--telia);
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .asset-tile {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .asset-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: #ead7ff;
+    }
+
+    .asset-tile-title {
+      font-weight: 800;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .asset-tile-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
     @media (max-width: 1100px) {
       .toolbar { grid-template-columns: 1fr; }
       .kpis { grid-template-columns: repeat(2, 1fr); }
@@ -339,6 +400,10 @@
           <span id="resultCount" class="badge"></span>
         </div>
         <nav class="tabs" id="tabs"></nav>
+        <div class="view-toggle" id="assetViewToggle">
+          <button id="listViewBtn" class="view-btn active" type="button">Listanäkymä</button>
+          <button id="tileViewBtn" class="view-btn" type="button">Tiilinäkymä</button>
+        </div>
         <div class="list" id="listArea"></div>
       </div>
 
@@ -357,6 +422,7 @@
     const state = {
       activeTab: 'assets',
       searchMode: 'customer',
+      assetView: 'list',
       selectedCompanyId: '',
       selectedItem: null,
       data: {}
@@ -458,6 +524,19 @@
         state.selectedItem = null;
         renderAll();
       });
+
+
+      document.getElementById('listViewBtn')?.addEventListener('click', () => {
+        state.assetView = 'list';
+        updateAssetViewButtons();
+        renderList();
+      });
+
+      document.getElementById('tileViewBtn')?.addEventListener('click', () => {
+        state.assetView = 'tile';
+        updateAssetViewButtons();
+        renderList();
+      });
     }
 
     function renderAll() {
@@ -481,6 +560,7 @@
       document.getElementById('searchInput').placeholder = isContent
         ? 'Esim. Miten vaihdan SIM-kortin?'
         : 'Esim. numero, käyttäjä, laite...';
+      updateAssetViewToggleVisibility();
     }
 
     function renderCustomerSearch() {
@@ -529,6 +609,21 @@
       document.querySelectorAll('.tab').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === state.activeTab);
       });
+      updateAssetViewToggleVisibility();
+    }
+
+
+
+    function updateAssetViewButtons() {
+      document.getElementById('listViewBtn')?.classList.toggle('active', state.assetView === 'list');
+      document.getElementById('tileViewBtn')?.classList.toggle('active', state.assetView === 'tile');
+    }
+
+    function updateAssetViewToggleVisibility() {
+      const toggle = document.getElementById('assetViewToggle');
+      if (!toggle) return;
+      toggle.style.display = state.activeTab === 'assets' && state.searchMode === 'customer' ? 'flex' : 'none';
+      updateAssetViewButtons();
     }
 
     function renderList() {
@@ -553,6 +648,22 @@
       resultCount.textContent = `${items.length} riviä`;
       if (!items.length) {
         list.innerHTML = '<div class="empty">Ei tuloksia valitulla rajauksella.</div>';
+        return;
+      }
+
+
+      if (state.activeTab === 'assets' && state.assetView === 'tile') {
+        list.innerHTML = `
+          <div class="tile-grid">
+            ${items.map(tileTemplate).join('')}
+          </div>`;
+
+        list.querySelectorAll('.asset-tile').forEach(tile => {
+          tile.addEventListener('click', () => {
+            window.location.href = `asset-detail.html?id=${tile.dataset.id}`;
+          });
+        });
+
         return;
       }
 
@@ -675,6 +786,22 @@
             <div class="secondary">${escapeHtml(secondary)}</div>
           </div>
           <span class="badge ${badgeClass(badge)}">${escapeHtml(badge)}</span>
+        </div>`;
+    }
+
+
+
+    function tileTemplate(item) {
+      const icon = iconFor('assets', item);
+      return `
+        <div class="asset-tile" data-id="${escapeHtml(item.id)}">
+          <div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div>
+          <div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div>
+          <div class="asset-tile-sub">Käyttäjä: ${escapeHtml(item.user || '-')}</div>
+          <div class="asset-tile-sub">Tuote/nopeus: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div>
+          <div style="margin-top:12px">
+            <span class="badge ${badgeClass(item.category)}">${escapeHtml(item.category || '')}</span>
+          </div>
         </div>`;
     }
 
