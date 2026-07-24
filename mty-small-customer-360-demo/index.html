@@ -400,7 +400,18 @@
       renderAll();
     }
 
-   async function loadOptionalJson(path, fallback) {2  try {3    const response = await fetch(path, { cache: 'no-store' });4 5    console.log("response.ok:", response.ok);6    console.log("response.status:", response.status);7 8    const data = await response.json();9 10    console.log("JSON DATA:", data);11    console.log("JSON LENGTH:", data.length);12 13    return data;14 15  } catch (error) {16    console.error("CONTENT SEARCH ERROR:", error);17    return fallback;18  }19}
+    async function loadOptionalJson(path, fallback) {
+      try {
+        const cacheBuster = `?v=${Date.now()}`;
+        const response = await fetch(path + cacheBuster, { cache: 'no-store' });
+        if (!response.ok) return fallback;
+        const data = await response.json();
+        if (Array.isArray(data)) return data;
+        return fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
 
     function pickDefaultCompany() {
       const preferred = state.data.companies.find(c => c.companyName === 'Testi Ilkka Koivunen Oy');
@@ -412,7 +423,6 @@
       companySelect.innerHTML = state.data.companies
         .map(c => `<option value="${escapeHtml(c.companyId)}">${escapeHtml(c.companyName)} (${escapeHtml(c.companyId)})</option>`)
         .join('');
-
       companySelect.value = state.selectedCompanyId;
       companySelect.addEventListener('change', e => {
         state.selectedCompanyId = e.target.value;
@@ -441,7 +451,6 @@
       tabsEl.innerHTML = tabs
         .map(t => `<button class="tab" data-tab="${t.id}">${t.label}</button>`)
         .join('');
-
       tabsEl.addEventListener('click', e => {
         const btn = e.target.closest('button[data-tab]');
         if (!btn) return;
@@ -502,7 +511,6 @@
       const openInvoices = invoices.filter(i => i.status === 'Avoinna');
       const openRequests = requests.filter(r => r.status !== 'Valmis');
       const openIncidents = incidents.filter(i => i.status !== 'Ratkaistu');
-
       const kpis = [
         ['Assetit', assets.length],
         ['Avoimet laskut', openInvoices.length],
@@ -510,7 +518,6 @@
         ['Avoimet pyynnöt', openRequests.length],
         ['Avoimet viat', openIncidents.length]
       ];
-
       document.getElementById('kpiArea').innerHTML = kpis.map(([label, value]) => `
         <article class="kpi">
           <div class="label">${label}</div>
@@ -544,14 +551,12 @@
       }
 
       resultCount.textContent = `${items.length} riviä`;
-
       if (!items.length) {
         list.innerHTML = '<div class="empty">Ei tuloksia valitulla rajauksella.</div>';
         return;
       }
 
       list.innerHTML = items.map(item => rowTemplate(item, state.activeTab)).join('');
-
       list.querySelectorAll('.row').forEach(row => {
         row.addEventListener('click', () => {
           if (state.activeTab === 'assets') {
@@ -602,7 +607,6 @@
 
       const best = ranked[0].item;
       const sources = best.sources || [];
-
       area.innerHTML = `
         <h3>${escapeHtml(best.question || 'AI-vastaus')}</h3>
         <p class="ai-answer-text">${escapeHtml(best.answer || '')}</p>
@@ -642,7 +646,6 @@
       let primary = '';
       let secondary = '';
       let badge = '';
-
       if (type === 'assets') {
         primary = `${item.type}: ${item.name}`;
         secondary = [item.user, item.subscriptionTypeOrSpeed].filter(Boolean).join(' · ') || item.companyName;
@@ -664,7 +667,6 @@
         secondary = [item.status, item.startDate].filter(Boolean).join(' · ');
         badge = item.status || '';
       }
-
       return `
         <div class="row" data-id="${escapeHtml(item.id)}">
           <div class="icon">${icon}</div>
@@ -678,15 +680,12 @@
 
     function renderDetail() {
       const area = document.getElementById('detailArea');
-
       if (!state.selectedItem) {
         area.innerHTML = '<div class="empty">Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.</div>';
         return;
       }
-
       const item = (state.data[state.selectedItem.type] || []).find(x => x.id === state.selectedItem.id);
       if (!item) return;
-
       if (state.selectedItem.type === 'assets') area.innerHTML = assetDetail(item);
       if (state.selectedItem.type === 'orders') area.innerHTML = genericDetail('Tilaus', item, ['productType','item','user','billingAccount','orderDate','status','category']);
       if (state.selectedItem.type === 'invoices') area.innerHTML = genericDetail('Lasku', item, ['invoiceType','invoiceDate','status','invoiceNumber','billingAccount','amount','referenceNumber','category']);
@@ -699,7 +698,6 @@
         .filter(o => o.item === asset.name || o.user === asset.user || o.productType === asset.type)
         .slice(0, 4);
       const actions = actionsForAsset(asset);
-
       return `
         <h3 class="detail-title">${escapeHtml(asset.name)}</h3>
         <div class="detail-subtitle">${escapeHtml(asset.type)} · ${escapeHtml(asset.companyName)}</div>
@@ -745,7 +743,6 @@
         createdBy: 'Luonut',
         startDate: 'Aloituspäivä'
       };
-
       return `
         <h3 class="detail-title">${escapeHtml(title)}</h3>
         <div class="detail-subtitle">${escapeHtml(item.companyName || '')}</div>
