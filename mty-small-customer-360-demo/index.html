@@ -526,6 +526,181 @@
     .summary-row:last-child { border-bottom: 0; }
     .summary-row strong { font-size: 15px; }
 
+
+
+    .quick-actions {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+      margin: 0 0 20px;
+    }
+
+    .quick-actions-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .quick-actions-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .quick-actions-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .quick-action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .quick-action-card {
+      border: 1px solid var(--border);
+      background: #fbfcfe;
+      border-radius: 16px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text);
+      font: inherit;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .quick-action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: #ead7ff;
+      background: white;
+    }
+
+    .quick-action-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: #f3e8ff;
+      color: var(--telia);
+      font-size: 22px;
+    }
+
+    .quick-action-title {
+      display: block;
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+
+    .quick-action-desc {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .action-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      display: grid;
+      place-items: center;
+      background: rgba(15, 23, 42, 0.42);
+      padding: 24px;
+    }
+
+    .action-modal[hidden] { display: none; }
+
+    .action-modal-content {
+      width: min(680px, 100%);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+      overflow: hidden;
+    }
+
+    .action-modal-header {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .action-modal-header h3 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .action-modal-close {
+      border: 0;
+      background: #f3f4f6;
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .action-modal-body {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .form-row label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .form-row textarea {
+      width: 100%;
+      min-height: 96px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .action-modal-footer {
+      padding: 16px 22px 22px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .secondary-button,
+    .primary-button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .secondary-button { background: #f3f4f6; color: var(--text); }
+    .primary-button { background: var(--telia); color: white; }
+
+    @media (max-width: 900px) {
+      .quick-action-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 1100px) {
       .toolbar { grid-template-columns: 1fr; }
       .kpis { grid-template-columns: repeat(2, 1fr); }
@@ -589,6 +764,7 @@
     </section>
 
     <section class="news" id="newsArea"></section>
+    <section class="quick-actions" id="quickActionsArea"></section>
     <section class="kpis" id="kpiArea"></section>
 
     <section class="panel ai-panel" id="aiSearchPanel">
@@ -628,6 +804,22 @@
 
 
 
+
+
+  <div id="actionModal" class="action-modal" hidden>
+    <div class="action-modal-content" role="dialog" aria-modal="true" aria-labelledby="actionModalTitle">
+      <div class="action-modal-header">
+        <h3 id="actionModalTitle"></h3>
+        <button class="action-modal-close" type="button" onclick="closeActionModal()" aria-label="Sulje">×</button>
+      </div>
+      <div class="action-modal-body" id="actionModalBody"></div>
+      <div class="action-modal-footer">
+        <button class="secondary-button" type="button" id="actionModalCancel" onclick="closeActionModal()">Peruuta</button>
+        <button class="primary-button" type="button" id="actionModalSubmit" onclick="submitActionModal()">Lähetä</button>
+      </div>
+    </div>
+  </div>
+
   <div id="newsModal" class="news-modal" hidden>
     <div class="news-modal-content" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
       <div class="news-modal-header">
@@ -660,7 +852,7 @@
     const state = {
       activeTab: 'assets', searchMode: 'customer', assetView: 'list', statusFilter: null,
       language: localStorage.getItem('mtyLanguage') || 'fi',
-      selectedCompanyId: '', selectedItem: null, data: {}
+      selectedCompanyId: '', selectedItem: null, activeActionType: null, data: {}
     };
 
     const files = {
@@ -807,6 +999,7 @@
       document.getElementById('customerLayout').style.display = isContent ? 'none' : 'grid';
       document.getElementById('kpiArea').style.display = isContent ? 'none' : 'grid';
       document.getElementById('newsArea').style.display = isContent ? 'none' : 'grid';
+      document.getElementById('quickActionsArea').style.display = isContent ? 'none' : 'block';
       document.getElementById('aiSearchPanel').style.display = isContent ? 'block' : 'none';
       document.getElementById('companySelect').disabled = isContent;
       document.getElementById('typeSelect').disabled = isContent;
@@ -815,7 +1008,7 @@
       updateAssetViewToggleVisibility();
     }
 
-    function renderCustomerSearch() { renderNews(); renderKpis(); renderTabs(); renderList(); renderDetail(); }
+    function renderCustomerSearch() { renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); renderDetail(); }
     function companyItems(key) {
       if (state.selectedCompanyId === 'ALL') return state.data[key] || [];
       return (state.data[key] || []).filter(item => item.companyId === state.selectedCompanyId);
@@ -893,6 +1086,169 @@
         return { title: newsUiText('networkTitle'), html: newsUiText('networkDetails') };
       }
       return { title: newsUiText('details'), html: `<p>${escapeHtml(text)}</p>` };
+    }
+
+
+
+    function renderQuickActions() {
+      document.getElementById('quickActionsArea').innerHTML = `
+        <div class="quick-actions-header">
+          <div>
+            <h2>${t('quickActions')}</h2>
+            <p>${t('quickActionsDesc')}</p>
+          </div>
+        </div>
+        <div class="quick-action-grid">
+          ${quickActionCard('order', '🛒', t('orderNewService'), t('orderNewServiceDesc'))}
+          ${quickActionCard('request', '🛠️', t('createServiceRequest'), t('createServiceRequestDesc'))}
+          ${quickActionCard('incident', '⚠️', t('reportIncident'), t('reportIncidentDesc'))}
+        </div>`;
+    }
+
+    function quickActionCard(type, icon, title, description) {
+      return `
+        <button class="quick-action-card" type="button" onclick="openActionModal('${type}')">
+          <span class="quick-action-icon">${icon}</span>
+          <span>
+            <span class="quick-action-title">${escapeHtml(title)}</span>
+            <span class="quick-action-desc">${escapeHtml(description)}</span>
+          </span>
+        </button>`;
+    }
+
+    function openActionModal(type) {
+      state.activeActionType = type;
+      document.getElementById('actionModalTitle').textContent = actionTitle(type);
+      document.getElementById('actionModalBody').innerHTML = actionModalBody(type);
+      document.getElementById('actionModalCancel').textContent = t('modalCancel');
+      document.getElementById('actionModalSubmit').textContent = type === 'order' ? t('modalContinue') : t('modalSubmit');
+      document.getElementById('actionModal').hidden = false;
+    }
+
+    function closeActionModal() {
+      document.getElementById('actionModal').hidden = true;
+      state.activeActionType = null;
+    }
+
+    function actionTitle(type) {
+      if (type === 'order') return t('orderNewService');
+      if (type === 'request') return t('createServiceRequest');
+      if (type === 'incident') return t('reportIncident');
+      return t('quickActions');
+    }
+
+    function actionModalBody(type) {
+      const companyOptions = companyOptionsHtml();
+      if (type === 'order') {
+        return `
+          <div class="form-row"><label for="actionCompany">${t('modalCompany')}</label><select id="actionCompany">${companyOptions}</select></div>
+          <div class="form-row"><label for="actionServiceType">${t('modalServiceType')}</label><select id="actionServiceType">
+            <option value="${escapeHtml(t('mobileSubscription'))}">${escapeHtml(t('mobileSubscription'))}</option>
+            <option value="${escapeHtml(t('businessInternet'))}">${escapeHtml(t('businessInternet'))}</option>
+            <option value="${escapeHtml(t('license'))}">${escapeHtml(t('license'))}</option>
+            <option value="${escapeHtml(t('securityService'))}">${escapeHtml(t('securityService'))}</option>
+          </select></div>
+          <div class="form-row"><label for="actionDescription">${t('modalDescription')}</label><textarea id="actionDescription" placeholder="${escapeHtml(t('orderNewServiceDesc'))}"></textarea></div>`;
+      }
+      if (type === 'request') {
+        return `
+          <div class="form-row"><label for="actionCompany">${t('modalCompany')}</label><select id="actionCompany">${companyOptions}</select></div>
+          <div class="form-row"><label for="actionRequestType">${t('modalRequestType')}</label><select id="actionRequestType">
+            <option value="${escapeHtml(t('requestUserChange'))}">${escapeHtml(t('requestUserChange'))}</option>
+            <option value="${escapeHtml(t('requestBilling'))}">${escapeHtml(t('requestBilling'))}</option>
+            <option value="${escapeHtml(t('requestServiceChange'))}">${escapeHtml(t('requestServiceChange'))}</option>
+          </select></div>
+          <div class="form-row"><label for="actionDescription">${t('modalDescription')}</label><textarea id="actionDescription" placeholder="${escapeHtml(t('createServiceRequestDesc'))}"></textarea></div>`;
+      }
+      return `
+        <div class="form-row"><label for="actionCompany">${t('modalCompany')}</label><select id="actionCompany">${companyOptions}</select></div>
+        <div class="form-row"><label for="actionAffectedService">${t('modalAffectedService')}</label><select id="actionAffectedService">${assetOptionsHtml()}</select></div>
+        <div class="form-row"><label for="actionIncidentType">${t('modalRequestType')}</label><select id="actionIncidentType">
+          <option value="${escapeHtml(t('incidentMobileData'))}">${escapeHtml(t('incidentMobileData'))}</option>
+          <option value="${escapeHtml(t('incidentInternet'))}">${escapeHtml(t('incidentInternet'))}</option>
+          <option value="${escapeHtml(t('incidentDevice'))}">${escapeHtml(t('incidentDevice'))}</option>
+        </select></div>
+        <div class="form-row"><label for="actionDescription">${t('modalDescription')}</label><textarea id="actionDescription" placeholder="${escapeHtml(t('reportIncidentDesc'))}"></textarea></div>`;
+    }
+
+    function companyOptionsHtml() {
+      const defaultCompanyId = state.selectedCompanyId === 'ALL' ? state.data.companies[0]?.companyId : state.selectedCompanyId;
+      return state.data.companies.map(company => `
+        <option value="${escapeHtml(company.companyId)}" ${company.companyId === defaultCompanyId ? 'selected' : ''}>
+          ${escapeHtml(company.companyName)} (${escapeHtml(company.companyId)})
+        </option>`).join('');
+    }
+
+    function assetOptionsHtml() {
+      const companyId = state.selectedCompanyId === 'ALL' ? state.data.companies[0]?.companyId : state.selectedCompanyId;
+      const assets = (state.data.assets || []).filter(asset => !companyId || asset.companyId === companyId);
+      return assets.length
+        ? assets.map(asset => `<option value="${escapeHtml(asset.name)}">${escapeHtml(asset.name)} · ${escapeHtml(asset.user || '-')}</option>`).join('')
+        : `<option value="-">-</option>`;
+    }
+
+    function submitActionModal() {
+      const type = state.activeActionType;
+      const companyId = document.getElementById('actionCompany')?.value || state.data.companies[0]?.companyId || '';
+      const company = state.data.companies.find(c => c.companyId === companyId) || {};
+      const description = document.getElementById('actionDescription')?.value || '';
+      const today = new Date().toISOString().slice(0, 10);
+      const suffix = Date.now().toString().slice(-6);
+
+      if (type === 'order') {
+        const serviceType = document.getElementById('actionServiceType')?.value || t('mobileSubscription');
+        state.data.orders.unshift({
+          id: `DEMO-ORDER-${suffix}`,
+          companyId,
+          companyName: company.companyName || '',
+          productType: serviceType,
+          item: `${serviceType} Demo`,
+          user: '',
+          billingAccount: '',
+          orderDate: today,
+          status: 'Tilauksessa',
+          category: 'Target'
+        });
+        state.activeTab = 'orders';
+        state.statusFilter = null;
+      }
+
+      if (type === 'request') {
+        const requestType = document.getElementById('actionRequestType')?.value || t('requestServiceChange');
+        state.data.requests.unshift({
+          id: `DEMO-REQ-${suffix}`,
+          companyId,
+          companyName: company.companyName || '',
+          requestType,
+          description: description || requestType,
+          requestDate: today,
+          status: 'Käsittelyssä',
+          createdBy: 'Demo user'
+        });
+        state.activeTab = 'requests';
+        state.statusFilter = 'openRequests';
+      }
+
+      if (type === 'incident') {
+        const incidentType = document.getElementById('actionIncidentType')?.value || t('incidentMobileData');
+        const affectedService = document.getElementById('actionAffectedService')?.value || '';
+        state.data.incidents.unshift({
+          id: `DEMO-INC-${suffix}`,
+          companyId,
+          companyName: company.companyName || '',
+          category: incidentType,
+          description: description || affectedService || incidentType,
+          startDate: today,
+          status: 'Selvityksessä'
+        });
+        state.activeTab = 'incidents';
+        state.statusFilter = 'openIncidents';
+      }
+
+      state.selectedCompanyId = companyId;
+      state.selectedItem = null;
+      closeActionModal();
+      renderAll();
     }
 
     function renderKpis() {
