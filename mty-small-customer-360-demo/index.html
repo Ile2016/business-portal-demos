@@ -292,6 +292,127 @@
       font-weight: 600;
     }
 
+
+
+    .news-card {
+      position: relative;
+      display: grid;
+      gap: 10px;
+    }
+
+    .news-card-text {
+      padding-right: 34px;
+    }
+
+    .news-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .news-readmore {
+      border: 0;
+      background: transparent;
+      color: var(--blue);
+      font-weight: 800;
+      cursor: pointer;
+      padding: 0;
+      font: inherit;
+    }
+
+    .news-readmore:hover { text-decoration: underline; }
+
+    .news-close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      border: 0;
+      background: transparent;
+      color: #78350f;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.75;
+    }
+
+    .news-close:hover { opacity: 1; }
+
+    .news-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      background: rgba(15, 23, 42, 0.42);
+      padding: 24px;
+    }
+
+    .news-modal[hidden] { display: none; }
+
+    .news-modal-content {
+      width: min(620px, 100%);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+      overflow: hidden;
+    }
+
+    .news-modal-header {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .news-modal-header h3 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .news-modal-close {
+      border: 0;
+      background: #f3f4f6;
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .news-modal-body {
+      padding: 22px;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .news-modal-body p { margin: 0 0 12px; }
+
+    .news-modal-body ul {
+      margin: 8px 0 0;
+      padding-left: 20px;
+    }
+
+    .news-modal-footer {
+      padding: 16px 22px 22px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .news-modal-button {
+      border: 0;
+      background: var(--telia);
+      color: white;
+      border-radius: 999px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
     .ai-panel { display: none; margin: 20px 0; }
     .ai-answer { padding: 20px; }
     .ai-answer h3 { margin: 0 0 8px; font-size: 22px; }
@@ -505,6 +626,21 @@
     </section>
   </main>
 
+
+
+  <div id="newsModal" class="news-modal" hidden>
+    <div class="news-modal-content" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
+      <div class="news-modal-header">
+        <h3 id="newsModalTitle"></h3>
+        <button class="news-modal-close" type="button" onclick="closeNewsModal()" aria-label="Sulje">×</button>
+      </div>
+      <div class="news-modal-body" id="newsModalBody"></div>
+      <div class="news-modal-footer">
+        <button class="news-modal-button" type="button" id="newsModalCloseButton" onclick="closeNewsModal()">Sulje</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const i18n = {
       fi: {
@@ -667,7 +803,80 @@
 
     function renderCustomerSearch() { renderNews(); renderKpis(); renderTabs(); renderList(); renderDetail(); }
     function companyItems(key) { return (state.data[key] || []).filter(item => item.companyId === state.selectedCompanyId); }
-    function renderNews() { document.getElementById('newsArea').innerHTML = state.data.news.map(n => `<div class="news-card">${escapeHtml(n.text)}</div>`).join(''); }
+    function renderNews() {
+      document.getElementById('newsArea').innerHTML = state.data.news.map((n, index) => `
+        <div class="news-card">
+          <button class="news-close" type="button" onclick="closeNewsCard(this)" aria-label="${escapeHtml(newsUiText('close'))}">×</button>
+          <div class="news-card-text">${escapeHtml(n.text)}</div>
+          <div class="news-actions">
+            <button class="news-readmore" type="button" onclick="openNewsModal(${index})">${escapeHtml(newsUiText('readMore'))}</button>
+          </div>
+        </div>`).join('');
+    }
+
+
+
+    function newsUiText(key) {
+      const labels = {
+        fi: {
+          readMore: 'Lue lisää', close: 'Sulje', details: 'Lisätiedot', closeButton: 'Sulje',
+          contractTitle: 'Määräaikaiset sopimukset',
+          contractDetails: '<p>Sinulla on määräaikaisia sopimuksia loppumassa. Tarkista sopimusten uusintamahdollisuudet ja varmista, ettei palveluihin synny katkoksia.</p><ul><li>Suositus: käy läpi päättyvät liittymät ja palvelut.</li><li>Voit käyttää tätä näkymää asiakkaan proaktiiviseen kontaktointiin.</li></ul>',
+          networkTitle: 'Verkonkorjaustyöt',
+          networkDetails: '<p>Alueella on suunniteltuja verkonkorjaustöitä. Työt voivat aiheuttaa lyhyitä katkoksia palveluihin.</p><ul><li>Vaikutus: mahdollisia lyhyitä häiriöitä yhteyksissä.</li><li>Suositus: tiedota käyttäjiä etukäteen, jos palvelu on liiketoimintakriittinen.</li></ul>'
+        },
+        en: {
+          readMore: 'Read more', close: 'Close', details: 'Details', closeButton: 'Close',
+          contractTitle: 'Fixed-term contracts',
+          contractDetails: '<p>You have fixed-term contracts ending soon. Review renewal options to avoid service interruptions.</p><ul><li>Recommendation: review subscriptions and services reaching the end of their term.</li><li>This view can be used for proactive customer follow-up.</li></ul>',
+          networkTitle: 'Network maintenance',
+          networkDetails: '<p>Planned network maintenance is taking place in the area. The work may cause short service interruptions.</p><ul><li>Impact: short connectivity interruptions are possible.</li><li>Recommendation: inform users in advance if the service is business-critical.</li></ul>'
+        },
+        sv: {
+          readMore: 'Läs mer', close: 'Stäng', details: 'Mer information', closeButton: 'Stäng',
+          contractTitle: 'Tidsbundna avtal',
+          contractDetails: '<p>Du har tidsbundna avtal som löper ut snart. Kontrollera förnyelsemöjligheter för att undvika avbrott i tjänsterna.</p><ul><li>Rekommendation: gå igenom abonnemang och tjänster vars bindningstid närmar sig slutet.</li><li>Vyn kan användas för proaktiv kunduppföljning.</li></ul>',
+          networkTitle: 'Nätunderhåll',
+          networkDetails: '<p>Planerat nätunderhåll pågår i området. Arbetet kan orsaka korta avbrott i tjänsterna.</p><ul><li>Påverkan: korta störningar i anslutningar kan förekomma.</li><li>Rekommendation: informera användare i förväg om tjänsten är verksamhetskritisk.</li></ul>'
+        }
+      };
+      return labels[state.language]?.[key] || labels.fi[key] || key;
+    }
+
+    function closeNewsCard(button) {
+      button.closest('.news-card')?.remove();
+    }
+
+    function openNewsModal(index) {
+      const news = state.data.news[index] || {};
+      const modalContent = newsModalContent(news);
+      document.getElementById('newsModalTitle').textContent = modalContent.title;
+      document.getElementById('newsModalBody').innerHTML = modalContent.html;
+      document.getElementById('newsModalCloseButton').textContent = newsUiText('closeButton');
+      document.getElementById('newsModal').hidden = false;
+    }
+
+    function closeNewsModal() {
+      document.getElementById('newsModal').hidden = true;
+    }
+
+    function newsModalContent(news) {
+      const text = String(news.text || '');
+      const lower = text.toLowerCase();
+      if (news.title || news.details) {
+        return {
+          title: news.title || newsUiText('details'),
+          html: `<p>${escapeHtml(news.details || news.text || '')}</p>`
+        };
+      }
+      if (lower.includes('määräaik') || lower.includes('sopim')) {
+        return { title: newsUiText('contractTitle'), html: newsUiText('contractDetails') };
+      }
+      if (lower.includes('verkonkorja') || lower.includes('verkko')) {
+        return { title: newsUiText('networkTitle'), html: newsUiText('networkDetails') };
+      }
+      return { title: newsUiText('details'), html: `<p>${escapeHtml(text)}</p>` };
+    }
 
     function renderKpis() {
       const assets = companyItems('assets'), invoices = companyItems('invoices'), orders = companyItems('orders'), requests = companyItems('requests'), incidents = companyItems('incidents');
