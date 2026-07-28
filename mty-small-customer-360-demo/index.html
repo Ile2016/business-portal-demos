@@ -154,7 +154,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 390px;
+      grid-template-columns: 1fr;
       gap: 20px;
       align-items: start;
     }
@@ -222,6 +222,34 @@
       display: grid;
       place-items: center;
       font-size: 20px;
+    }
+
+
+
+    .row-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .row-detail-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid var(--border);
+      background: #fbfcfe;
+      border-radius: 999px;
+      padding: 4px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      max-width: 100%;
+    }
+
+    .row-detail-chip strong {
+      color: var(--text);
+      font-weight: 800;
     }
 
     .primary { font-weight: 700; }
@@ -841,16 +869,7 @@
         </div>
         <div class="list" id="listArea"></div>
       </div>
-
-      <aside class="panel detail">
-        <div class="panel-header">
-          <h2 id="detailPanelTitle">Detail-näkymä</h2>
-        </div>
-        <div class="detail-body" id="detailArea">
-          <div class="empty">Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.</div>
-        </div>
-      </aside>
-    </section>
+</section>
   </main>
 
 
@@ -1059,7 +1078,7 @@
       updateAssetViewToggleVisibility();
     }
 
-    function renderCustomerSearch() { renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); renderDetail(); }
+    function renderCustomerSearch() { renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); }
     function companyItems(key) {
       if (state.selectedCompanyId === 'ALL') return state.data[key] || [];
       return (state.data[key] || []).filter(item => item.companyId === state.selectedCompanyId);
@@ -1389,7 +1408,7 @@
         state.activeTab = card.dataset.tab;
         state.statusFilter = card.dataset.filter || null;
         state.selectedItem = null;
-        renderKpis(); renderTabs(); renderList(); renderDetail();
+        renderKpis(); renderTabs(); renderList();
       }));
     }
 
@@ -1453,7 +1472,6 @@
       list.innerHTML = filterPrefix + items.map(item => rowTemplate(item, state.activeTab)).join('');
       list.querySelectorAll('.row').forEach(row => row.addEventListener('click', () => {
         if (state.activeTab === 'assets') window.location.href = `asset-detail.html?id=${row.dataset.id}`;
-        else { state.selectedItem = { id: row.dataset.id, type: state.activeTab }; renderDetail(); }
       }));
     }
 
@@ -1490,24 +1508,95 @@
 
     function rowTemplate(item, type) {
       const icon = iconFor(type, item);
-      let primary = '', secondary = '', badge = '';
-      if (type === 'assets') { primary = `${item.type}: ${item.name}`; secondary = [item.user, item.subscriptionTypeOrSpeed].filter(Boolean).join(' · ') || item.companyName; badge = item.category || ''; }
-      else if (type === 'orders') { primary = `${item.productType}: ${item.item}`; secondary = [item.user, item.orderDate, translateStatus(item.status)].filter(Boolean).join(' · '); badge = item.status || ''; }
-      else if (type === 'invoices') { primary = `${item.invoiceType}: ${formatCurrency(item.amount)}`; secondary = [`Lasku ${item.invoiceNumber}`, item.invoiceDate, translateStatus(item.status)].filter(Boolean).join(' · '); badge = item.status || ''; }
-      else if (type === 'requests') { primary = item.requestType; secondary = [translateStatus(item.status), item.requestDate, item.createdBy].filter(Boolean).join(' · '); badge = item.status || ''; }
-      else if (type === 'incidents') { primary = item.category; secondary = [translateStatus(item.status), item.startDate].filter(Boolean).join(' · '); badge = item.status || ''; }
-      return `<div class="row" data-id="${escapeHtml(item.id)}"><div class="icon">${icon}</div><div><div class="primary">${escapeHtml(primary)}</div><div class="secondary">${escapeHtml(secondary)}</div>${type === 'assets' ? `<a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a>` : ''}</div><span class="badge ${badgeClass(badge)}">${escapeHtml(translateStatus(translateCategory(badge)))}</span></div>`;
+      let primary = '', secondary = '', badge = '', details = [];
+
+      if (type === 'assets') {
+        primary = `${item.type}: ${item.name}`;
+        secondary = [item.user, item.subscriptionTypeOrSpeed, item.companyName].filter(Boolean).join(' · ');
+        badge = item.category || '';
+        details = [
+          [t('companyName'), item.companyName],
+          [t('user'), item.user],
+          [t('productSpeed'), item.subscriptionTypeOrSpeed],
+          [t('category'), translateCategory(item.category)],
+          [t('fixedTerm'), item.fixedTermEndDate]
+        ];
+      } else if (type === 'orders') {
+        primary = `${item.productType}: ${item.item}`;
+        secondary = [item.companyName, item.user, translateStatus(item.status)].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [
+          [t('companyName'), item.companyName],
+          [t('user'), item.user],
+          [t('billingAccount'), item.billingAccount],
+          [t('orderDate'), item.orderDate],
+          [t('status'), translateStatus(item.status)],
+          [t('category'), translateCategory(item.category)]
+        ];
+      } else if (type === 'invoices') {
+        primary = `${item.invoiceType}: ${formatCurrency(item.amount)}`;
+        secondary = [`${t('invoiceNumber')} ${item.invoiceNumber || ''}`, item.companyName, translateStatus(item.status)].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [
+          [t('companyName'), item.companyName],
+          [t('invoiceNumber'), item.invoiceNumber],
+          [t('invoiceDate'), item.invoiceDate],
+          [t('billingAccount'), item.billingAccount],
+          [t('referenceNumber'), item.referenceNumber],
+          [t('status'), translateStatus(item.status)]
+        ];
+      } else if (type === 'requests') {
+        primary = item.requestType;
+        secondary = [item.companyName, translateStatus(item.status), item.requestDate].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [
+          [t('companyName'), item.companyName],
+          [t('description'), item.description],
+          [t('requestDate'), item.requestDate],
+          [t('createdBy'), item.createdBy],
+          [t('status'), translateStatus(item.status)]
+        ];
+      } else if (type === 'incidents') {
+        primary = item.category;
+        secondary = [item.companyName, translateStatus(item.status), item.startDate].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [
+          [t('companyName'), item.companyName],
+          [t('description'), item.description],
+          [t('startDate'), item.startDate],
+          [t('status'), translateStatus(item.status)]
+        ];
+      }
+
+      return `
+        <div class="row" data-id="${escapeHtml(item.id)}">
+          <div class="icon">${icon}</div>
+          <div>
+            <div class="primary">${escapeHtml(primary || '-')}</div>
+            <div class="secondary">${escapeHtml(secondary || '-')}</div>
+            <div class="row-details">${detailChips(details)}</div>
+            ${type === 'assets' ? `<a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a>` : ''}
+          </div>
+          <span class="badge ${badgeClass(badge)}">${escapeHtml(translateStatus(translateCategory(badge)))}</span>
+        </div>`;
+    }
+
+    function detailChips(details) {
+      return details
+        .filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '')
+        .map(([label, value]) => `<span class="row-detail-chip"><span>${escapeHtml(label)}:</span> <strong>${escapeHtml(String(value))}</strong></span>`)
+        .join('');
     }
 
     function tileTemplate(item) {
       const icon = iconFor('assets', item);
-      return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
+      return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('companyName')}: ${escapeHtml(item.companyName || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div class="asset-tile-sub">${t('fixedTerm')}: ${escapeHtml(item.fixedTermEndDate || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
     }
 
 
 
     function setDetailPanelTitle(title) {
-      document.getElementById('detailPanelTitle').textContent = title;
+      // Detail pane removed in full-width list view.
     }
 
     function customerSummary() {
