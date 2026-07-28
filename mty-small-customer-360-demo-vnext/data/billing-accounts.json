@@ -1,0 +1,942 @@
+[
+  {
+    "id": "BA0001",
+    "companyId": "4156651-0",
+    "companyName": "Arctic Tekniikka Oy",
+    "billingAccount": "1047",
+    "billingAddress": "Tyynelänpolku 1",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0002",
+    "companyId": "5422396-3",
+    "companyName": "Aamurusko Digital Oy",
+    "billingAccount": "84",
+    "billingAddress": "Dunckerinpolku 05",
+    "billingMethod": "paperilasku",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0003",
+    "companyId": "6301608-5",
+    "companyName": "Järvi Foods Oy",
+    "billingAccount": "926401",
+    "billingAddress": "Laajasalonbulevardi 8",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Devaajat",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0004",
+    "companyId": "3400673-4",
+    "companyName": "Saimaa Talotekniikka Oy",
+    "billingAccount": "4739087",
+    "billingAddress": "Tyynelänkatu 6",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Taloushallinto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0005",
+    "companyId": "9460052-4",
+    "companyName": "Saimaa Finance Oy",
+    "billingAccount": "956445",
+    "billingAddress": "Chydeniuksenbulevardi 766",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Target"
+  },
+  {
+    "id": "BA0006",
+    "companyId": "6287743-0",
+    "companyName": "Metsälinna Analytics Oy",
+    "billingAccount": "327",
+    "billingAddress": "Eerik Pyhän polku 9",
+    "billingMethod": "paperilasku",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Target"
+  },
+  {
+    "id": "BA0007",
+    "companyId": "7426753-3",
+    "companyName": "Kivipelto Software Oy",
+    "billingAccount": "973684",
+    "billingAddress": "Immolankuja 398",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Työmiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0008",
+    "companyId": "3400673-4",
+    "companyName": "Saimaa Talotekniikka Oy",
+    "billingAccount": "950502",
+    "billingAddress": "Mamsellimyllyntie 61",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0009",
+    "companyId": "6301608-5",
+    "companyName": "Järvi Foods Oy",
+    "billingAccount": "84",
+    "billingAddress": "Ilmattarenkatu 13",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0010",
+    "companyId": "2344804-3",
+    "companyName": "Arctic Group Oy",
+    "billingAccount": "332",
+    "billingAddress": "Poretie 3",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0011",
+    "companyId": "1076335-1",
+    "companyName": "Järvi Design Oy",
+    "billingAccount": "679",
+    "billingAddress": "Wäinö Aaltosen bulevardi 9",
+    "billingMethod": "paperilasku",
+    "customerReference": "Johto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0012",
+    "companyId": "3927969-4",
+    "companyName": "Lehto Design Oy",
+    "billingAccount": "965603",
+    "billingAddress": "Jämsänpolku 15",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0013",
+    "companyId": "4156651-0",
+    "companyName": "Arctic Tekniikka Oy",
+    "billingAccount": "332",
+    "billingAddress": "Puusepänpolku 494",
+    "billingMethod": "paperilasku",
+    "customerReference": "HR-tiimi",
+    "category": "Target"
+  },
+  {
+    "id": "BA0014",
+    "companyId": "6301608-5",
+    "companyName": "Järvi Foods Oy",
+    "billingAccount": "901861",
+    "billingAddress": "Granfeltinpolku 522",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0015",
+    "companyId": "3400673-4",
+    "companyName": "Saimaa Talotekniikka Oy",
+    "billingAccount": "985107",
+    "billingAddress": "Kukkaniitynkatu 1",
+    "billingMethod": "paperilasku",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0016",
+    "companyId": "5166552-0",
+    "companyName": "Metsälinna Konepaja Oy",
+    "billingAccount": "990643",
+    "billingAddress": "Ahomäenkuja 186",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0017",
+    "companyId": "1076335-1",
+    "companyName": "Järvi Design Oy",
+    "billingAccount": "969351",
+    "billingAddress": "Katajaharjuntie 114",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0018",
+    "companyId": "3290660-8",
+    "companyName": "Virtanen Tekniikka Oy",
+    "billingAccount": "919816",
+    "billingAddress": "Eduskuntapolku 301",
+    "billingMethod": "paperilasku",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0019",
+    "companyId": "2001393-3",
+    "companyName": "Kallio Logistics Oy",
+    "billingAccount": "414",
+    "billingAddress": "Hannukselanpolku 6",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Target"
+  },
+  {
+    "id": "BA0020",
+    "companyId": "6173666-0",
+    "companyName": "Valo Studio Oy",
+    "billingAccount": "4033028",
+    "billingAddress": "Saramäenkuja 48",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0021",
+    "companyId": "3927969-4",
+    "companyName": "Lehto Design Oy",
+    "billingAccount": "950855",
+    "billingAddress": "Jänkätie 525",
+    "billingMethod": "paperilasku",
+    "customerReference": "Taloushallinto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0022",
+    "companyId": "2001393-3",
+    "companyName": "Kallio Logistics Oy",
+    "billingAccount": "708",
+    "billingAddress": "Elisabeth Kochin katu 00",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Target"
+  },
+  {
+    "id": "BA0023",
+    "companyId": "8912573-0",
+    "companyName": "Pohjantähti Studio Oy",
+    "billingAccount": "4094102",
+    "billingAddress": "Gneissikatu 0",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Taloushallinto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0024",
+    "companyId": "3290660-8",
+    "companyName": "Virtanen Tekniikka Oy",
+    "billingAccount": "4961464",
+    "billingAddress": "Järkälekuja 246",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0025",
+    "companyId": "3927969-4",
+    "companyName": "Lehto Design Oy",
+    "billingAccount": "933088",
+    "billingAddress": "Birger Kaipiaisen tie 92",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0026",
+    "companyId": "5757769-5",
+    "companyName": "Pilvi Partners Oy",
+    "billingAccount": "318",
+    "billingAddress": "Uunisepänkuja 5",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Target"
+  },
+  {
+    "id": "BA0027",
+    "companyId": "6225734-6",
+    "companyName": "Tieto Data Oy",
+    "billingAccount": "919199",
+    "billingAddress": "Ilomäentie 69",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Taloushallinto",
+    "category": "Target"
+  },
+  {
+    "id": "BA0028",
+    "companyId": "7678051-7",
+    "companyName": "Lehto Digital Oy",
+    "billingAccount": "4052335",
+    "billingAddress": "Uurtajanbulevardi 9",
+    "billingMethod": "paperilasku",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0029",
+    "companyId": "2344804-3",
+    "companyName": "Arctic Group Oy",
+    "billingAccount": "994811",
+    "billingAddress": "Damaskuksenpolku 2",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0030",
+    "companyId": "6183400-9",
+    "companyName": "Lehto Logistics Oy Ab",
+    "billingAccount": "332",
+    "billingAddress": "Iespolku 26",
+    "billingMethod": "paperilasku",
+    "customerReference": "Taloushallinto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0031",
+    "companyId": "9551618-0",
+    "companyName": "Rannikkotekniikka Media Oy",
+    "billingAccount": "1047",
+    "billingAddress": "Agroksenkuja 293",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Target"
+  },
+  {
+    "id": "BA0032",
+    "companyId": "9460052-4",
+    "companyName": "Saimaa Finance Oy",
+    "billingAccount": "318",
+    "billingAddress": "Tuulilasinkuja 48",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0033",
+    "companyId": "5166552-0",
+    "companyName": "Metsälinna Konepaja Oy",
+    "billingAccount": "162",
+    "billingAddress": "Haahkatie 395",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0034",
+    "companyId": "5166552-0",
+    "companyName": "Metsälinna Konepaja Oy",
+    "billingAccount": "4799692",
+    "billingAddress": "Runonlaulajanbulevardi 57",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Johto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0035",
+    "companyId": "6665014-5",
+    "companyName": "Testi Ilkka Koivunen Oy",
+    "billingAccount": "327",
+    "billingAddress": "Ylä-Fallin katu 327",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0036",
+    "companyId": "6173666-0",
+    "companyName": "Valo Studio Oy",
+    "billingAccount": "679",
+    "billingAddress": "Mamsellimyllynkatu 162",
+    "billingMethod": "paperilasku",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0037",
+    "companyId": "6225734-6",
+    "companyName": "Tieto Data Oy",
+    "billingAccount": "4780709",
+    "billingAddress": "Tyynylaavanbulevardi 1",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0038",
+    "companyId": "1076335-1",
+    "companyName": "Järvi Design Oy",
+    "billingAccount": "84",
+    "billingAddress": "Gustav Pauligin polku 895",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0039",
+    "companyId": "3853461-4",
+    "companyName": "Järvi Finance Oy",
+    "billingAccount": "708",
+    "billingAddress": "Jäkäläbulevardi 9",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Devaajat",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0040",
+    "companyId": "3290660-8",
+    "companyName": "Virtanen Tekniikka Oy",
+    "billingAccount": "135",
+    "billingAddress": "Rukkilankatu 2",
+    "billingMethod": "paperilasku",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0041",
+    "companyId": "5919057-4",
+    "companyName": "Pilvi Partners Oy Ab",
+    "billingAccount": "4018290",
+    "billingAddress": "Zaidantie 788",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0042",
+    "companyId": "3662685-7",
+    "companyName": "Pilvi Talotekniikka Oy",
+    "billingAccount": "4116157",
+    "billingAddress": "Fallinpolku 740",
+    "billingMethod": "paperilasku",
+    "customerReference": "HR-tiimi",
+    "category": "Target"
+  },
+  {
+    "id": "BA0043",
+    "companyId": "2001393-3",
+    "companyName": "Kallio Logistics Oy",
+    "billingAccount": "919787",
+    "billingAddress": "Usvapolku 6",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Devaajat",
+    "category": "Target"
+  },
+  {
+    "id": "BA0044",
+    "companyId": "5757769-5",
+    "companyName": "Pilvi Partners Oy",
+    "billingAccount": "136",
+    "billingAddress": "Ilmattarenkatu 9",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Target"
+  },
+  {
+    "id": "BA0045",
+    "companyId": "5919057-4",
+    "companyName": "Pilvi Partners Oy Ab",
+    "billingAccount": "4503870",
+    "billingAddress": "Hannukselankuja 4",
+    "billingMethod": "paperilasku",
+    "customerReference": "Taloushallinto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0046",
+    "companyId": "8912573-0",
+    "companyName": "Pohjantähti Studio Oy",
+    "billingAccount": "999159",
+    "billingAddress": "Maatullinbulevardi 097",
+    "billingMethod": "paperilasku",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0047",
+    "companyId": "3853461-4",
+    "companyName": "Järvi Finance Oy",
+    "billingAccount": "4263726",
+    "billingAddress": "Vesakkobulevardi 8",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Johto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0048",
+    "companyId": "4156651-0",
+    "companyName": "Arctic Tekniikka Oy",
+    "billingAccount": "986258",
+    "billingAddress": "Tuomarinkyläntie 2",
+    "billingMethod": "paperilasku",
+    "customerReference": "Devaajat",
+    "category": "Target"
+  },
+  {
+    "id": "BA0049",
+    "companyId": "8912573-0",
+    "companyName": "Pohjantähti Studio Oy",
+    "billingAccount": "945792",
+    "billingAddress": "Pyörökivenkatu 7",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0050",
+    "companyId": "6225734-6",
+    "companyName": "Tieto Data Oy",
+    "billingAccount": "4813812",
+    "billingAddress": "Wecksellintie 4",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "HR-tiimi",
+    "category": "Target"
+  },
+  {
+    "id": "BA0051",
+    "companyId": "5448500-7",
+    "companyName": "Sisu Tekniikka Oy",
+    "billingAccount": "60",
+    "billingAddress": "Hankasuontie 5",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0052",
+    "companyId": "3662685-7",
+    "companyName": "Pilvi Talotekniikka Oy",
+    "billingAccount": "332",
+    "billingAddress": "Nervanderinbulevardi 660",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Devaajat",
+    "category": "Target"
+  },
+  {
+    "id": "BA0053",
+    "companyId": "5448500-7",
+    "companyName": "Sisu Tekniikka Oy",
+    "billingAccount": "708",
+    "billingAddress": "Gotlannintie 8",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0054",
+    "companyId": "9551618-0",
+    "companyName": "Rannikkotekniikka Media Oy",
+    "billingAccount": "162",
+    "billingAddress": "Uudenkaupunginpolku 28",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0055",
+    "companyId": "3853461-4",
+    "companyName": "Järvi Finance Oy",
+    "billingAccount": "953042",
+    "billingAddress": "Haahkapolku 733",
+    "billingMethod": "paperilasku",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0056",
+    "companyId": "6287743-0",
+    "companyName": "Metsälinna Analytics Oy",
+    "billingAccount": "4669082",
+    "billingAddress": "Orvokkikatu 7",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0057",
+    "companyId": "7426753-3",
+    "companyName": "Kivipelto Software Oy",
+    "billingAccount": "916895",
+    "billingAddress": "Freesenkatu 2",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0058",
+    "companyId": "5919057-4",
+    "companyName": "Pilvi Partners Oy Ab",
+    "billingAccount": "919824",
+    "billingAddress": "Yrjönkatu 119",
+    "billingMethod": "paperilasku",
+    "customerReference": "Johto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0059",
+    "companyId": "6665014-5",
+    "companyName": "Testi Ilkka Koivunen Oy",
+    "billingAccount": "4423628",
+    "billingAddress": "Kiitäjänpolku 8",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Devaajat",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0060",
+    "companyId": "7678051-7",
+    "companyName": "Lehto Digital Oy",
+    "billingAccount": "4233178",
+    "billingAddress": "Ida Ekmanin polku 16",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Target"
+  },
+  {
+    "id": "BA0061",
+    "companyId": "8912573-0",
+    "companyName": "Pohjantähti Studio Oy",
+    "billingAccount": "414",
+    "billingAddress": "Tyynelänkuja 6",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Taloushallinto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0062",
+    "companyId": "3662685-7",
+    "companyName": "Pilvi Talotekniikka Oy",
+    "billingAccount": "4866120",
+    "billingAddress": "Maasälvänkatu 90",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0063",
+    "companyId": "9460052-4",
+    "companyName": "Saimaa Finance Oy",
+    "billingAccount": "4334501",
+    "billingAddress": "Yhteiskoulunpolku 329",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0064",
+    "companyId": "6665014-5",
+    "companyName": "Testi Ilkka Koivunen Oy",
+    "billingAccount": "4692557",
+    "billingAddress": "Salavabulevardi 82",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Johto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0065",
+    "companyId": "6183400-9",
+    "companyName": "Lehto Logistics Oy Ab",
+    "billingAccount": "927169",
+    "billingAddress": "Betonipolku 7",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0066",
+    "companyId": "3400673-4",
+    "companyName": "Saimaa Talotekniikka Oy",
+    "billingAccount": "998260",
+    "billingAddress": "Tuohikoivunpolku 25",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0067",
+    "companyId": "3853461-4",
+    "companyName": "Järvi Finance Oy",
+    "billingAccount": "924983",
+    "billingAddress": "Rapolankatu 76",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Taloushallinto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0068",
+    "companyId": "5422396-3",
+    "companyName": "Aamurusko Digital Oy",
+    "billingAccount": "332",
+    "billingAddress": "Ilomäentie 43",
+    "billingMethod": "paperilasku",
+    "customerReference": "Devaajat",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0069",
+    "companyId": "3927969-4",
+    "companyName": "Lehto Design Oy",
+    "billingAccount": "965928",
+    "billingAddress": "Tukkisillantie 169",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0070",
+    "companyId": "4156651-0",
+    "companyName": "Arctic Tekniikka Oy",
+    "billingAccount": "979239",
+    "billingAddress": "Salakkakuja 8",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0071",
+    "companyId": "5757769-5",
+    "companyName": "Pilvi Partners Oy",
+    "billingAccount": "900034",
+    "billingAddress": "Rukoushuoneenkuja 769",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Työmiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0072",
+    "companyId": "6665014-5",
+    "companyName": "Testi Ilkka Koivunen Oy",
+    "billingAccount": "925250",
+    "billingAddress": "Fagottikuja 73",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0073",
+    "companyId": "2001393-3",
+    "companyName": "Kallio Logistics Oy",
+    "billingAccount": "4646222",
+    "billingAddress": "Niitynperäntie 466",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Target"
+  },
+  {
+    "id": "BA0074",
+    "companyId": "5448500-7",
+    "companyName": "Sisu Tekniikka Oy",
+    "billingAccount": "4994901",
+    "billingAddress": "Bergankatu 841",
+    "billingMethod": "paperilasku",
+    "customerReference": "Johto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0075",
+    "companyId": "5422396-3",
+    "companyName": "Aamurusko Digital Oy",
+    "billingAccount": "414",
+    "billingAddress": "Osuuskunnankatu 41",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Johto",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0076",
+    "companyId": "7678051-7",
+    "companyName": "Lehto Digital Oy",
+    "billingAccount": "926390",
+    "billingAddress": "Kiitäjäntie 614",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Devaajat",
+    "category": "Target"
+  },
+  {
+    "id": "BA0077",
+    "companyId": "2344804-3",
+    "companyName": "Arctic Group Oy",
+    "billingAccount": "60",
+    "billingAddress": "Fallinbulevardi 5",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0078",
+    "companyId": "5448500-7",
+    "companyName": "Sisu Tekniikka Oy",
+    "billingAccount": "4413077",
+    "billingAddress": "Rukopolku 1",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0079",
+    "companyId": "9551618-0",
+    "companyName": "Rannikkotekniikka Media Oy",
+    "billingAccount": "4941300",
+    "billingAddress": "Kilpolankatu 517",
+    "billingMethod": "paperilasku",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Target"
+  },
+  {
+    "id": "BA0080",
+    "companyId": "2344804-3",
+    "companyName": "Arctic Group Oy",
+    "billingAccount": "946454",
+    "billingAddress": "Louhikkotie 5",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0081",
+    "companyId": "7426753-3",
+    "companyName": "Kivipelto Software Oy",
+    "billingAccount": "1047",
+    "billingAddress": "Eduskuntatie 1",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Johto",
+    "category": "Target"
+  },
+  {
+    "id": "BA0082",
+    "companyId": "6225734-6",
+    "companyName": "Tieto Data Oy",
+    "billingAccount": "84",
+    "billingAddress": "Laajasalonpolku 1",
+    "billingMethod": "paperilasku",
+    "customerReference": "Työmiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0083",
+    "companyId": "9551618-0",
+    "companyName": "Rannikkotekniikka Media Oy",
+    "billingAccount": "60",
+    "billingAddress": "Agricolantie 95",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Vaasan konttori",
+    "category": "Target"
+  },
+  {
+    "id": "BA0084",
+    "companyId": "6183400-9",
+    "companyName": "Lehto Logistics Oy Ab",
+    "billingAccount": "4032348",
+    "billingAddress": "Hankasuonkuja 6",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0085",
+    "companyId": "7678051-7",
+    "companyName": "Lehto Digital Oy",
+    "billingAccount": "60",
+    "billingAddress": "Orisaarenkuja 5",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Helsingin yksikkö",
+    "category": "Target"
+  },
+  {
+    "id": "BA0086",
+    "companyId": "6183400-9",
+    "companyName": "Lehto Logistics Oy Ab",
+    "billingAccount": "4994536",
+    "billingAddress": "Poikasaartenkatu 590",
+    "billingMethod": "paperilasku",
+    "customerReference": "Vaasan konttori",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0087",
+    "companyId": "3290660-8",
+    "companyName": "Virtanen Tekniikka Oy",
+    "billingAccount": "946960",
+    "billingAddress": "Gustav Pauligin polku 237",
+    "billingMethod": "paperilasku",
+    "customerReference": "Työmiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0088",
+    "companyId": "3662685-7",
+    "companyName": "Pilvi Talotekniikka Oy",
+    "billingAccount": "964497",
+    "billingAddress": "Rantavarastonpolku 396",
+    "billingMethod": "paperilasku",
+    "customerReference": "Sähkömiehet",
+    "category": "Target"
+  },
+  {
+    "id": "BA0089",
+    "companyId": "6301608-5",
+    "companyName": "Järvi Foods Oy",
+    "billingAccount": "995856",
+    "billingAddress": "Laurinniitynkatu 8",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Devaajat",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0090",
+    "companyId": "5919057-4",
+    "companyName": "Pilvi Partners Oy Ab",
+    "billingAccount": "327",
+    "billingAddress": "Laurinniitynkatu 25",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Sähkömiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0091",
+    "companyId": "6173666-0",
+    "companyName": "Valo Studio Oy",
+    "billingAccount": "136",
+    "billingAddress": "Ylä-Fallin katu 92",
+    "billingMethod": "sähköpostilasku",
+    "customerReference": "Sähkömiehet",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0092",
+    "companyId": "1076335-1",
+    "companyName": "Järvi Design Oy",
+    "billingAccount": "961973",
+    "billingAddress": "Saramäenkuja 2",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "HR-tiimi",
+    "category": "Legacy"
+  },
+  {
+    "id": "BA0093",
+    "companyId": "6287743-0",
+    "companyName": "Metsälinna Analytics Oy",
+    "billingAccount": "4628421",
+    "billingAddress": "Wavulinintie 2",
+    "billingMethod": "verkkolasku operaattorikanavaan",
+    "customerReference": "HR-tiimi",
+    "category": "Target"
+  },
+  {
+    "id": "BA0094",
+    "companyId": "5757769-5",
+    "companyName": "Pilvi Partners Oy",
+    "billingAccount": "952210",
+    "billingAddress": "Kiitäjänpolku 64",
+    "billingMethod": "verkkolasku pankkikanavaan",
+    "customerReference": "Devaajat",
+    "category": "Target"
+  }
+]
