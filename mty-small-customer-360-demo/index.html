@@ -252,6 +252,43 @@
       font-weight: 800;
     }
 
+
+
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .row-action-button {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 12px;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .row-action-button.primary { background: var(--telia); border-color: var(--telia); color: white; }
+    .row-action-button.warning { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+    .row-action-button:hover { box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); transform: translateY(-1px); }
+    .record-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .record-summary-item { border: 1px solid var(--border); background: #fbfcfe; border-radius: 12px; padding: 12px; }
+    .record-summary-label { color: var(--muted); font-size: 12px; font-weight: 800; margin-bottom: 4px; }
+    .record-summary-value { font-weight: 800; overflow-wrap: anywhere; }
+    .thread { display: grid; gap: 10px; }
+    .thread-message { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: #fbfcfe; }
+    .thread-message.customer { background: #f8f5ff; border-color: #ead7ff; }
+    .thread-meta { color: var(--muted); font-size: 12px; font-weight: 800; margin-bottom: 5px; }
+    .thread-text { line-height: 1.45; }
+    @media (max-width: 700px) { .record-summary { grid-template-columns: 1fr; } }
+
     .primary { font-weight: 700; }
     .secondary { color: var(--muted); font-size: 13px; margin-top: 4px; }
 
@@ -907,15 +944,15 @@
     const i18n = {
       fi: {
         appTitle: 'MTY Small Customer 360 Demo', appSubtitle: 'Excelistä muunnettu JSON-data, asiakasvalinta, KPI:t, asset-lista ja älykäs sisältöhaku.',
-        company: 'Valitse yritys', searchCustomer: 'Hae liittymistä ja palveluista', searchContent: 'Kysy Telian yrityssisällöistä', customerPlaceholder: 'Esim. numero, käyttäjä, laite...', contentPlaceholder: 'Esim. Miten vaihdan SIM-kortin?', typeFilter: 'Rajaa tyyppi', all: 'Kaikki', allCompanies: 'Kaikki yritykset', companies: 'Yrityksiä', searchMode: 'Hakutyyppi', customerData: 'Minun Telia Yrityksille data', teliaContent: 'Telia Ohjeet & Sisällöt', aiAnswer: 'AI-vastaus', customerInfo: 'Asiakkaan tiedot', detailView: 'Detail-näkymä', listView: 'Listanäkymä', tileView: 'Tiilinäkymä', assets: 'Liittymät ja palvelut', orders: 'Tilaukset', invoices: 'Laskut', requests: 'Palvelupyynnöt', incidents: 'Vikailmoitukset', openInvoices: 'Avoimet laskut', openRequests: 'Avoimet pyynnöt', openIncidents: 'Avoimet viat', openInvoicesNotification: 'Avoimia laskuja', openRequestsNotification: 'Avoimia palvelupyyntöjä', openIncidentsNotification: 'Avoimia vikoja', rows: 'riviä', filterOpenInvoices: 'Suodatus: vain avoimet laskut', filterOpenRequests: 'Suodatus: vain avoimet palvelupyynnöt', filterOpenIncidents: 'Suodatus: vain avoimet vikailmoitukset', noResults: 'Ei tuloksia valitulla rajauksella.', askTelia: 'Kirjoita kysymys Telian yrityssisällöistä.', contentMissing: 'content-search.json puuttuu tai on tyhjä.', noDirectAnswer: 'Ei suoraa vastausta', noMockAnswer: 'En löytänyt mock-datasta suoraa vastausta kysymykseen', sources: 'Lähteet', noSources: 'Ei lähdelinkkejä.', openExample: 'Avaa esimerkkikysymys', showDetails: 'Näytä tiedot →', selectFromList: 'Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.', companySummary: 'Yrityksen yhteenveto', companyName: 'Yritys', user: 'Käyttäjä', productSpeed: 'Tuote/nopeus', category: 'Kategoria', fixedTerm: 'Määräaika päättyy', actions: 'Toiminnot', relatedOrders: 'Liittyvät tilaukset', noActions: 'Ei määriteltyjä toimintoja.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', productType: 'Tuotetyyppi', item: 'Kohde', billingAccount: 'Laskutili', orderDate: 'Tilauspäivä', status: 'Status', invoiceType: 'Laskun tyyppi', invoiceDate: 'Laskun päivämäärä', invoiceNumber: 'Laskun numero', amount: 'Summa', referenceNumber: 'Viitenumero', requestType: 'Pyyntölaji', description: 'Kuvaus', requestDate: 'Pyyntöpäivä', createdBy: 'Luonut', startDate: 'Aloituspäivä', open: 'Avoinna', completed: 'Valmis', resolved: 'Ratkaistu', inProgress: 'Käsittelyssä', underInvestigation: 'Selvityksessä', ordered: 'Tilauksessa', target: 'Target', legacy: 'Legacy', quickActions: 'Pikatoiminnot', quickActionsDesc: 'Tilaa lisää, luo palvelupyyntö tai ilmoita vika suoraan tästä näkymästä.', orderNewService: 'Tilaa palvelu', orderNewServiceDesc: 'Aloita uuden palvelun tilaus.', contactUs: 'Ota meihin yhteyttä', contactUsDesc: 'Valitse chat, palvelupyyntö tai muut yhteydenottotavat.', createServiceRequest: 'Luo palvelupyyntö', createServiceRequestDesc: 'Lähetä uusi pyyntö asiakaspalveluun.', chat: 'Chat', chatDesc: 'Aloita keskustelu asiakaspalvelun kanssa.', serviceRequestOption: 'Luo palvelupyyntö', serviceRequestOptionDesc: 'Tee kirjallinen palvelupyyntö.', otherWays: 'Muut tavat', otherWaysDesc: 'Katso muut yhteystiedot Telian sivuilta.', chatDemoTitle: 'Chat', chatDemoText: 'Chat avautuisi normaalisti tästä. Demossa näytetään vain yhteydenottopolun rakenne.', reportIncident: 'Ilmoita vika', reportIncidentDesc: 'Avaa uusi vikailmoitus palvelusta.', modalCompany: 'Yritys', modalServiceType: 'Palvelu', modalRequestType: 'Pyyntölaji', modalAffectedService: 'Vaikutettu palvelu', modalDescription: 'Kuvaus', modalCancel: 'Peruuta', modalSubmit: 'Lähetä', modalContinue: 'Luo demotapahtuma', mobileSubscription: 'Matkapuhelinliittymä', businessInternet: 'Yritysnetti', license: 'Lisenssi', securityService: 'Tietoturvapalvelu', requestUserChange: 'Käyttäjämuutos', requestBilling: 'Laskutusasia', requestServiceChange: 'Palvelumuutos', incidentMobileData: 'Mobiilidata ei toimi', incidentInternet: 'Yritysnetti ei toimi', incidentDevice: 'Laitteen ongelma'
+        company: 'Valitse yritys', searchCustomer: 'Hae liittymistä ja palveluista', searchContent: 'Kysy Telian yrityssisällöistä', customerPlaceholder: 'Esim. numero, käyttäjä, laite...', contentPlaceholder: 'Esim. Miten vaihdan SIM-kortin?', typeFilter: 'Rajaa tyyppi', all: 'Kaikki', allCompanies: 'Kaikki yritykset', companies: 'Yrityksiä', searchMode: 'Hakutyyppi', customerData: 'Minun Telia Yrityksille data', teliaContent: 'Telia Ohjeet & Sisällöt', aiAnswer: 'AI-vastaus', customerInfo: 'Asiakkaan tiedot', detailView: 'Detail-näkymä', listView: 'Listanäkymä', tileView: 'Tiilinäkymä', assets: 'Liittymät ja palvelut', orders: 'Tilaukset', invoices: 'Laskut', requests: 'Palvelupyynnöt', incidents: 'Vikailmoitukset', openInvoices: 'Avoimet laskut', openRequests: 'Avoimet pyynnöt', openIncidents: 'Avoimet viat', openInvoicesNotification: 'Avoimia laskuja', openRequestsNotification: 'Avoimia palvelupyyntöjä', openIncidentsNotification: 'Avoimia vikoja', rows: 'riviä', filterOpenInvoices: 'Suodatus: vain avoimet laskut', filterOpenRequests: 'Suodatus: vain avoimet palvelupyynnöt', filterOpenIncidents: 'Suodatus: vain avoimet vikailmoitukset', noResults: 'Ei tuloksia valitulla rajauksella.', askTelia: 'Kirjoita kysymys Telian yrityssisällöistä.', contentMissing: 'content-search.json puuttuu tai on tyhjä.', noDirectAnswer: 'Ei suoraa vastausta', noMockAnswer: 'En löytänyt mock-datasta suoraa vastausta kysymykseen', sources: 'Lähteet', noSources: 'Ei lähdelinkkejä.', openExample: 'Avaa esimerkkikysymys', showDetails: 'Näytä tiedot →', selectFromList: 'Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.', companySummary: 'Yrityksen yhteenveto', companyName: 'Yritys', user: 'Käyttäjä', productSpeed: 'Tuote/nopeus', category: 'Kategoria', fixedTerm: 'Määräaika päättyy', actions: 'Toiminnot', relatedOrders: 'Liittyvät tilaukset', noActions: 'Ei määriteltyjä toimintoja.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', productType: 'Tuotetyyppi', item: 'Kohde', billingAccount: 'Laskutili', orderDate: 'Tilauspäivä', status: 'Status', invoiceType: 'Laskun tyyppi', invoiceDate: 'Laskun päivämäärä', invoiceNumber: 'Laskun numero', amount: 'Summa', referenceNumber: 'Viitenumero', requestType: 'Pyyntölaji', description: 'Kuvaus', requestDate: 'Pyyntöpäivä', createdBy: 'Luonut', startDate: 'Aloituspäivä', open: 'Avoinna', completed: 'Valmis', resolved: 'Ratkaistu', inProgress: 'Käsittelyssä', underInvestigation: 'Selvityksessä', ordered: 'Tilauksessa', target: 'Target', legacy: 'Legacy', quickActions: 'Pikatoiminnot', quickActionsDesc: 'Tilaa lisää, luo palvelupyyntö tai ilmoita vika suoraan tästä näkymästä.', orderNewService: 'Tilaa palvelu', orderNewServiceDesc: 'Aloita uuden palvelun tilaus.', contactUs: 'Ota meihin yhteyttä', contactUsDesc: 'Valitse chat, palvelupyyntö tai muut yhteydenottotavat.', createServiceRequest: 'Luo palvelupyyntö', createServiceRequestDesc: 'Lähetä uusi pyyntö asiakaspalveluun.', showOrder: 'Näytä tilaus', askAboutOrder: 'Kysy tilauksesta', showInvoice: 'Näytä lasku', invoicePdf: 'PDF', payInvoice: 'Maksa lasku', openConversation: 'Avaa', reply: 'Vastaa', sendReply: 'Lähetä vastaus', messageThread: 'Viestiketju', paymentSummary: 'Maksun yhteenveto', confirmPayment: 'Vahvista maksu', paymentDone: 'Lasku merkitty maksetuksi.', invoicePdfTitle: 'Laskun PDF', invoicePdfText: 'Demo: tästä avautuisi laskun alkuperäinen PDF-tiedosto.', orderQuestionText: 'Haluan lisätietoja tästä tilauksesta.', paid: 'Maksettu', teliaSender: 'Telia', customerSender: 'Asiakas', chat: 'Chat', chatDesc: 'Aloita keskustelu asiakaspalvelun kanssa.', serviceRequestOption: 'Luo palvelupyyntö', serviceRequestOptionDesc: 'Tee kirjallinen palvelupyyntö.', otherWays: 'Muut tavat', otherWaysDesc: 'Katso muut yhteystiedot Telian sivuilta.', chatDemoTitle: 'Chat', chatDemoText: 'Chat avautuisi normaalisti tästä. Demossa näytetään vain yhteydenottopolun rakenne.', reportIncident: 'Ilmoita vika', reportIncidentDesc: 'Avaa uusi vikailmoitus palvelusta.', modalCompany: 'Yritys', modalServiceType: 'Palvelu', modalRequestType: 'Pyyntölaji', modalAffectedService: 'Vaikutettu palvelu', modalDescription: 'Kuvaus', modalCancel: 'Peruuta', modalSubmit: 'Lähetä', modalContinue: 'Luo demotapahtuma', mobileSubscription: 'Matkapuhelinliittymä', businessInternet: 'Yritysnetti', license: 'Lisenssi', securityService: 'Tietoturvapalvelu', requestUserChange: 'Käyttäjämuutos', requestBilling: 'Laskutusasia', requestServiceChange: 'Palvelumuutos', incidentMobileData: 'Mobiilidata ei toimi', incidentInternet: 'Yritysnetti ei toimi', incidentDevice: 'Laitteen ongelma'
       },
       en: {
         appTitle: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON data converted from Excel, customer selector, KPIs, asset list and smart content search.',
-        company: 'Select company', searchCustomer: 'Search subscriptions and services', searchContent: 'Ask about Telia business content', customerPlaceholder: 'E.g. number, user, device...', contentPlaceholder: 'E.g. How do I replace a SIM card?', typeFilter: 'Filter type', all: 'All', allCompanies: 'All companies', companies: 'Companies', searchMode: 'Search type', customerData: 'My Telia for Business data', teliaContent: 'Telia Help & Content', aiAnswer: 'AI answer', customerInfo: 'Customer data', detailView: 'Detail view', listView: 'List view', tileView: 'Tile view', assets: 'Subscriptions and services', orders: 'Orders', invoices: 'Invoices', requests: 'Service requests', incidents: 'Incidents', openInvoices: 'Open invoices', openRequests: 'Open requests', openIncidents: 'Open incidents', openInvoicesNotification: 'Open invoices', openRequestsNotification: 'Open service requests', openIncidentsNotification: 'Open incidents', rows: 'rows', filterOpenInvoices: 'Filter: only open invoices', filterOpenRequests: 'Filter: only open service requests', filterOpenIncidents: 'Filter: only open incidents', noResults: 'No results with the selected filter.', askTelia: 'Ask a question about Telia business content.', contentMissing: 'content-search.json is missing or empty.', noDirectAnswer: 'No direct answer', noMockAnswer: 'No direct answer found in mock data for', sources: 'Sources', noSources: 'No source links.', openExample: 'Open example question', showDetails: 'Show details →', selectFromList: 'Select an asset, invoice, order, service request or incident from the list.', companySummary: 'Company summary', companyName: 'Company', user: 'User', productSpeed: 'Product/speed', category: 'Category', fixedTerm: 'Fixed term ends', actions: 'Actions', relatedOrders: 'Related orders', noActions: 'No configured actions.', noRelatedOrders: 'No related orders in the mock data.', productType: 'Product type', item: 'Item', billingAccount: 'Billing account', orderDate: 'Order date', status: 'Status', invoiceType: 'Invoice type', invoiceDate: 'Invoice date', invoiceNumber: 'Invoice number', amount: 'Amount', referenceNumber: 'Reference number', requestType: 'Request type', description: 'Description', requestDate: 'Request date', createdBy: 'Created by', startDate: 'Start date', open: 'Open', completed: 'Completed', resolved: 'Resolved', inProgress: 'In progress', underInvestigation: 'Under investigation', ordered: 'Ordered', target: 'Target', legacy: 'Legacy', quickActions: 'Quick actions', quickActionsDesc: 'Order more services, create a service request or report an incident from this view.', orderNewService: 'Order service', orderNewServiceDesc: 'Start a new service order.', contactUs: 'Contact us', contactUsDesc: 'Choose chat, service request or other contact methods.', createServiceRequest: 'Create service request', createServiceRequestDesc: 'Send a new request to customer service.', chat: 'Chat', chatDesc: 'Start a conversation with customer service.', serviceRequestOption: 'Create service request', serviceRequestOptionDesc: 'Create a written service request.', otherWays: 'Other ways', otherWaysDesc: 'See other contact details on Telia’s website.', chatDemoTitle: 'Chat', chatDemoText: 'Chat would normally open from here. In the demo, this shows the contact path structure only.', reportIncident: 'Report incident', reportIncidentDesc: 'Open a new incident for a service.', modalCompany: 'Company', modalServiceType: 'Service', modalRequestType: 'Request type', modalAffectedService: 'Affected service', modalDescription: 'Description', modalCancel: 'Cancel', modalSubmit: 'Submit', modalContinue: 'Create demo item', mobileSubscription: 'Mobile subscription', businessInternet: 'Business internet', license: 'License', securityService: 'Security service', requestUserChange: 'User change', requestBilling: 'Billing issue', requestServiceChange: 'Service change', incidentMobileData: 'Mobile data not working', incidentInternet: 'Business internet not working', incidentDevice: 'Device issue'
+        company: 'Select company', searchCustomer: 'Search subscriptions and services', searchContent: 'Ask about Telia business content', customerPlaceholder: 'E.g. number, user, device...', contentPlaceholder: 'E.g. How do I replace a SIM card?', typeFilter: 'Filter type', all: 'All', allCompanies: 'All companies', companies: 'Companies', searchMode: 'Search type', customerData: 'My Telia for Business data', teliaContent: 'Telia Help & Content', aiAnswer: 'AI answer', customerInfo: 'Customer data', detailView: 'Detail view', listView: 'List view', tileView: 'Tile view', assets: 'Subscriptions and services', orders: 'Orders', invoices: 'Invoices', requests: 'Service requests', incidents: 'Incidents', openInvoices: 'Open invoices', openRequests: 'Open requests', openIncidents: 'Open incidents', openInvoicesNotification: 'Open invoices', openRequestsNotification: 'Open service requests', openIncidentsNotification: 'Open incidents', rows: 'rows', filterOpenInvoices: 'Filter: only open invoices', filterOpenRequests: 'Filter: only open service requests', filterOpenIncidents: 'Filter: only open incidents', noResults: 'No results with the selected filter.', askTelia: 'Ask a question about Telia business content.', contentMissing: 'content-search.json is missing or empty.', noDirectAnswer: 'No direct answer', noMockAnswer: 'No direct answer found in mock data for', sources: 'Sources', noSources: 'No source links.', openExample: 'Open example question', showDetails: 'Show details →', selectFromList: 'Select an asset, invoice, order, service request or incident from the list.', companySummary: 'Company summary', companyName: 'Company', user: 'User', productSpeed: 'Product/speed', category: 'Category', fixedTerm: 'Fixed term ends', actions: 'Actions', relatedOrders: 'Related orders', noActions: 'No configured actions.', noRelatedOrders: 'No related orders in the mock data.', productType: 'Product type', item: 'Item', billingAccount: 'Billing account', orderDate: 'Order date', status: 'Status', invoiceType: 'Invoice type', invoiceDate: 'Invoice date', invoiceNumber: 'Invoice number', amount: 'Amount', referenceNumber: 'Reference number', requestType: 'Request type', description: 'Description', requestDate: 'Request date', createdBy: 'Created by', startDate: 'Start date', open: 'Open', completed: 'Completed', resolved: 'Resolved', inProgress: 'In progress', underInvestigation: 'Under investigation', ordered: 'Ordered', target: 'Target', legacy: 'Legacy', quickActions: 'Quick actions', quickActionsDesc: 'Order more services, create a service request or report an incident from this view.', orderNewService: 'Order service', orderNewServiceDesc: 'Start a new service order.', contactUs: 'Contact us', contactUsDesc: 'Choose chat, service request or other contact methods.', createServiceRequest: 'Create service request', createServiceRequestDesc: 'Send a new request to customer service.', showOrder: 'Show order', askAboutOrder: 'Ask about order', showInvoice: 'Show invoice', invoicePdf: 'PDF', payInvoice: 'Pay invoice', openConversation: 'Open', reply: 'Reply', sendReply: 'Send reply', messageThread: 'Message thread', paymentSummary: 'Payment summary', confirmPayment: 'Confirm payment', paymentDone: 'Invoice marked as paid.', invoicePdfTitle: 'Invoice PDF', invoicePdfText: 'Demo: the original invoice PDF would open from here.', orderQuestionText: 'I would like more information about this order.', paid: 'Paid', teliaSender: 'Telia', customerSender: 'Customer', chat: 'Chat', chatDesc: 'Start a conversation with customer service.', serviceRequestOption: 'Create service request', serviceRequestOptionDesc: 'Create a written service request.', otherWays: 'Other ways', otherWaysDesc: 'See other contact details on Telia’s website.', chatDemoTitle: 'Chat', chatDemoText: 'Chat would normally open from here. In the demo, this shows the contact path structure only.', reportIncident: 'Report incident', reportIncidentDesc: 'Open a new incident for a service.', modalCompany: 'Company', modalServiceType: 'Service', modalRequestType: 'Request type', modalAffectedService: 'Affected service', modalDescription: 'Description', modalCancel: 'Cancel', modalSubmit: 'Submit', modalContinue: 'Create demo item', mobileSubscription: 'Mobile subscription', businessInternet: 'Business internet', license: 'License', securityService: 'Security service', requestUserChange: 'User change', requestBilling: 'Billing issue', requestServiceChange: 'Service change', incidentMobileData: 'Mobile data not working', incidentInternet: 'Business internet not working', incidentDevice: 'Device issue'
       },
       sv: {
         appTitle: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON-data från Excel, kundval, KPI:er, tillgångslista och smart innehållssökning.',
-        company: 'Välj företag', searchCustomer: 'Sök abonnemang och tjänster', searchContent: 'Fråga om Telias företagsinnehåll', customerPlaceholder: 'T.ex. nummer, användare, enhet...', contentPlaceholder: 'T.ex. Hur byter jag SIM-kort?', typeFilter: 'Filtrera typ', all: 'Alla', allCompanies: 'Alla företag', companies: 'Företag', searchMode: 'Söktyp', customerData: 'Mitt Telia Företag-data', teliaContent: 'Telia hjälp & innehåll', aiAnswer: 'AI-svar', customerInfo: 'Kunduppgifter', detailView: 'Detaljvy', listView: 'Listvy', tileView: 'Rutnätsvy', assets: 'Abonnemang och tjänster', orders: 'Beställningar', invoices: 'Fakturor', requests: 'Serviceärenden', incidents: 'Felanmälningar', openInvoices: 'Öppna fakturor', openRequests: 'Öppna ärenden', openIncidents: 'Öppna fel', openInvoicesNotification: 'Öppna fakturor', openRequestsNotification: 'Öppna serviceärenden', openIncidentsNotification: 'Öppna fel', rows: 'rader', filterOpenInvoices: 'Filter: endast öppna fakturor', filterOpenRequests: 'Filter: endast öppna serviceärenden', filterOpenIncidents: 'Filter: endast öppna felanmälningar', noResults: 'Inga resultat med valt filter.', askTelia: 'Skriv en fråga om Telias företagsinnehåll.', contentMissing: 'content-search.json saknas eller är tom.', noDirectAnswer: 'Inget direkt svar', noMockAnswer: 'Inget direkt svar hittades i mockdata för', sources: 'Källor', noSources: 'Inga källänkar.', openExample: 'Öppna exempelfråga', showDetails: 'Visa detaljer →', selectFromList: 'Välj en tillgång, faktura, beställning, serviceärende eller felanmälan från listan.', companySummary: 'Företagssammanfattning', companyName: 'Företag', user: 'Användare', productSpeed: 'Produkt/hastighet', category: 'Kategori', fixedTerm: 'Bindningstid slutar', actions: 'Åtgärder', relatedOrders: 'Relaterade beställningar', noActions: 'Inga definierade åtgärder.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', productType: 'Produkttyp', item: 'Objekt', billingAccount: 'Fakturakonto', orderDate: 'Beställningsdatum', status: 'Status', invoiceType: 'Fakturatyp', invoiceDate: 'Fakturadatum', invoiceNumber: 'Fakturanummer', amount: 'Belopp', referenceNumber: 'Referensnummer', requestType: 'Ärendetyp', description: 'Beskrivning', requestDate: 'Ärendedatum', createdBy: 'Skapad av', startDate: 'Startdatum', open: 'Öppen', completed: 'Slutförd', resolved: 'Löst', inProgress: 'Under behandling', underInvestigation: 'Under utredning', ordered: 'Beställd', target: 'Target', legacy: 'Legacy', quickActions: 'Snabbåtgärder', quickActionsDesc: 'Beställ fler tjänster, skapa ett serviceärende eller rapportera ett fel från den här vyn.', orderNewService: 'Beställ tjänst', orderNewServiceDesc: 'Starta en ny tjänstebeställning.', contactUs: 'Kontakta oss', contactUsDesc: 'Välj chatt, serviceärende eller andra kontaktvägar.', createServiceRequest: 'Skapa serviceärende', createServiceRequestDesc: 'Skicka en ny begäran till kundservice.', chat: 'Chatt', chatDesc: 'Starta en konversation med kundservice.', serviceRequestOption: 'Skapa serviceärende', serviceRequestOptionDesc: 'Skapa ett skriftligt serviceärende.', otherWays: 'Andra sätt', otherWaysDesc: 'Se andra kontaktuppgifter på Telias webbplats.', chatDemoTitle: 'Chatt', chatDemoText: 'Chatten skulle normalt öppnas här. I demon visas endast kontaktflödets struktur.', reportIncident: 'Rapportera fel', reportIncidentDesc: 'Öppna en ny felanmälan för en tjänst.', modalCompany: 'Företag', modalServiceType: 'Tjänst', modalRequestType: 'Ärendetyp', modalAffectedService: 'Berörd tjänst', modalDescription: 'Beskrivning', modalCancel: 'Avbryt', modalSubmit: 'Skicka', modalContinue: 'Skapa demoärende', mobileSubscription: 'Mobilabonnemang', businessInternet: 'Företagsinternet', license: 'Licens', securityService: 'Säkerhetstjänst', requestUserChange: 'Användarändring', requestBilling: 'Faktureringsärende', requestServiceChange: 'Tjänsteändring', incidentMobileData: 'Mobildata fungerar inte', incidentInternet: 'Företagsinternet fungerar inte', incidentDevice: 'Enhetsproblem'
+        company: 'Välj företag', searchCustomer: 'Sök abonnemang och tjänster', searchContent: 'Fråga om Telias företagsinnehåll', customerPlaceholder: 'T.ex. nummer, användare, enhet...', contentPlaceholder: 'T.ex. Hur byter jag SIM-kort?', typeFilter: 'Filtrera typ', all: 'Alla', allCompanies: 'Alla företag', companies: 'Företag', searchMode: 'Söktyp', customerData: 'Mitt Telia Företag-data', teliaContent: 'Telia hjälp & innehåll', aiAnswer: 'AI-svar', customerInfo: 'Kunduppgifter', detailView: 'Detaljvy', listView: 'Listvy', tileView: 'Rutnätsvy', assets: 'Abonnemang och tjänster', orders: 'Beställningar', invoices: 'Fakturor', requests: 'Serviceärenden', incidents: 'Felanmälningar', openInvoices: 'Öppna fakturor', openRequests: 'Öppna ärenden', openIncidents: 'Öppna fel', openInvoicesNotification: 'Öppna fakturor', openRequestsNotification: 'Öppna serviceärenden', openIncidentsNotification: 'Öppna fel', rows: 'rader', filterOpenInvoices: 'Filter: endast öppna fakturor', filterOpenRequests: 'Filter: endast öppna serviceärenden', filterOpenIncidents: 'Filter: endast öppna felanmälningar', noResults: 'Inga resultat med valt filter.', askTelia: 'Skriv en fråga om Telias företagsinnehåll.', contentMissing: 'content-search.json saknas eller är tom.', noDirectAnswer: 'Inget direkt svar', noMockAnswer: 'Inget direkt svar hittades i mockdata för', sources: 'Källor', noSources: 'Inga källänkar.', openExample: 'Öppna exempelfråga', showDetails: 'Visa detaljer →', selectFromList: 'Välj en tillgång, faktura, beställning, serviceärende eller felanmälan från listan.', companySummary: 'Företagssammanfattning', companyName: 'Företag', user: 'Användare', productSpeed: 'Produkt/hastighet', category: 'Kategori', fixedTerm: 'Bindningstid slutar', actions: 'Åtgärder', relatedOrders: 'Relaterade beställningar', noActions: 'Inga definierade åtgärder.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', productType: 'Produkttyp', item: 'Objekt', billingAccount: 'Fakturakonto', orderDate: 'Beställningsdatum', status: 'Status', invoiceType: 'Fakturatyp', invoiceDate: 'Fakturadatum', invoiceNumber: 'Fakturanummer', amount: 'Belopp', referenceNumber: 'Referensnummer', requestType: 'Ärendetyp', description: 'Beskrivning', requestDate: 'Ärendedatum', createdBy: 'Skapad av', startDate: 'Startdatum', open: 'Öppen', completed: 'Slutförd', resolved: 'Löst', inProgress: 'Under behandling', underInvestigation: 'Under utredning', ordered: 'Beställd', target: 'Target', legacy: 'Legacy', quickActions: 'Snabbåtgärder', quickActionsDesc: 'Beställ fler tjänster, skapa ett serviceärende eller rapportera ett fel från den här vyn.', orderNewService: 'Beställ tjänst', orderNewServiceDesc: 'Starta en ny tjänstebeställning.', contactUs: 'Kontakta oss', contactUsDesc: 'Välj chatt, serviceärende eller andra kontaktvägar.', createServiceRequest: 'Skapa serviceärende', createServiceRequestDesc: 'Skicka en ny begäran till kundservice.', showOrder: 'Visa beställning', askAboutOrder: 'Fråga om beställning', showInvoice: 'Visa faktura', invoicePdf: 'PDF', payInvoice: 'Betala faktura', openConversation: 'Öppna', reply: 'Svara', sendReply: 'Skicka svar', messageThread: 'Meddelandetråd', paymentSummary: 'Betalningssammanfattning', confirmPayment: 'Bekräfta betalning', paymentDone: 'Fakturan markerades som betald.', invoicePdfTitle: 'Faktura-PDF', invoicePdfText: 'Demo: den ursprungliga PDF-fakturan skulle öppnas här.', orderQuestionText: 'Jag vill ha mer information om denna beställning.', paid: 'Betald', teliaSender: 'Telia', customerSender: 'Kund', chat: 'Chatt', chatDesc: 'Starta en konversation med kundservice.', serviceRequestOption: 'Skapa serviceärende', serviceRequestOptionDesc: 'Skapa ett skriftligt serviceärende.', otherWays: 'Andra sätt', otherWaysDesc: 'Se andra kontaktuppgifter på Telias webbplats.', chatDemoTitle: 'Chatt', chatDemoText: 'Chatten skulle normalt öppnas här. I demon visas endast kontaktflödets struktur.', reportIncident: 'Rapportera fel', reportIncidentDesc: 'Öppna en ny felanmälan för en tjänst.', modalCompany: 'Företag', modalServiceType: 'Tjänst', modalRequestType: 'Ärendetyp', modalAffectedService: 'Berörd tjänst', modalDescription: 'Beskrivning', modalCancel: 'Avbryt', modalSubmit: 'Skicka', modalContinue: 'Skapa demoärende', mobileSubscription: 'Mobilabonnemang', businessInternet: 'Företagsinternet', license: 'Licens', securityService: 'Säkerhetstjänst', requestUserChange: 'Användarändring', requestBilling: 'Faktureringsärende', requestServiceChange: 'Tjänsteändring', incidentMobileData: 'Mobildata fungerar inte', incidentInternet: 'Företagsinternet fungerar inte', incidentDevice: 'Enhetsproblem'
       }
     };
 
@@ -945,6 +982,7 @@
       const v = raw.toLowerCase();
       if (v === 'avoinna') return t('open');
       if (v === 'valmis') return t('completed');
+      if (v === 'maksettu') return t('paid');
       if (v === 'ratkaistu') return t('resolved');
       if (v.includes('käsittelyssä')) return t('inProgress');
       if (v.includes('selvityksessä')) return t('underInvestigation');
@@ -1228,6 +1266,8 @@
       document.getElementById('actionModal').hidden = true;
       document.getElementById('actionModalSubmit').style.display = 'inline-block';
       state.activeActionType = null;
+      state.activeRecordType = null;
+      state.activeRecordId = null;
     }
 
     function actionTitle(type) {
@@ -1326,6 +1366,27 @@
       const today = new Date().toISOString().slice(0, 10);
       const suffix = Date.now().toString().slice(-6);
 
+      if (type === 'payInvoice') {
+        const invoice = findRecord('invoices', state.activeRecordId);
+        if (invoice) invoice.status = 'Maksettu';
+        closeActionModal();
+        renderAll();
+        return;
+      }
+      if (type === 'reply-requests' || type === 'reply-incidents') {
+        const recordType = state.activeRecordType;
+        const recordId = state.activeRecordId;
+        const item = findRecord(recordType, recordId);
+        const replyText = document.getElementById('threadReplyText')?.value || '';
+        if (item && replyText.trim()) {
+          const messages = getThreadMessages(recordType, recordId, item);
+          messages.push({ senderKey: 'customer', sender: t('customerSender'), date: new Date().toISOString().slice(0, 10), text: replyText.trim() });
+          saveThreadMessages(recordType, recordId, messages);
+        }
+        closeActionModal();
+        renderAll();
+        return;
+      }
       if (type === 'order') {
         const serviceType = document.getElementById('actionServiceType')?.value || t('mobileSubscription');
         state.data.orders.unshift({
@@ -1509,65 +1570,32 @@
     function rowTemplate(item, type) {
       const icon = iconFor(type, item);
       let primary = '', secondary = '', badge = '', details = [];
-
       if (type === 'assets') {
         primary = `${item.type}: ${item.name}`;
         secondary = [item.user, item.subscriptionTypeOrSpeed, item.companyName].filter(Boolean).join(' · ');
         badge = item.category || '';
-        details = [
-          [t('companyName'), item.companyName],
-          [t('user'), item.user],
-          [t('productSpeed'), item.subscriptionTypeOrSpeed],
-          [t('category'), translateCategory(item.category)],
-          [t('fixedTerm'), item.fixedTermEndDate]
-        ];
+        details = [[t('companyName'), item.companyName], [t('user'), item.user], [t('productSpeed'), item.subscriptionTypeOrSpeed], [t('category'), translateCategory(item.category)], [t('fixedTerm'), item.fixedTermEndDate]];
       } else if (type === 'orders') {
         primary = `${item.productType}: ${item.item}`;
         secondary = [item.companyName, item.user, translateStatus(item.status)].filter(Boolean).join(' · ');
         badge = item.status || '';
-        details = [
-          [t('companyName'), item.companyName],
-          [t('user'), item.user],
-          [t('billingAccount'), item.billingAccount],
-          [t('orderDate'), item.orderDate],
-          [t('status'), translateStatus(item.status)],
-          [t('category'), translateCategory(item.category)]
-        ];
+        details = [[t('companyName'), item.companyName], [t('user'), item.user], [t('billingAccount'), item.billingAccount], [t('orderDate'), item.orderDate], [t('status'), translateStatus(item.status)], [t('category'), translateCategory(item.category)]];
       } else if (type === 'invoices') {
         primary = `${item.invoiceType}: ${formatCurrency(item.amount)}`;
         secondary = [`${t('invoiceNumber')} ${item.invoiceNumber || ''}`, item.companyName, translateStatus(item.status)].filter(Boolean).join(' · ');
         badge = item.status || '';
-        details = [
-          [t('companyName'), item.companyName],
-          [t('invoiceNumber'), item.invoiceNumber],
-          [t('invoiceDate'), item.invoiceDate],
-          [t('billingAccount'), item.billingAccount],
-          [t('referenceNumber'), item.referenceNumber],
-          [t('status'), translateStatus(item.status)]
-        ];
+        details = [[t('companyName'), item.companyName], [t('invoiceNumber'), item.invoiceNumber], [t('invoiceDate'), item.invoiceDate], [t('billingAccount'), item.billingAccount], [t('referenceNumber'), item.referenceNumber], [t('status'), translateStatus(item.status)]];
       } else if (type === 'requests') {
         primary = item.requestType;
         secondary = [item.companyName, translateStatus(item.status), item.requestDate].filter(Boolean).join(' · ');
         badge = item.status || '';
-        details = [
-          [t('companyName'), item.companyName],
-          [t('description'), item.description],
-          [t('requestDate'), item.requestDate],
-          [t('createdBy'), item.createdBy],
-          [t('status'), translateStatus(item.status)]
-        ];
+        details = [[t('companyName'), item.companyName], [t('description'), item.description], [t('requestDate'), item.requestDate], [t('createdBy'), item.createdBy], [t('status'), translateStatus(item.status)]];
       } else if (type === 'incidents') {
         primary = item.category;
         secondary = [item.companyName, translateStatus(item.status), item.startDate].filter(Boolean).join(' · ');
         badge = item.status || '';
-        details = [
-          [t('companyName'), item.companyName],
-          [t('description'), item.description],
-          [t('startDate'), item.startDate],
-          [t('status'), translateStatus(item.status)]
-        ];
+        details = [[t('companyName'), item.companyName], [t('description'), item.description], [t('startDate'), item.startDate], [t('status'), translateStatus(item.status)]];
       }
-
       return `
         <div class="row" data-id="${escapeHtml(item.id)}">
           <div class="icon">${icon}</div>
@@ -1575,10 +1603,20 @@
             <div class="primary">${escapeHtml(primary || '-')}</div>
             <div class="secondary">${escapeHtml(secondary || '-')}</div>
             <div class="row-details">${detailChips(details)}</div>
-            ${type === 'assets' ? `<a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a>` : ''}
+            ${rowActions(item, type)}
           </div>
           <span class="badge ${badgeClass(badge)}">${escapeHtml(translateStatus(translateCategory(badge)))}</span>
         </div>`;
+    }
+
+    function rowActions(item, type) {
+      const id = escapeHtml(item.id || '');
+      if (type === 'assets') return `<div class="row-actions"><a class="row-action-button primary" href="asset-detail.html?id=${id}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
+      if (type === 'orders') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openOrderDetail(event, '${id}')">${t('showOrder')}</button><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
+      if (type === 'invoices') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openInvoiceDetail(event, '${id}')">${t('showInvoice')}</button><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
+      if (type === 'requests') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openThreadModal(event, 'requests', '${id}', false)">${t('openConversation')}</button><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('reply')}</button></div>`;
+      if (type === 'incidents') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openThreadModal(event, 'incidents', '${id}', false)">${t('openConversation')}</button><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('reply')}</button></div>`;
+      return '';
     }
 
     function detailChips(details) {
@@ -1586,6 +1624,116 @@
         .filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '')
         .map(([label, value]) => `<span class="row-detail-chip"><span>${escapeHtml(label)}:</span> <strong>${escapeHtml(String(value))}</strong></span>`)
         .join('');
+    }
+
+
+
+    function findRecord(type, id) {
+      return (state.data[type] || []).find(item => String(item.id) === String(id));
+    }
+
+    function recordSummary(rows) {
+      return `<div class="record-summary">${rows.filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '').map(([label, value]) => `<div class="record-summary-item"><div class="record-summary-label">${escapeHtml(label)}</div><div class="record-summary-value">${escapeHtml(String(value))}</div></div>`).join('')}</div>`;
+    }
+
+    function showModalContent(title, html) {
+      state.activeActionType = 'contentOnly';
+      document.getElementById('actionModalTitle').textContent = title;
+      document.getElementById('actionModalBody').innerHTML = html;
+      document.getElementById('actionModalCancel').textContent = t('modalCancel');
+      document.getElementById('actionModalSubmit').style.display = 'none';
+      document.getElementById('actionModal').hidden = false;
+    }
+
+    function openOrderDetail(event, id) {
+      event?.stopPropagation?.();
+      const order = findRecord('orders', id);
+      if (!order) return;
+      showModalContent(`${t('orders')} · ${order.item || order.productType || id}`, recordSummary([[t('companyName'), order.companyName], [t('productType'), order.productType], [t('item'), order.item], [t('user'), order.user], [t('billingAccount'), order.billingAccount], [t('orderDate'), order.orderDate], [t('status'), translateStatus(order.status)], [t('category'), translateCategory(order.category)]]));
+    }
+
+    function askAboutOrder(event, id) {
+      event?.stopPropagation?.();
+      const order = findRecord('orders', id);
+      if (!order) return;
+      openActionModal('request');
+      const requestType = document.getElementById('actionRequestType');
+      const description = document.getElementById('actionDescription');
+      if (requestType) requestType.value = t('requestServiceChange');
+      if (description) description.value = `${t('askAboutOrder')}: ${order.item || order.productType || id}\n\n${t('orderQuestionText')}`;
+    }
+
+    function openInvoiceDetail(event, id) {
+      event?.stopPropagation?.();
+      const invoice = findRecord('invoices', id);
+      if (!invoice) return;
+      showModalContent(`${t('invoices')} · ${invoice.invoiceNumber || id}`, recordSummary([[t('companyName'), invoice.companyName], [t('invoiceType'), invoice.invoiceType], [t('invoiceNumber'), invoice.invoiceNumber], [t('invoiceDate'), invoice.invoiceDate], [t('billingAccount'), invoice.billingAccount], [t('referenceNumber'), invoice.referenceNumber], [t('amount'), formatCurrency(invoice.amount)], [t('status'), translateStatus(invoice.status)]]));
+    }
+
+    function openInvoicePdf(event, id) {
+      event?.stopPropagation?.();
+      const invoice = findRecord('invoices', id);
+      if (!invoice) return;
+      showModalContent(t('invoicePdfTitle'), `<p>${escapeHtml(t('invoicePdfText'))}</p>${recordSummary([[t('invoiceNumber'), invoice.invoiceNumber], [t('amount'), formatCurrency(invoice.amount)], [t('referenceNumber'), invoice.referenceNumber]])}`);
+    }
+
+    function openPayInvoice(event, id) {
+      event?.stopPropagation?.();
+      const invoice = findRecord('invoices', id);
+      if (!invoice) return;
+      state.activeActionType = 'payInvoice';
+      state.activeRecordId = id;
+      document.getElementById('actionModalTitle').textContent = t('paymentSummary');
+      document.getElementById('actionModalBody').innerHTML = recordSummary([[t('invoiceNumber'), invoice.invoiceNumber], [t('companyName'), invoice.companyName], [t('amount'), formatCurrency(invoice.amount)], [t('referenceNumber'), invoice.referenceNumber], [t('status'), translateStatus(invoice.status)]]);
+      document.getElementById('actionModalCancel').textContent = t('modalCancel');
+      const submitButton = document.getElementById('actionModalSubmit');
+      submitButton.textContent = t('confirmPayment');
+      submitButton.style.display = 'inline-block';
+      document.getElementById('actionModal').hidden = false;
+    }
+
+    function openThreadModal(event, type, id, replyMode) {
+      event?.stopPropagation?.();
+      const item = findRecord(type, id);
+      if (!item) return;
+      state.activeActionType = replyMode ? `reply-${type}` : 'threadOnly';
+      state.activeRecordType = type;
+      state.activeRecordId = id;
+      document.getElementById('actionModalTitle').textContent = `${t('messageThread')} · ${threadTitle(item, type)}`;
+      document.getElementById('actionModalBody').innerHTML = renderThread(item, type) + (replyMode ? `<div class="form-row"><label for="threadReplyText">${t('reply')}</label><textarea id="threadReplyText"></textarea></div>` : '');
+      document.getElementById('actionModalCancel').textContent = t('modalCancel');
+      const submitButton = document.getElementById('actionModalSubmit');
+      submitButton.textContent = t('sendReply');
+      submitButton.style.display = replyMode ? 'inline-block' : 'none';
+      document.getElementById('actionModal').hidden = false;
+    }
+
+    function threadTitle(item, type) {
+      if (type === 'requests') return item.requestType || item.id;
+      if (type === 'incidents') return item.category || item.id;
+      return item.id || '';
+    }
+
+    function renderThread(item, type) {
+      const messages = getThreadMessages(type, item.id, item);
+      return `<div class="thread">${messages.map(message => `<div class="thread-message ${message.senderKey === 'customer' ? 'customer' : ''}"><div class="thread-meta">${escapeHtml(message.sender)} · ${escapeHtml(message.date)}</div><div class="thread-text">${escapeHtml(message.text)}</div></div>`).join('')}</div>`;
+    }
+
+    function getThreadMessages(type, id, item) {
+      const key = `mtyThread-${type}-${id}`;
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try { return JSON.parse(saved); } catch (error) { /* ignore */ }
+      }
+      const date = item.requestDate || item.startDate || new Date().toISOString().slice(0, 10);
+      return [
+        { senderKey: 'telia', sender: t('teliaSender'), date, text: item.description || threadTitle(item, type) || '-' },
+        { senderKey: 'customer', sender: t('customerSender'), date, text: type === 'requests' ? t('createServiceRequestDesc') : t('reportIncidentDesc') }
+      ];
+    }
+
+    function saveThreadMessages(type, id, messages) {
+      localStorage.setItem(`mtyThread-${type}-${id}`, JSON.stringify(messages));
     }
 
     function tileTemplate(item) {
