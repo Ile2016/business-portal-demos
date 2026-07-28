@@ -974,9 +974,6 @@
         </div>
       </div>
     </section>
-
-    <section class="customer-hero" id="customerHeroArea"></section>
-
     <section class="news" id="newsArea"></section>
     <section class="quick-actions" id="quickActionsArea"></section>
     <section class="kpis" id="kpiArea"></section>
@@ -1215,7 +1212,6 @@
       document.getElementById('kpiArea').style.display = isContent ? 'none' : 'grid';
       document.getElementById('newsArea').style.display = isContent ? 'none' : 'grid';
       document.getElementById('quickActionsArea').style.display = isContent ? 'none' : 'block';
-      document.getElementById('customerHeroArea').style.display = isContent ? 'none' : 'grid';
       document.getElementById('aiSearchPanel').style.display = isContent ? 'block' : 'none';
       document.getElementById('companySelect').disabled = isContent;
       document.getElementById('typeSelect').disabled = isContent;
@@ -1224,7 +1220,7 @@
       updateAssetViewToggleVisibility();
     }
 
-    function renderCustomerSearch() { renderSidebar(); renderCustomerHero(); renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); renderDetail(); }
+    function renderCustomerSearch() { renderSidebar(); renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); renderDetail(); }
     function companyItems(key) {
       if (state.selectedCompanyId === 'ALL') return state.data[key] || [];
       return (state.data[key] || []).filter(item => item.companyId === state.selectedCompanyId);
@@ -1262,52 +1258,6 @@
       state.selectedItem = null;
       renderAll();
     }
-
-    function renderCustomerHero() {
-      const isAllCompanies = state.selectedCompanyId === 'ALL';
-      const company = state.data.companies.find(c => c.companyId === state.selectedCompanyId);
-      const displayName = isAllCompanies ? t('allCompanies') : (company?.companyName || '-');
-      const displayId = isAllCompanies ? `${t('companies')}: ${state.data.companies.length}` : (company?.companyId || '-');
-      const assets = companyItems('assets');
-      const invoices = companyItems('invoices');
-      const orders = companyItems('orders');
-      const requests = companyItems('requests');
-      const incidents = companyItems('incidents');
-      const openInvoices = invoices.filter(i => i.status === 'Avoinna');
-      const openRequests = requests.filter(r => r.status !== 'Valmis');
-      const openIncidents = incidents.filter(i => i.status !== 'Ratkaistu');
-      const insights = customerInsights(openInvoices.length, openRequests.length, openIncidents.length);
-
-      document.getElementById('customerHeroArea').innerHTML = `
-        <div>
-          <h2 class="customer-hero-title">${escapeHtml(t('customerOverview'))}</h2>
-          <div class="customer-hero-subtitle">${escapeHtml(displayName)} · ${escapeHtml(displayId)}</div>
-          <div class="customer-hero-grid">
-            ${heroMetric(t('assets'), assets.length)}
-            ${heroMetric(t('orders'), orders.length)}
-            ${heroMetric(t('openInvoices'), openInvoices.length)}
-            ${heroMetric(t('openRequests'), openRequests.length)}
-          </div>
-        </div>
-        <div class="ai-insights-card">
-          <h3>💡 ${escapeHtml(t('aiInsights'))}</h3>
-          <ul>${insights.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
-        </div>`;
-    }
-
-    function heroMetric(label, value) {
-      return `<div class="customer-hero-metric"><div class="metric-label">${escapeHtml(label)}</div><div class="metric-value">${value}</div></div>`;
-    }
-
-    function customerInsights(openInvoiceCount, openRequestCount, openIncidentCount) {
-      const insights = [];
-      if (openInvoiceCount > 0) insights.push(t('aiInsightOpenInvoices'));
-      if (openRequestCount > 0) insights.push(t('aiInsightOpenRequests'));
-      if (openIncidentCount > 0) insights.push(t('aiInsightOpenIncidents'));
-      if (!insights.length) insights.push(t('aiInsightHealthy'));
-      return insights.slice(0, 3);
-    }
-
     function renderNews() {
       document.getElementById('newsArea').innerHTML = state.data.news.map((n, index) => `
         <div class="news-card">
