@@ -1,1 +1,664 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asset Detail - MTY Customer 360</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #667085;
+      --border: #e5e7eb;
+      --telia: #990ae3;
+      --blue: #0078d4;
+      --green: #067647;
+      --orange: #c2410c;
+      --yellow-bg: #fff8e1;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      position: relative;
+      background: linear-gradient(135deg, #3b0764, var(--telia));
+      color: white;
+      padding: 24px 32px;
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-right: 210px;
+    }
+
+    .back-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      opacity: 0.95;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .language-switcher {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-switcher button {
+      border: 1px solid rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .language-switcher button.active {
+      background: white;
+      color: #3b0764;
+      border-color: white;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 32px 48px;
+    }
+
+    .hero-card,
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .asset-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      background: #f3e8ff;
+      color: var(--telia);
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+    }
+
+    .hero-title {
+      margin: 0 0 6px;
+      font-size: 30px;
+      line-height: 1.15;
+    }
+
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      align-items: center;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #f3f4f6;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .badge.target { background: #ecfdf3; color: var(--green); }
+    .badge.legacy { background: #fff7ed; color: var(--orange); }
+    .badge.info { background: #eef6ff; color: #075985; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel { overflow: hidden; margin-bottom: 22px; }
+
+    .panel-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .panel-body { padding: 22px; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .info {
+      border: 1px solid var(--border);
+      background: #fbfcfe;
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 82px;
+    }
+
+    .info .name {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .info .val {
+      font-weight: 800;
+      font-size: 16px;
+      overflow-wrap: anywhere;
+    }
+
+    .action-panel { position: sticky; top: 18px; }
+
+    .action-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .action-card {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 16px;
+      padding: 15px;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      color: var(--text);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+
+    .action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: #ead7ff;
+    }
+
+    .action-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: #eef6ff;
+      color: var(--blue);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+    }
+
+    .action-title { font-weight: 800; }
+    .action-subtitle { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mini-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px 14px;
+      background: #fbfcfe;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .mini-title { font-weight: 800; }
+    .mini-sub { color: var(--muted); font-size: 13px; margin-top: 3px; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .summary-card {
+      border: 1px solid var(--border);
+      background: #fbfcfe;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .summary-label { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .summary-value { font-size: 28px; font-weight: 900; margin-top: 6px; }
+
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 24px;
+    }
+
+    .error-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .hero-card { grid-template-columns: 64px minmax(0, 1fr); }
+      .badge-row { grid-column: 1 / -1; justify-content: flex-start; }
+      .layout { grid-template-columns: 1fr; }
+      .action-panel { position: static; }
+      .info-grid, .summary-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .header-inner { padding-right: 0; padding-top: 48px; }
+      .language-switcher { left: 32px; right: auto; top: 20px; }
+      main { padding: 20px; }
+      .hero-card { grid-template-columns: 1fr; }
+      .info-grid, .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="language-switcher" aria-label="Language selection">
+      <span>🌐</span>
+      <button type="button" data-lang="fi" class="active">FI</button>
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="sv">SV</button>
+    </div>
+    <div class="header-inner">
+      <a class="back-link" href="index.html" id="backLink">← Takaisin Customer 360 -näkymään</a>
+      <h1 id="pageTitle">Assetin tiedot</h1>
+      <p id="pageSubtitle">Yksi näkymä assetin perustietoihin, toimintoihin ja liittyviin tietoihin.</p>
+    </div>
+  </header>
+
+  <main id="app">
+    <div class="empty">Ladataan assetin tietoja...</div>
+  </main>
+
+  <script>
+    const i18n = {
+      fi: {
+        back: '← Takaisin Customer 360 -näkymään', pageTitle: 'Assetin tiedot', pageSubtitle: 'Yksi näkymä assetin perustietoihin, toimintoihin ja liittyviin tietoihin.',
+        general: 'Yleistiedot', actions: 'Toiminnot', relatedOrders: 'Liittyvät tilaukset', otherAssets: 'Käyttäjän muut assetit', customerContext: 'Asiakaskonteksti',
+        company: 'Yritys', type: 'Tyyppi', user: 'Käyttäjä', category: 'Kategoria', productSpeed: 'Tuote / Nopeus', fixedTerm: 'Määräaika päättyy', billingAccount: 'Laskutili', status: 'Status', orderDate: 'Tilauspäivä',
+        noActions: 'Ei määriteltyjä toimintoja.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', noOtherAssets: 'Ei muita assetteja tälle käyttäjälle.',
+        assets: 'Assetit', orders: 'Tilaukset', openInvoices: 'Avoimet laskut', openRequests: 'Avoimet pyynnöt', openIncidents: 'Avoimet viat',
+        notFoundTitle: 'Assetia ei löytynyt', notFoundText: 'Tarkista, että osoitteessa on oikea id-parametri, esimerkiksi asset-detail.html?id=AST0001.', loadingError: 'Demoa ei voitu ladata', checkData: 'Varmista, että data-kansio on mukana GitHubissa.',
+        actionHint: 'Avaa toiminto', open: 'Avoinna', completed: 'Valmis', resolved: 'Ratkaistu', inProgress: 'Käsittelyssä', underInvestigation: 'Selvityksessä', ordered: 'Tilauksessa', target: 'Target', legacy: 'Legacy'
+      },
+      en: {
+        back: '← Back to Customer 360', pageTitle: 'Asset details', pageSubtitle: 'One view for asset information, actions and related data.',
+        general: 'General information', actions: 'Actions', relatedOrders: 'Related orders', otherAssets: 'Other assets for this user', customerContext: 'Customer context',
+        company: 'Company', type: 'Type', user: 'User', category: 'Category', productSpeed: 'Product / Speed', fixedTerm: 'Fixed term ends', billingAccount: 'Billing account', status: 'Status', orderDate: 'Order date',
+        noActions: 'No configured actions.', noRelatedOrders: 'No related orders in the mock data.', noOtherAssets: 'No other assets for this user.',
+        assets: 'Assets', orders: 'Orders', openInvoices: 'Open invoices', openRequests: 'Open requests', openIncidents: 'Open incidents',
+        notFoundTitle: 'Asset not found', notFoundText: 'Check that the URL contains the correct id parameter, for example asset-detail.html?id=AST0001.', loadingError: 'The demo could not be loaded', checkData: 'Make sure the data folder is included in GitHub.',
+        actionHint: 'Open action', open: 'Open', completed: 'Completed', resolved: 'Resolved', inProgress: 'In progress', underInvestigation: 'Under investigation', ordered: 'Ordered', target: 'Target', legacy: 'Legacy'
+      },
+      sv: {
+        back: '← Tillbaka till Customer 360', pageTitle: 'Tillgångsdetaljer', pageSubtitle: 'En vy för tillgångens information, åtgärder och relaterade uppgifter.',
+        general: 'Allmän information', actions: 'Åtgärder', relatedOrders: 'Relaterade beställningar', otherAssets: 'Andra tillgångar för användaren', customerContext: 'Kundkontext',
+        company: 'Företag', type: 'Typ', user: 'Användare', category: 'Kategori', productSpeed: 'Produkt / Hastighet', fixedTerm: 'Bindningstid slutar', billingAccount: 'Fakturakonto', status: 'Status', orderDate: 'Beställningsdatum',
+        noActions: 'Inga definierade åtgärder.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', noOtherAssets: 'Inga andra tillgångar för användaren.',
+        assets: 'Tillgångar', orders: 'Beställningar', openInvoices: 'Öppna fakturor', openRequests: 'Öppna ärenden', openIncidents: 'Öppna fel',
+        notFoundTitle: 'Tillgången hittades inte', notFoundText: 'Kontrollera att adressen innehåller rätt id-parameter, till exempel asset-detail.html?id=AST0001.', loadingError: 'Demon kunde inte laddas', checkData: 'Kontrollera att data-mappen finns med i GitHub.',
+        actionHint: 'Öppna åtgärd', open: 'Öppen', completed: 'Slutförd', resolved: 'Löst', inProgress: 'Under behandling', underInvestigation: 'Under utredning', ordered: 'Beställd', target: 'Target', legacy: 'Legacy'
+      }
+    };
+
+    const state = {
+      language: localStorage.getItem('mtyLanguage') || 'fi',
+      data: {}
+    };
+
+    const files = {
+      companies: 'data/companies.json',
+      assets: 'data/assets.json',
+      orders: 'data/orders.json',
+      invoices: 'data/invoices.json',
+      requests: 'data/requests.json',
+      incidents: 'data/incidents.json',
+      detailActions: 'data/detail-actions.json'
+    };
+
+    function t(key) {
+      return i18n[state.language]?.[key] || i18n.fi[key] || key;
+    }
+
+    function translateStatus(value) {
+      const raw = String(value || '');
+      const v = raw.toLowerCase();
+      if (v === 'avoinna') return t('open');
+      if (v === 'valmis') return t('completed');
+      if (v === 'ratkaistu') return t('resolved');
+      if (v.includes('käsittelyssä')) return t('inProgress');
+      if (v.includes('selvityksessä')) return t('underInvestigation');
+      if (v.includes('tilauksessa')) return t('ordered');
+      return raw;
+    }
+
+    function translateCategory(value) {
+      const raw = String(value || '');
+      const v = raw.toLowerCase();
+      if (v === 'target') return t('target');
+      if (v === 'legacy') return t('legacy');
+      return raw;
+    }
+
+    async function loadData() {
+      const entries = await Promise.all(Object.entries(files).map(async ([key, path]) => {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Dataa ei voitu ladata: ${path}`);
+        return [key, await response.json()];
+      }));
+      state.data = Object.fromEntries(entries);
+      initLanguageSwitcher();
+      render();
+    }
+
+    function initLanguageSwitcher() {
+      document.querySelectorAll('.language-switcher button[data-lang]').forEach(button => {
+        button.classList.toggle('active', button.dataset.lang === state.language);
+        button.addEventListener('click', () => {
+          state.language = button.dataset.lang;
+          localStorage.setItem('mtyLanguage', state.language);
+          render();
+        });
+      });
+    }
+
+    function updateStaticTexts() {
+      document.documentElement.lang = state.language;
+      document.querySelectorAll('.language-switcher button[data-lang]').forEach(button => {
+        button.classList.toggle('active', button.dataset.lang === state.language);
+      });
+      document.getElementById('backLink').textContent = t('back');
+      document.getElementById('pageTitle').textContent = t('pageTitle');
+      document.getElementById('pageSubtitle').textContent = t('pageSubtitle');
+    }
+
+    function render() {
+      updateStaticTexts();
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const asset = (state.data.assets || []).find(item => item.id === id);
+
+      if (!asset) {
+        document.getElementById('app').innerHTML = `
+          <div class="error-card">
+            <h1>${t('notFoundTitle')}</h1>
+            <p>${t('notFoundText')}</p>
+          </div>`;
+        return;
+      }
+
+      const relatedOrders = relatedOrdersFor(asset);
+      const otherAssets = otherAssetsFor(asset);
+      const actions = actionsForAsset(asset);
+      const companyAssets = companyItems('assets', asset.companyId);
+      const companyOrders = companyItems('orders', asset.companyId);
+      const companyInvoices = companyItems('invoices', asset.companyId);
+      const companyRequests = companyItems('requests', asset.companyId);
+      const companyIncidents = companyItems('incidents', asset.companyId);
+
+      document.getElementById('app').innerHTML = `
+        ${hero(asset)}
+        <section class="layout">
+          <div>
+            <section class="panel">
+              <div class="panel-header"><h2>${t('general')}</h2></div>
+              <div class="panel-body">
+                <div class="info-grid">
+                  ${info(t('company'), asset.companyName || '-')}
+                  ${info(t('type'), asset.type || '-')}
+                  ${info(t('user'), asset.user || '-')}
+                  ${info(t('category'), translateCategory(asset.category || '-'))}
+                  ${info(t('productSpeed'), asset.subscriptionTypeOrSpeed || '-')}
+                  ${info(t('fixedTerm'), asset.fixedTermEndDate || '-')}
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header"><h2>${t('relatedOrders')}</h2></div>
+              <div class="panel-body">
+                ${relatedOrders.length ? `<div class="mini-list">${relatedOrders.map(orderCard).join('')}</div>` : `<div class="empty">${t('noRelatedOrders')}</div>`}
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header"><h2>${t('otherAssets')}</h2></div>
+              <div class="panel-body">
+                ${otherAssets.length ? `<div class="mini-list">${otherAssets.map(otherAssetCard).join('')}</div>` : `<div class="empty">${t('noOtherAssets')}</div>`}
+              </div>
+            </section>
+          </div>
+
+          <aside class="action-panel">
+            <section class="panel">
+              <div class="panel-header"><h2>${t('actions')}</h2></div>
+              <div class="panel-body">
+                ${actions.length ? `<div class="action-grid">${actions.map(actionCard).join('')}</div>` : `<div class="empty">${t('noActions')}</div>`}
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header"><h2>${t('customerContext')}</h2></div>
+              <div class="panel-body">
+                <div class="summary-grid">
+                  ${summary(t('assets'), companyAssets.length)}
+                  ${summary(t('orders'), companyOrders.length)}
+                  ${summary(t('openInvoices'), companyInvoices.filter(i => i.status === 'Avoinna').length)}
+                  ${summary(t('openRequests'), companyRequests.filter(r => r.status !== 'Valmis').length)}
+                  ${summary(t('openIncidents'), companyIncidents.filter(i => i.status !== 'Ratkaistu').length)}
+                </div>
+              </div>
+            </section>
+          </aside>
+        </section>`;
+    }
+
+    function hero(asset) {
+      const icon = iconFor(asset.type);
+      return `
+        <section class="hero-card">
+          <div class="asset-icon">${icon}</div>
+          <div>
+            <h1 class="hero-title">${escapeHtml(asset.name || '-')}</h1>
+            <div class="hero-subtitle">
+              <span>${escapeHtml(asset.user || '-')}</span>
+              <span>•</span>
+              <span>${escapeHtml(asset.type || '-')}</span>
+              <span>•</span>
+              <span>${escapeHtml(asset.companyName || '-')}</span>
+            </div>
+          </div>
+          <div class="badge-row">
+            ${asset.category ? `<span class="badge ${badgeClass(asset.category)}">${escapeHtml(translateCategory(asset.category))}</span>` : ''}
+            ${asset.subscriptionTypeOrSpeed ? `<span class="badge info">${escapeHtml(asset.subscriptionTypeOrSpeed)}</span>` : ''}
+            ${asset.fixedTermEndDate ? `<span class="badge info">${escapeHtml(asset.fixedTermEndDate)}</span>` : ''}
+          </div>
+        </section>`;
+    }
+
+    function info(name, value) {
+      return `<div class="info"><div class="name">${escapeHtml(name)}</div><div class="val">${escapeHtml(String(value))}</div></div>`;
+    }
+
+    function summary(label, value) {
+      return `<div class="summary-card"><div class="summary-label">${escapeHtml(label)}</div><div class="summary-value">${value}</div></div>`;
+    }
+
+    function actionCard(action) {
+      const icon = actionIcon(action);
+      return `
+        <button class="action-card" type="button">
+          <span class="action-icon">${icon}</span>
+          <span>
+            <span class="action-title">${escapeHtml(action)}</span>
+            <span class="action-subtitle">${t('actionHint')}</span>
+          </span>
+        </button>`;
+    }
+
+    function orderCard(order) {
+      return `
+        <div class="mini-item">
+          <div>
+            <div class="mini-title">${escapeHtml(order.productType || '-')}</div>
+            <div class="mini-sub">${escapeHtml(order.item || '-')} · ${escapeHtml(order.orderDate || '-')}</div>
+          </div>
+          <span class="badge ${badgeClass(order.status)}">${escapeHtml(translateStatus(order.status || '-'))}</span>
+        </div>`;
+    }
+
+    function otherAssetCard(asset) {
+      return `
+        <div class="mini-item">
+          <div>
+            <div class="mini-title">${iconFor(asset.type)} ${escapeHtml(asset.name || '-')}</div>
+            <div class="mini-sub">${escapeHtml(asset.type || '-')} · ${escapeHtml(asset.subscriptionTypeOrSpeed || '-')}</div>
+          </div>
+          <span class="badge ${badgeClass(asset.category)}">${escapeHtml(translateCategory(asset.category || ''))}</span>
+        </div>`;
+    }
+
+    function relatedOrdersFor(asset) {
+      return (state.data.orders || [])
+        .filter(order =>
+          order.companyId === asset.companyId &&
+          (order.item === asset.name || order.user === asset.user || order.productType === asset.type)
+        )
+        .slice(0, 5);
+    }
+
+    function otherAssetsFor(asset) {
+      return (state.data.assets || [])
+        .filter(item => item.companyId === asset.companyId && item.user === asset.user && item.id !== asset.id)
+        .slice(0, 5);
+    }
+
+    function companyItems(key, companyId) {
+      return (state.data[key] || []).filter(item => item.companyId === companyId);
+    }
+
+    function actionsForAsset(asset) {
+      const actions = state.data.detailActions || {};
+      if (asset.type === 'Matkapuhelin liittymä' && asset.category === 'Target') return actions['Matkapuhelin liittymä Target'] || [];
+      if (asset.type === 'Matkapuhelin liittymä') return actions['Matkapuhelin liittymä Legacy'] || [];
+      return actions[asset.type] || [];
+    }
+
+    function iconFor(type) {
+      if (type === 'Matkapuhelin liittymä') return '📱';
+      if (type === 'Laite') return '💻';
+      if (type === 'Yritysnetti') return '🌐';
+      if (type === 'Lisenssi') return '🔑';
+      return '📦';
+    }
+
+    function actionIcon(action) {
+      const value = String(action || '').toLowerCase();
+      if (value.includes('muokkaa')) return '✏️';
+      if (value.includes('lisä')) return '➕';
+      if (value.includes('esto') || value.includes('rajoitus')) return '🔒';
+      if (value.includes('sim') || value.includes('puk')) return '🔑';
+      if (value.includes('netti')) return '🌐';
+      if (value.includes('laite')) return '💻';
+      return '⚙️';
+    }
+
+    function badgeClass(value) {
+      const v = String(value || '').toLowerCase();
+      if (v.includes('target')) return 'target';
+      if (v.includes('legacy')) return 'legacy';
+      if (v.includes('avoin') || v.includes('tilauksessa') || v.includes('selvityksessä') || v.includes('käsittelyssä')) return 'open';
+      return '';
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>'"]/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+      }[char]));
+    }
+
+    loadData().catch(error => {
+      document.getElementById('app').innerHTML = `
+        <div class="error-card">
+          <h1>${t('loadingError')}</h1>
+          <p>${escapeHtml(error.message)}</p>
+          <p>${t('checkData')}</p>
+        </div>`;
+    });
+  </script>
+</body>
+</html>
 
