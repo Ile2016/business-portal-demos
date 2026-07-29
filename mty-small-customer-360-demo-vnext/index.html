@@ -925,6 +925,10 @@
     .sidebar-settings:hover { background:#fff; box-shadow:var(--shadow); } .workspace { min-width:0; } .vnext-toolbar { grid-template-columns:minmax(260px,1.4fr) minmax(180px,.8fr) minmax(240px,1fr); background:var(--card); border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow); padding:16px; }
     @media (max-width:1100px){ .app-shell{grid-template-columns:1fr;} .sidebar{position:static; min-height:auto;} .vnext-toolbar{grid-template-columns:1fr;} }
 
+
+.tab-action-btn{border:0;background:var(--telia);color:#fff;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer;}
+.panel-header-actions{display:flex;align-items:center;gap:10px;}
+
 </style>
 </head>
 <body>
@@ -959,7 +963,7 @@
           <div><label id="searchModeLabel">Hakutyyppi</label><div class="search-mode"><label class="radio-line"><input type="radio" name="searchMode" value="customer" checked><span id="modeCustomerText">Minun Telia Yrityksille data</span></label><label class="radio-line"><input type="radio" name="searchMode" value="content"><span id="modeContentText">Telia Ohjeet &amp; Sisällöt</span></label></div></div>
         </section>
         <section class="news" id="newsArea"></section>
-    <section class="quick-actions" id="quickActionsArea"></section>
+    
 
     <section class="panel ai-panel" id="aiSearchPanel">
       <div class="panel-header">
@@ -1322,7 +1326,6 @@
       document.getElementById('customerLayout').style.display = isContent ? 'none' : 'grid';
       document.getElementById('kpiArea').style.display = isContent ? 'none' : 'flex';
       document.getElementById('newsArea').style.display = isContent ? 'none' : 'grid';
-      document.getElementById('quickActionsArea').style.display = isContent ? 'none' : 'block';
       document.getElementById('aiSearchPanel').style.display = isContent ? 'block' : 'none';
       document.getElementById('companySelect').disabled = isContent;
       document.getElementById('typeSelect').disabled = isContent;
@@ -1331,7 +1334,23 @@
       updateAssetViewToggleVisibility();
     }
 
-    function renderCustomerSearch() { renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); }
+    function renderCustomerSearch() { renderNews(); renderKpis(); renderTabs(); renderList(); updateContextActionButton(); }
+
+    function updateContextActionButton() {
+      const btn = document.getElementById("contextActionBtn");
+      if(!btn) return;
+      const cfg={
+        assets:["🛒 Tilaa liittymä tai laite",()=>openActionModal("order")],
+        orders:["📄 Tulosta raportti",()=>alert("Demo: raportti tulostettaisiin tästä")],
+        invoices:["✏️ Muuta laskutustietoja",()=>openActionModal("contact")],
+        requests:["🛠️ Tee palvelupyyntö",()=>openActionModal("request")],
+        incidents:["⚠️ Tee vikailmoitus",()=>openActionModal("incident")]
+      };
+      const item=cfg[state.activeTab];
+      btn.textContent=item[0];
+      btn.onclick=item[1];
+    }
+
     function companyItems(key) {
       let items = filterItemsByCurrentUser(key, state.data[key] || []);
       if (state.selectedCompanyId === 'ALL') return items;
@@ -2190,3 +2209,4 @@
   </script>
 </body>
 </html>
+
