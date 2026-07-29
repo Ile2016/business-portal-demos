@@ -50,21 +50,41 @@
       line-height: 1;
     }
 
-    .language-switcher button {
-      border: 1px solid rgba(255,255,255,0.45);
+    .language-switcher button:not(.settings-button) {
+      border: 1px solid rgba(255,255,255,0.45);      
       background: rgba(255,255,255,0.12);
-      color: white;
-      border-radius: 999px;
+      color: white;5  border-radius: 999px;
       padding: 8px 12px;
-      cursor: pointer;
-      font-weight: 800;
-    }
+      cursor: pointer;8  font-weight: 800;}
 
     .language-switcher button.active {
       background: white;
       color: #3b0764;
       border-color: white;
     }
+
+    .settings-button {
+      border: none;
+      background: transparent;
+      color: white;
+      width: auto;      
+      height: auto;
+      padding: 0 4px;
+      cursor: pointer;
+      font-size: 38px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+      }
+    .settings-button:hover 
+    {
+      background: transparent;
+      color: white;
+      transform: rotate(20deg) scale(1.08);
+      }
+
 
     main {
       padding: 28px 32px;
@@ -154,7 +174,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 390px;
+      grid-template-columns: 1fr;
       gap: 20px;
       align-items: start;
     }
@@ -170,6 +190,7 @@
     .panel-header {
       padding: 18px 20px;
       border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #fbf5ff, #ffffff);
       display: flex;
       justify-content: space-between;
       gap: 16px;
@@ -223,6 +244,71 @@
       place-items: center;
       font-size: 20px;
     }
+
+
+
+    .row-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .row-detail-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid var(--border);
+      background: #fbfcfe;
+      border-radius: 999px;
+      padding: 4px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      max-width: 100%;
+    }
+
+    .row-detail-chip strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+
+
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .row-action-button {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 12px;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .row-action-button.primary { background: var(--telia); border-color: var(--telia); color: white; }
+    .row-action-button.warning { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+    .row-action-button:hover { box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); transform: translateY(-1px); }
+    .record-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .record-summary-item { border: 1px solid var(--border); background: #fbfcfe; border-radius: 12px; padding: 12px; }
+    .record-summary-label { color: var(--muted); font-size: 12px; font-weight: 800; margin-bottom: 4px; }
+    .record-summary-value { font-weight: 800; overflow-wrap: anywhere; }
+    .thread { display: grid; gap: 10px; }
+    .thread-message { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: #fbfcfe; }
+    .thread-message.customer { background: #f8f5ff; border-color: #ead7ff; }
+    .thread-meta { color: var(--muted); font-size: 12px; font-weight: 800; margin-bottom: 5px; }
+    .thread-text { line-height: 1.45; }
+    @media (max-width: 700px) { .record-summary { grid-template-columns: 1fr; } }
 
     .primary { font-weight: 700; }
     .secondary { color: var(--muted); font-size: 13px; margin-top: 4px; }
@@ -362,7 +448,7 @@
     .news-modal-content {
       width: min(620px, 100%);
       background: white;
-      border-radius: 20px;
+      border-radius: 22px;
       box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
       overflow: hidden;
     }
@@ -631,11 +717,14 @@
     .action-modal[hidden] { display: none; }
 
     .action-modal-content {
-      width: min(680px, 100%);
+      width: min(960px, 95vw);
+      max-height: 92vh;
       background: white;
       border-radius: 20px;
       box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .action-modal-header {
@@ -650,7 +739,11 @@
     .action-modal-header h3 {
       margin: 0;
       font-size: 21px;
+      line-height: 1.25;
     }
+    .modal-title-line { display: flex; align-items: center; gap: 10px; }
+    .modal-title-icon { font-size: 24px; }
+    .modal-subtitle { color: var(--muted); font-size: 13px; font-weight: 600; margin-top: 4px; }
 
     .action-modal-close {
       border: 0;
@@ -667,7 +760,8 @@
     .action-modal-body {
       padding: 22px;
       display: grid;
-      gap: 14px;
+      gap: 16px;
+      overflow: auto;
     }
 
     .form-row label {
@@ -688,10 +782,15 @@
     }
 
     .action-modal-footer {
-      padding: 16px 22px 22px;
+      padding: 14px 22px 18px;
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+      border-top: 1px solid var(--border);
+      background: white;
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
     }
 
     .secondary-button,
@@ -745,172 +844,6 @@
     .contact-option-title { font-weight: 900; }
     .contact-option-desc { color: var(--muted); font-size: 13px; line-height: 1.35; }
 
-
-
-    .mty-main {
-      max-width: 1560px;
-      padding: 24px 28px 48px;
-    }
-
-    .mty-shell {
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-      gap: 24px;
-      align-items: start;
-    }
-
-    .mty-sidebar {
-      position: sticky;
-      top: 18px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 16px;
-    }
-
-    .mty-brand {
-      padding: 12px 12px 16px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 12px;
-    }
-
-    .mty-brand-title {
-      font-weight: 900;
-      color: var(--telia);
-      margin-bottom: 4px;
-    }
-
-    .mty-brand-subtitle {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .mty-nav-section {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 12px 10px 6px;
-    }
-
-    .mty-nav-button {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: var(--text);
-      border-radius: 12px;
-      padding: 11px 12px;
-      display: grid;
-      grid-template-columns: 26px minmax(0, 1fr);
-      gap: 10px;
-      align-items: center;
-      text-align: left;
-      cursor: pointer;
-      font-weight: 750;
-      font-family: inherit;
-    }
-
-    .mty-nav-button:hover {
-      background: #f8f5ff;
-    }
-
-    .mty-nav-button.active {
-      background: #f3e8ff;
-      color: #55208a;
-    }
-
-    .mty-nav-icon { font-size: 18px; }
-
-    .mty-content {
-      min-width: 0;
-    }
-
-    .customer-hero {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 20px;
-      margin: 0 0 20px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr);
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .customer-hero-title {
-      margin: 0 0 4px;
-      font-size: 25px;
-    }
-
-    .customer-hero-subtitle {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 16px;
-    }
-
-    .customer-hero-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .customer-hero-metric {
-      border: 1px solid var(--border);
-      background: #fbfcfe;
-      border-radius: 14px;
-      padding: 12px;
-    }
-
-    .customer-hero-metric .metric-label {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 5px;
-    }
-
-    .customer-hero-metric .metric-value {
-      font-weight: 900;
-      font-size: 22px;
-    }
-
-    .ai-insights-card {
-      border: 1px solid #ead7ff;
-      background: linear-gradient(135deg, #fbf5ff, #ffffff);
-      border-radius: 16px;
-      padding: 16px;
-      height: 100%;
-    }
-
-    .ai-insights-card h3 {
-      margin: 0 0 10px;
-      font-size: 17px;
-    }
-
-    .ai-insights-card ul {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--text);
-      line-height: 1.5;
-      font-size: 13px;
-    }
-
-    @media (max-width: 1180px) {
-      .mty-shell { grid-template-columns: 1fr; }
-      .mty-sidebar { position: static; }
-      .mty-nav-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-      .customer-hero { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 760px) {
-      .mty-main { padding: 18px; }
-      .customer-hero-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .mty-nav-grid { grid-template-columns: 1fr; }
-    }
-
     @media (max-width: 900px) {
       .contact-option-grid { grid-template-columns: 1fr; }
     }
@@ -929,7 +862,54 @@
       .header-content { padding-right: 0; padding-top: 48px; }
       .language-switcher { left: 32px; right: auto; top: 20px; }
     }
-  </style>
+
+
+    .status-banner {
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border: 1px solid var(--border);
+      background: #f3f4f6;
+      color: #374151;
+    }
+    .status-banner.open { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+    .status-banner.paid, .status-banner.resolved, .status-banner.completed { background: #ecfdf3; color: #067647; border-color: #abefc6; }
+    .status-banner.progress { background: #f3e8ff; color: #55208a; border-color: #ead7ff; }
+
+    .record-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .record-summary-item { background: linear-gradient(180deg, #ffffff, #fbfcfe); border-radius: 14px; padding: 14px; min-height: 74px; }
+    .record-summary-label { font-weight: 900; margin-bottom: 6px; }
+    .record-summary-value { font-weight: 900; font-size: 15px; }
+
+    .thread { display: grid; gap: 12px; }
+    .thread-message { max-width: 74%; justify-self: start; border-radius: 16px; padding: 12px 14px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04); }
+    .thread-message.customer { justify-self: end; }
+    .thread-meta { font-weight: 900; margin-bottom: 6px; }
+
+    .timeline { display: grid; gap: 8px; border-left: 2px solid #ead7ff; padding-left: 14px; }
+    .timeline-item { position: relative; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .timeline-item::before { content: ""; position: absolute; left: -20px; top: 4px; width: 10px; height: 10px; border-radius: 999px; background: var(--telia); }
+    .timeline-item strong { color: var(--text); }
+
+    .pdf-preview { border: 1px solid var(--border); background: #ffffff; border-radius: 16px; padding: 22px; box-shadow: inset 0 0 0 1px #f3f4f6; }
+    .pdf-preview-header { display: flex; justify-content: space-between; gap: 16px; border-bottom: 2px solid #111827; padding-bottom: 12px; margin-bottom: 16px; font-weight: 900; }
+    .pdf-preview-title { font-size: 22px; color: var(--telia); }
+    .pdf-preview-total { margin-top: 18px; padding: 14px; border-radius: 12px; background: #f8f5ff; font-size: 20px; font-weight: 900; }
+
+    @media (max-width: 700px) {
+      .thread-message { max-width: 100%; justify-self: stretch; }
+      .thread-message.customer { justify-self: stretch; }
+    }
+
+  .current-user-pill { margin-top:14px; display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:999px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:white; font-size:13px; font-weight:800; }
+.demo-user-card { width:100%; border:1px solid var(--border); background:white; border-radius:16px; padding:16px; text-align:left; cursor:pointer; display:grid; gap:8px; transition:all .2s ease; }
+.demo-user-card:hover { transform:translateY(-2px); box-shadow:var(--shadow); border-color:#ead7ff; }
+.demo-user-card.active { border-color:var(--telia); background:#fbf5ff; box-shadow:0 10px 24px rgba(153,10,227,.15); }
+</style>
 </head>
 <body>
   <header>
@@ -938,18 +918,17 @@
       <button type="button" data-lang="fi" class="active">FI</button>
       <button type="button" data-lang="en">EN</button>
       <button type="button" data-lang="sv">SV</button>
+      <button type="button" class="settings-button" onclick="openSettingsModal()" aria-label="Settings">⚙️</button>
     </div>
 
     <div class="header-content">
       <h1 id="appTitle">MTY Small Customer 360 Demo</h1>
       <p id="appSubtitle">Excelistä muunnettu JSON-data, asiakasvalinta, KPI:t, asset-lista ja älykäs sisältöhaku.</p>
+      <div id="currentUserPill" class="current-user-pill"></div>
     </div>
   </header>
 
-  <main class="mty-main">
-    <div class="mty-shell">
-      <aside class="mty-sidebar" id="mtySidebar"></aside>
-      <div class="mty-content">
+  <main>
     <section class="toolbar">
       <div>
         <label for="companySelect" id="companyLabel">Valitse yritys</label>
@@ -982,6 +961,7 @@
         </div>
       </div>
     </section>
+
     <section class="news" id="newsArea"></section>
     <section class="quick-actions" id="quickActionsArea"></section>
     <section class="kpis" id="kpiArea"></section>
@@ -1009,18 +989,7 @@
         </div>
         <div class="list" id="listArea"></div>
       </div>
-
-      <aside class="panel detail">
-        <div class="panel-header">
-          <h2 id="detailPanelTitle">Detail-näkymä</h2>
-        </div>
-        <div class="detail-body" id="detailArea">
-          <div class="empty">Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.</div>
-        </div>
-      </aside>
-    </section>
-      </div>
-    </div>
+</section>
   </main>
 
 
@@ -1054,25 +1023,43 @@
     </div>
   </div>
 
+
+
+  <div id="settingsModal" class="action-modal" hidden>
+    <div class="action-modal-content" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+      <div class="action-modal-header">
+        <h3 id="settingsModalTitle">⚙️ Asetukset</h3>
+        <button class="action-modal-close" type="button" onclick="closeSettingsModal()" aria-label="Sulje">×</button>
+      </div>
+      <div class="action-modal-body" id="settingsModalBody">
+        <div class="empty" id="settingsModalBodyText">Asetusnäkymä tulossa seuraavaan versioon.</div>
+      </div>
+      <div class="action-modal-footer">
+        <button class="secondary-button" type="button" id="settingsModalCloseButton" onclick="closeSettingsModal()">Sulje</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const i18n = {
       fi: {
-        mtyNavTitle: 'Minun Telia Yrityksille', mtyNavSubtitle: 'MTY-tyylinen VNext-näkymä', navMain: 'Päänavigaatio', navSupport: 'Tuki ja asetukset', navOverview: 'Etusivu', navContact: 'Yhteydenotto', navSettings: 'Asetukset', customerOverview: 'Asiakkuuden yleiskuva', selectedView: 'Valittu näkymä', aiInsights: 'AI-huomiot', aiInsightOpenInvoices: 'Tarkista avoimet laskut ja mahdolliset eräpäivät.', aiInsightOpenRequests: 'Avoimia palvelupyyntöjä kannattaa seurata aktiivisesti.', aiInsightOpenIncidents: 'Avoimet viat voivat vaikuttaa asiakaskokemukseen.', aiInsightHealthy: 'Asiakkuuden tilanne näyttää vakaalta.', appTitle: 'MTY Small Customer 360 Demo', appSubtitle: 'Excelistä muunnettu JSON-data, asiakasvalinta, KPI:t, asset-lista ja älykäs sisältöhaku.',
-        company: 'Valitse yritys', searchCustomer: 'Hae liittymistä ja palveluista', searchContent: 'Kysy Telian yrityssisällöistä', customerPlaceholder: 'Esim. numero, käyttäjä, laite...', contentPlaceholder: 'Esim. Miten vaihdan SIM-kortin?', typeFilter: 'Rajaa tyyppi', all: 'Kaikki', allCompanies: 'Kaikki yritykset', companies: 'Yrityksiä', searchMode: 'Hakutyyppi', customerData: 'Minun Telia Yrityksille data', teliaContent: 'Telia Ohjeet & Sisällöt', aiAnswer: 'AI-vastaus', customerInfo: 'Asiakkaan tiedot', detailView: 'Detail-näkymä', listView: 'Listanäkymä', tileView: 'Tiilinäkymä', assets: 'Liittymät ja palvelut', orders: 'Tilaukset', invoices: 'Laskut', requests: 'Palvelupyynnöt', incidents: 'Vikailmoitukset', openInvoices: 'Avoimet laskut', openRequests: 'Avoimet pyynnöt', openIncidents: 'Avoimet viat', openInvoicesNotification: 'Avoimia laskuja', openRequestsNotification: 'Avoimia palvelupyyntöjä', openIncidentsNotification: 'Avoimia vikoja', rows: 'riviä', filterOpenInvoices: 'Suodatus: vain avoimet laskut', filterOpenRequests: 'Suodatus: vain avoimet palvelupyynnöt', filterOpenIncidents: 'Suodatus: vain avoimet vikailmoitukset', noResults: 'Ei tuloksia valitulla rajauksella.', askTelia: 'Kirjoita kysymys Telian yrityssisällöistä.', contentMissing: 'content-search.json puuttuu tai on tyhjä.', noDirectAnswer: 'Ei suoraa vastausta', noMockAnswer: 'En löytänyt mock-datasta suoraa vastausta kysymykseen', sources: 'Lähteet', noSources: 'Ei lähdelinkkejä.', openExample: 'Avaa esimerkkikysymys', showDetails: 'Näytä tiedot →', selectFromList: 'Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.', companySummary: 'Yrityksen yhteenveto', companyName: 'Yritys', user: 'Käyttäjä', productSpeed: 'Tuote/nopeus', category: 'Kategoria', fixedTerm: 'Määräaika päättyy', actions: 'Toiminnot', relatedOrders: 'Liittyvät tilaukset', noActions: 'Ei määriteltyjä toimintoja.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', productType: 'Tuotetyyppi', item: 'Kohde', billingAccount: 'Laskutili', orderDate: 'Tilauspäivä', status: 'Status', invoiceType: 'Laskun tyyppi', invoiceDate: 'Laskun päivämäärä', invoiceNumber: 'Laskun numero', amount: 'Summa', referenceNumber: 'Viitenumero', requestType: 'Pyyntölaji', description: 'Kuvaus', requestDate: 'Pyyntöpäivä', createdBy: 'Luonut', startDate: 'Aloituspäivä', open: 'Avoinna', completed: 'Valmis', resolved: 'Ratkaistu', inProgress: 'Käsittelyssä', underInvestigation: 'Selvityksessä', ordered: 'Tilauksessa', target: 'Target', legacy: 'Legacy', quickActions: 'Pikatoiminnot', quickActionsDesc: 'Tilaa lisää, luo palvelupyyntö tai ilmoita vika suoraan tästä näkymästä.', orderNewService: 'Tilaa palvelu', orderNewServiceDesc: 'Aloita uuden palvelun tilaus.', contactUs: 'Ota meihin yhteyttä', contactUsDesc: 'Valitse chat, palvelupyyntö tai muut yhteydenottotavat.', createServiceRequest: 'Luo palvelupyyntö', createServiceRequestDesc: 'Lähetä uusi pyyntö asiakaspalveluun.', chat: 'Chat', chatDesc: 'Aloita keskustelu asiakaspalvelun kanssa.', serviceRequestOption: 'Luo palvelupyyntö', serviceRequestOptionDesc: 'Tee kirjallinen palvelupyyntö.', otherWays: 'Muut tavat', otherWaysDesc: 'Katso muut yhteystiedot Telian sivuilta.', chatDemoTitle: 'Chat', chatDemoText: 'Chat avautuisi normaalisti tästä. Demossa näytetään vain yhteydenottopolun rakenne.', reportIncident: 'Ilmoita vika', reportIncidentDesc: 'Avaa uusi vikailmoitus palvelusta.', modalCompany: 'Yritys', modalServiceType: 'Palvelu', modalRequestType: 'Pyyntölaji', modalAffectedService: 'Vaikutettu palvelu', modalDescription: 'Kuvaus', modalCancel: 'Peruuta', modalSubmit: 'Lähetä', modalContinue: 'Luo demotapahtuma', mobileSubscription: 'Matkapuhelinliittymä', businessInternet: 'Yritysnetti', license: 'Lisenssi', securityService: 'Tietoturvapalvelu', requestUserChange: 'Käyttäjämuutos', requestBilling: 'Laskutusasia', requestServiceChange: 'Palvelumuutos', incidentMobileData: 'Mobiilidata ei toimi', incidentInternet: 'Yritysnetti ei toimi', incidentDevice: 'Laitteen ongelma'
+        appTitle: 'MTY Small Customer 360 Demo', appTitleBase: 'MTY Small Customer 360 Demo', appSubtitle: 'Excelistä muunnettu JSON-data, asiakasvalinta, KPI:t, asset-lista ja älykäs sisältöhaku.',
+        company: 'Valitse yritys', searchCustomer: 'Hae liittymistä ja palveluista', searchContent: 'Kysy Telian yrityssisällöistä', customerPlaceholder: 'Esim. numero, käyttäjä, laite...', contentPlaceholder: 'Esim. Miten vaihdan SIM-kortin?', typeFilter: 'Rajaa tyyppi', all: 'Kaikki', allCompanies: 'Kaikki yritykset', companies: 'Yrityksiä', searchMode: 'Hakutyyppi', customerData: 'Minun Telia Yrityksille data', teliaContent: 'Telia Ohjeet & Sisällöt', aiAnswer: 'AI-vastaus', customerInfo: 'Asiakkaan tiedot', detailView: 'Detail-näkymä', listView: 'Listanäkymä', tileView: 'Tiilinäkymä', assets: 'Liittymät ja palvelut', orders: 'Tilaukset', invoices: 'Laskut', requests: 'Palvelupyynnöt', incidents: 'Vikailmoitukset', openInvoices: 'Avoimet laskut', openRequests: 'Avoimet pyynnöt', openIncidents: 'Avoimet viat', openInvoicesNotification: 'Avoimia laskuja', openRequestsNotification: 'Avoimia palvelupyyntöjä', openIncidentsNotification: 'Avoimia vikoja', rows: 'riviä', filterOpenInvoices: 'Suodatus: vain avoimet laskut', filterOpenRequests: 'Suodatus: vain avoimet palvelupyynnöt', filterOpenIncidents: 'Suodatus: vain avoimet vikailmoitukset', noResults: 'Ei tuloksia valitulla rajauksella.', askTelia: 'Kirjoita kysymys Telian yrityssisällöistä.', contentMissing: 'content-search.json puuttuu tai on tyhjä.', noDirectAnswer: 'Ei suoraa vastausta', noMockAnswer: 'En löytänyt mock-datasta suoraa vastausta kysymykseen', sources: 'Lähteet', noSources: 'Ei lähdelinkkejä.', openExample: 'Avaa esimerkkikysymys', showDetails: 'Näytä tiedot →', selectFromList: 'Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.', companySummary: 'Yrityksen yhteenveto', companyName: 'Yritys', user: 'Käyttäjä', productSpeed: 'Tuote/nopeus', category: 'Kategoria', fixedTerm: 'Määräaika päättyy', actions: 'Toiminnot', relatedOrders: 'Liittyvät tilaukset', noActions: 'Ei määriteltyjä toimintoja.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', productType: 'Tuotetyyppi', item: 'Kohde', billingAccount: 'Laskutili', orderDate: 'Tilauspäivä', status: 'Status', invoiceType: 'Laskun tyyppi', invoiceDate: 'Laskun päivämäärä', invoiceNumber: 'Laskun numero', amount: 'Summa', referenceNumber: 'Viitenumero', requestType: 'Pyyntölaji', description: 'Kuvaus', requestDate: 'Pyyntöpäivä', createdBy: 'Luonut', startDate: 'Aloituspäivä', open: 'Avoinna', completed: 'Valmis', resolved: 'Ratkaistu', inProgress: 'Käsittelyssä', underInvestigation: 'Selvityksessä', ordered: 'Tilauksessa', target: 'Target', legacy: 'Legacy', quickActions: 'Pikatoiminnot', quickActionsDesc: 'Tilaa lisää, luo palvelupyyntö tai ilmoita vika suoraan tästä näkymästä.', orderNewService: 'Tilaa palvelu', orderNewServiceDesc: 'Aloita uuden palvelun tilaus.', contactUs: 'Ota meihin yhteyttä', contactUsDesc: 'Valitse chat, palvelupyyntö tai muut yhteydenottotavat.', createServiceRequest: 'Luo palvelupyyntö', createServiceRequestDesc: 'Lähetä uusi pyyntö asiakaspalveluun.', showOrder: 'Näytä tilaus', askAboutOrder: 'Kysy tilauksesta', showInvoice: 'Näytä lasku', invoicePdf: 'PDF', payInvoice: 'Maksa lasku', openConversation: 'Avaa', reply: 'Vastaa', sendReply: 'Lähetä vastaus', messageThread: 'Viestiketju', paymentSummary: 'Maksun yhteenveto', confirmPayment: 'Vahvista maksu', paymentDone: 'Lasku merkitty maksetuksi.', invoicePdfTitle: 'Laskun PDF', invoicePdfText: 'Demo: tästä avautuisi laskun alkuperäinen PDF-tiedosto.', orderQuestionText: 'Haluan lisätietoja tästä tilauksesta.', paid: 'Maksettu', teliaSender: 'Telia', customerSender: 'Asiakas', timeline: 'Aikajana', created: 'Luotu', updated: 'Päivitetty', pdfPreview: 'PDF-esikatselu', settings: 'Asetukset', settingsComingSoon: 'Asetusnäkymä tulossa seuraavaan versioon.', chat: 'Chat', chatDesc: 'Aloita keskustelu asiakaspalvelun kanssa.', serviceRequestOption: 'Luo palvelupyyntö', serviceRequestOptionDesc: 'Tee kirjallinen palvelupyyntö.', otherWays: 'Muut tavat', otherWaysDesc: 'Katso muut yhteystiedot Telian sivuilta.', chatDemoTitle: 'Chat', chatDemoText: 'Chat avautuisi normaalisti tästä. Demossa näytetään vain yhteydenottopolun rakenne.', reportIncident: 'Ilmoita vika', reportIncidentDesc: 'Avaa uusi vikailmoitus palvelusta.', modalCompany: 'Yritys', modalServiceType: 'Palvelu', modalRequestType: 'Pyyntölaji', modalAffectedService: 'Vaikutettu palvelu', modalDescription: 'Kuvaus', modalCancel: 'Peruuta', modalSubmit: 'Lähetä', modalContinue: 'Luo demotapahtuma', mobileSubscription: 'Matkapuhelinliittymä', businessInternet: 'Yritysnetti', license: 'Lisenssi', securityService: 'Tietoturvapalvelu', requestUserChange: 'Käyttäjämuutos', requestBilling: 'Laskutusasia', requestServiceChange: 'Palvelumuutos', incidentMobileData: 'Mobiilidata ei toimi', incidentInternet: 'Yritysnetti ei toimi', incidentDevice: 'Laitteen ongelma', demoUser: 'Demokäyttäjä', currentUser: 'Valittu käyttäjä', switchUser: 'Vaihda käyttäjäksi', userManagement: 'Käyttäjien hallinta', userManagementDesc: 'Valitse demokäyttäjä ja näytä, miten rooli rajaa yritykset, välilehdet ja datan.', role: 'Rooli', visibleCompanies: 'Näkyvät yritykset', visibleData: 'Näkyvä data', adminRole: 'Pääkäyttäjä', limitedRole: 'Rajattu käyttäjä', endUserRole: 'Loppukäyttäjä', adminRoleDesc: 'Näkee kaikki yritykset, kaikki tiedot ja käyttäjähallinnan.', limitedRoleDesc: 'Näkee vain hänelle valitut yritykset ja niiden tiedot.', endUserRoleDesc: 'Näkee vain omat liittymät ja palvelut, joissa hän on käyttäjänä.', allData: 'Kaikki yritykset ja kaikki näkymät', selectedCompaniesOnly: 'Vain valitut yritykset', ownAssetsOnly: 'Vain omat liittymät ja palvelut', addUser: 'Lisää käyttäjä', editPermissions: 'Muokkaa oikeuksia', removeAccess: 'Poista käyttöoikeus', permissionDemoTitle: 'Käyttöoikeudet', permissionDemoText: 'Demo: tässä näkymässä pääkäyttäjä valitsisi matkittavat yritykset ja käyttöoikeudet.', activeUserChanged: 'Demokäyttäjä vaihdettu', noAccessToTab: 'Tämä näkymä ei kuulu valitun käyttäjän oikeuksiin.'
       },
       en: {
-        mtyNavTitle: 'My Telia for Business', mtyNavSubtitle: 'MTY-style VNext experience', navMain: 'Main navigation', navSupport: 'Support and settings', navOverview: 'Home', navContact: 'Contact', navSettings: 'Settings', customerOverview: 'Customer overview', selectedView: 'Selected view', aiInsights: 'AI insights', aiInsightOpenInvoices: 'Review open invoices and possible due dates.', aiInsightOpenRequests: 'Open service requests should be followed actively.', aiInsightOpenIncidents: 'Open incidents may affect customer experience.', aiInsightHealthy: 'The customer situation looks stable.', appTitle: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON data converted from Excel, customer selector, KPIs, asset list and smart content search.',
-        company: 'Select company', searchCustomer: 'Search subscriptions and services', searchContent: 'Ask about Telia business content', customerPlaceholder: 'E.g. number, user, device...', contentPlaceholder: 'E.g. How do I replace a SIM card?', typeFilter: 'Filter type', all: 'All', allCompanies: 'All companies', companies: 'Companies', searchMode: 'Search type', customerData: 'My Telia for Business data', teliaContent: 'Telia Help & Content', aiAnswer: 'AI answer', customerInfo: 'Customer data', detailView: 'Detail view', listView: 'List view', tileView: 'Tile view', assets: 'Subscriptions and services', orders: 'Orders', invoices: 'Invoices', requests: 'Service requests', incidents: 'Incidents', openInvoices: 'Open invoices', openRequests: 'Open requests', openIncidents: 'Open incidents', openInvoicesNotification: 'Open invoices', openRequestsNotification: 'Open service requests', openIncidentsNotification: 'Open incidents', rows: 'rows', filterOpenInvoices: 'Filter: only open invoices', filterOpenRequests: 'Filter: only open service requests', filterOpenIncidents: 'Filter: only open incidents', noResults: 'No results with the selected filter.', askTelia: 'Ask a question about Telia business content.', contentMissing: 'content-search.json is missing or empty.', noDirectAnswer: 'No direct answer', noMockAnswer: 'No direct answer found in mock data for', sources: 'Sources', noSources: 'No source links.', openExample: 'Open example question', showDetails: 'Show details →', selectFromList: 'Select an asset, invoice, order, service request or incident from the list.', companySummary: 'Company summary', companyName: 'Company', user: 'User', productSpeed: 'Product/speed', category: 'Category', fixedTerm: 'Fixed term ends', actions: 'Actions', relatedOrders: 'Related orders', noActions: 'No configured actions.', noRelatedOrders: 'No related orders in the mock data.', productType: 'Product type', item: 'Item', billingAccount: 'Billing account', orderDate: 'Order date', status: 'Status', invoiceType: 'Invoice type', invoiceDate: 'Invoice date', invoiceNumber: 'Invoice number', amount: 'Amount', referenceNumber: 'Reference number', requestType: 'Request type', description: 'Description', requestDate: 'Request date', createdBy: 'Created by', startDate: 'Start date', open: 'Open', completed: 'Completed', resolved: 'Resolved', inProgress: 'In progress', underInvestigation: 'Under investigation', ordered: 'Ordered', target: 'Target', legacy: 'Legacy', quickActions: 'Quick actions', quickActionsDesc: 'Order more services, create a service request or report an incident from this view.', orderNewService: 'Order service', orderNewServiceDesc: 'Start a new service order.', contactUs: 'Contact us', contactUsDesc: 'Choose chat, service request or other contact methods.', createServiceRequest: 'Create service request', createServiceRequestDesc: 'Send a new request to customer service.', chat: 'Chat', chatDesc: 'Start a conversation with customer service.', serviceRequestOption: 'Create service request', serviceRequestOptionDesc: 'Create a written service request.', otherWays: 'Other ways', otherWaysDesc: 'See other contact details on Telia’s website.', chatDemoTitle: 'Chat', chatDemoText: 'Chat would normally open from here. In the demo, this shows the contact path structure only.', reportIncident: 'Report incident', reportIncidentDesc: 'Open a new incident for a service.', modalCompany: 'Company', modalServiceType: 'Service', modalRequestType: 'Request type', modalAffectedService: 'Affected service', modalDescription: 'Description', modalCancel: 'Cancel', modalSubmit: 'Submit', modalContinue: 'Create demo item', mobileSubscription: 'Mobile subscription', businessInternet: 'Business internet', license: 'License', securityService: 'Security service', requestUserChange: 'User change', requestBilling: 'Billing issue', requestServiceChange: 'Service change', incidentMobileData: 'Mobile data not working', incidentInternet: 'Business internet not working', incidentDevice: 'Device issue'
+        appTitle: 'MTY Small Customer 360 Demo', appTitleBase: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON data converted from Excel, customer selector, KPIs, asset list and smart content search.',
+        company: 'Select company', searchCustomer: 'Search subscriptions and services', searchContent: 'Ask about Telia business content', customerPlaceholder: 'E.g. number, user, device...', contentPlaceholder: 'E.g. How do I replace a SIM card?', typeFilter: 'Filter type', all: 'All', allCompanies: 'All companies', companies: 'Companies', searchMode: 'Search type', customerData: 'My Telia for Business data', teliaContent: 'Telia Help & Content', aiAnswer: 'AI answer', customerInfo: 'Customer data', detailView: 'Detail view', listView: 'List view', tileView: 'Tile view', assets: 'Subscriptions and services', orders: 'Orders', invoices: 'Invoices', requests: 'Service requests', incidents: 'Incidents', openInvoices: 'Open invoices', openRequests: 'Open requests', openIncidents: 'Open incidents', openInvoicesNotification: 'Open invoices', openRequestsNotification: 'Open service requests', openIncidentsNotification: 'Open incidents', rows: 'rows', filterOpenInvoices: 'Filter: only open invoices', filterOpenRequests: 'Filter: only open service requests', filterOpenIncidents: 'Filter: only open incidents', noResults: 'No results with the selected filter.', askTelia: 'Ask a question about Telia business content.', contentMissing: 'content-search.json is missing or empty.', noDirectAnswer: 'No direct answer', noMockAnswer: 'No direct answer found in mock data for', sources: 'Sources', noSources: 'No source links.', openExample: 'Open example question', showDetails: 'Show details →', selectFromList: 'Select an asset, invoice, order, service request or incident from the list.', companySummary: 'Company summary', companyName: 'Company', user: 'User', productSpeed: 'Product/speed', category: 'Category', fixedTerm: 'Fixed term ends', actions: 'Actions', relatedOrders: 'Related orders', noActions: 'No configured actions.', noRelatedOrders: 'No related orders in the mock data.', productType: 'Product type', item: 'Item', billingAccount: 'Billing account', orderDate: 'Order date', status: 'Status', invoiceType: 'Invoice type', invoiceDate: 'Invoice date', invoiceNumber: 'Invoice number', amount: 'Amount', referenceNumber: 'Reference number', requestType: 'Request type', description: 'Description', requestDate: 'Request date', createdBy: 'Created by', startDate: 'Start date', open: 'Open', completed: 'Completed', resolved: 'Resolved', inProgress: 'In progress', underInvestigation: 'Under investigation', ordered: 'Ordered', target: 'Target', legacy: 'Legacy', quickActions: 'Quick actions', quickActionsDesc: 'Order more services, create a service request or report an incident from this view.', orderNewService: 'Order service', orderNewServiceDesc: 'Start a new service order.', contactUs: 'Contact us', contactUsDesc: 'Choose chat, service request or other contact methods.', createServiceRequest: 'Create service request', createServiceRequestDesc: 'Send a new request to customer service.', showOrder: 'Show order', askAboutOrder: 'Ask about order', showInvoice: 'Show invoice', invoicePdf: 'PDF', payInvoice: 'Pay invoice', openConversation: 'Open', reply: 'Reply', sendReply: 'Send reply', messageThread: 'Message thread', paymentSummary: 'Payment summary', confirmPayment: 'Confirm payment', paymentDone: 'Invoice marked as paid.', invoicePdfTitle: 'Invoice PDF', invoicePdfText: 'Demo: the original invoice PDF would open from here.', orderQuestionText: 'I would like more information about this order.', paid: 'Paid', teliaSender: 'Telia', customerSender: 'Customer', timeline: 'Timeline', created: 'Created', updated: 'Updated', pdfPreview: 'PDF preview', settings: 'Settings', settingsComingSoon: 'Settings view coming in the next version.', chat: 'Chat', chatDesc: 'Start a conversation with customer service.', serviceRequestOption: 'Create service request', serviceRequestOptionDesc: 'Create a written service request.', otherWays: 'Other ways', otherWaysDesc: 'See other contact details on Telia’s website.', chatDemoTitle: 'Chat', chatDemoText: 'Chat would normally open from here. In the demo, this shows the contact path structure only.', reportIncident: 'Report incident', reportIncidentDesc: 'Open a new incident for a service.', modalCompany: 'Company', modalServiceType: 'Service', modalRequestType: 'Request type', modalAffectedService: 'Affected service', modalDescription: 'Description', modalCancel: 'Cancel', modalSubmit: 'Submit', modalContinue: 'Create demo item', mobileSubscription: 'Mobile subscription', businessInternet: 'Business internet', license: 'License', securityService: 'Security service', requestUserChange: 'User change', requestBilling: 'Billing issue', requestServiceChange: 'Service change', incidentMobileData: 'Mobile data not working', incidentInternet: 'Business internet not working', incidentDevice: 'Device issue', demoUser: 'Demo user', currentUser: 'Selected user', switchUser: 'Switch to user', userManagement: 'User management', userManagementDesc: 'Select a demo user and show how the role limits companies, tabs and data.', role: 'Role', visibleCompanies: 'Visible companies', visibleData: 'Visible data', adminRole: 'Main admin', limitedRole: 'Limited user', endUserRole: 'End user', adminRoleDesc: 'Sees all companies, all data and user management.', limitedRoleDesc: 'Sees only the selected companies and their data.', endUserRoleDesc: 'Sees only own subscriptions and services where they are the user.', allData: 'All companies and all views', selectedCompaniesOnly: 'Selected companies only', ownAssetsOnly: 'Own subscriptions and services only', addUser: 'Add user', editPermissions: 'Edit permissions', removeAccess: 'Remove access', permissionDemoTitle: 'Permissions', permissionDemoText: 'Demo: in this view the main admin would choose visible companies and permissions.', activeUserChanged: 'Demo user changed', noAccessToTab: 'This view is not included in the selected user’s permissions.'
       },
       sv: {
-        mtyNavTitle: 'Mitt Telia Företag', mtyNavSubtitle: 'MTY-liknande VNext-vy', navMain: 'Huvudnavigering', navSupport: 'Support och inställningar', navOverview: 'Startsida', navContact: 'Kontakt', navSettings: 'Inställningar', customerOverview: 'Kundöversikt', selectedView: 'Vald vy', aiInsights: 'AI-insikter', aiInsightOpenInvoices: 'Granska öppna fakturor och eventuella förfallodatum.', aiInsightOpenRequests: 'Öppna serviceärenden bör följas aktivt.', aiInsightOpenIncidents: 'Öppna fel kan påverka kundupplevelsen.', aiInsightHealthy: 'Kundsituationen ser stabil ut.', appTitle: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON-data från Excel, kundval, KPI:er, tillgångslista och smart innehållssökning.',
-        company: 'Välj företag', searchCustomer: 'Sök abonnemang och tjänster', searchContent: 'Fråga om Telias företagsinnehåll', customerPlaceholder: 'T.ex. nummer, användare, enhet...', contentPlaceholder: 'T.ex. Hur byter jag SIM-kort?', typeFilter: 'Filtrera typ', all: 'Alla', allCompanies: 'Alla företag', companies: 'Företag', searchMode: 'Söktyp', customerData: 'Mitt Telia Företag-data', teliaContent: 'Telia hjälp & innehåll', aiAnswer: 'AI-svar', customerInfo: 'Kunduppgifter', detailView: 'Detaljvy', listView: 'Listvy', tileView: 'Rutnätsvy', assets: 'Abonnemang och tjänster', orders: 'Beställningar', invoices: 'Fakturor', requests: 'Serviceärenden', incidents: 'Felanmälningar', openInvoices: 'Öppna fakturor', openRequests: 'Öppna ärenden', openIncidents: 'Öppna fel', openInvoicesNotification: 'Öppna fakturor', openRequestsNotification: 'Öppna serviceärenden', openIncidentsNotification: 'Öppna fel', rows: 'rader', filterOpenInvoices: 'Filter: endast öppna fakturor', filterOpenRequests: 'Filter: endast öppna serviceärenden', filterOpenIncidents: 'Filter: endast öppna felanmälningar', noResults: 'Inga resultat med valt filter.', askTelia: 'Skriv en fråga om Telias företagsinnehåll.', contentMissing: 'content-search.json saknas eller är tom.', noDirectAnswer: 'Inget direkt svar', noMockAnswer: 'Inget direkt svar hittades i mockdata för', sources: 'Källor', noSources: 'Inga källänkar.', openExample: 'Öppna exempelfråga', showDetails: 'Visa detaljer →', selectFromList: 'Välj en tillgång, faktura, beställning, serviceärende eller felanmälan från listan.', companySummary: 'Företagssammanfattning', companyName: 'Företag', user: 'Användare', productSpeed: 'Produkt/hastighet', category: 'Kategori', fixedTerm: 'Bindningstid slutar', actions: 'Åtgärder', relatedOrders: 'Relaterade beställningar', noActions: 'Inga definierade åtgärder.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', productType: 'Produkttyp', item: 'Objekt', billingAccount: 'Fakturakonto', orderDate: 'Beställningsdatum', status: 'Status', invoiceType: 'Fakturatyp', invoiceDate: 'Fakturadatum', invoiceNumber: 'Fakturanummer', amount: 'Belopp', referenceNumber: 'Referensnummer', requestType: 'Ärendetyp', description: 'Beskrivning', requestDate: 'Ärendedatum', createdBy: 'Skapad av', startDate: 'Startdatum', open: 'Öppen', completed: 'Slutförd', resolved: 'Löst', inProgress: 'Under behandling', underInvestigation: 'Under utredning', ordered: 'Beställd', target: 'Target', legacy: 'Legacy', quickActions: 'Snabbåtgärder', quickActionsDesc: 'Beställ fler tjänster, skapa ett serviceärende eller rapportera ett fel från den här vyn.', orderNewService: 'Beställ tjänst', orderNewServiceDesc: 'Starta en ny tjänstebeställning.', contactUs: 'Kontakta oss', contactUsDesc: 'Välj chatt, serviceärende eller andra kontaktvägar.', createServiceRequest: 'Skapa serviceärende', createServiceRequestDesc: 'Skicka en ny begäran till kundservice.', chat: 'Chatt', chatDesc: 'Starta en konversation med kundservice.', serviceRequestOption: 'Skapa serviceärende', serviceRequestOptionDesc: 'Skapa ett skriftligt serviceärende.', otherWays: 'Andra sätt', otherWaysDesc: 'Se andra kontaktuppgifter på Telias webbplats.', chatDemoTitle: 'Chatt', chatDemoText: 'Chatten skulle normalt öppnas här. I demon visas endast kontaktflödets struktur.', reportIncident: 'Rapportera fel', reportIncidentDesc: 'Öppna en ny felanmälan för en tjänst.', modalCompany: 'Företag', modalServiceType: 'Tjänst', modalRequestType: 'Ärendetyp', modalAffectedService: 'Berörd tjänst', modalDescription: 'Beskrivning', modalCancel: 'Avbryt', modalSubmit: 'Skicka', modalContinue: 'Skapa demoärende', mobileSubscription: 'Mobilabonnemang', businessInternet: 'Företagsinternet', license: 'Licens', securityService: 'Säkerhetstjänst', requestUserChange: 'Användarändring', requestBilling: 'Faktureringsärende', requestServiceChange: 'Tjänsteändring', incidentMobileData: 'Mobildata fungerar inte', incidentInternet: 'Företagsinternet fungerar inte', incidentDevice: 'Enhetsproblem'
+        appTitle: 'MTY Small Customer 360 Demo', appTitleBase: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON-data från Excel, kundval, KPI:er, tillgångslista och smart innehållssökning.',
+        company: 'Välj företag', searchCustomer: 'Sök abonnemang och tjänster', searchContent: 'Fråga om Telias företagsinnehåll', customerPlaceholder: 'T.ex. nummer, användare, enhet...', contentPlaceholder: 'T.ex. Hur byter jag SIM-kort?', typeFilter: 'Filtrera typ', all: 'Alla', allCompanies: 'Alla företag', companies: 'Företag', searchMode: 'Söktyp', customerData: 'Mitt Telia Företag-data', teliaContent: 'Telia hjälp & innehåll', aiAnswer: 'AI-svar', customerInfo: 'Kunduppgifter', detailView: 'Detaljvy', listView: 'Listvy', tileView: 'Rutnätsvy', assets: 'Abonnemang och tjänster', orders: 'Beställningar', invoices: 'Fakturor', requests: 'Serviceärenden', incidents: 'Felanmälningar', openInvoices: 'Öppna fakturor', openRequests: 'Öppna ärenden', openIncidents: 'Öppna fel', openInvoicesNotification: 'Öppna fakturor', openRequestsNotification: 'Öppna serviceärenden', openIncidentsNotification: 'Öppna fel', rows: 'rader', filterOpenInvoices: 'Filter: endast öppna fakturor', filterOpenRequests: 'Filter: endast öppna serviceärenden', filterOpenIncidents: 'Filter: endast öppna felanmälningar', noResults: 'Inga resultat med valt filter.', askTelia: 'Skriv en fråga om Telias företagsinnehåll.', contentMissing: 'content-search.json saknas eller är tom.', noDirectAnswer: 'Inget direkt svar', noMockAnswer: 'Inget direkt svar hittades i mockdata för', sources: 'Källor', noSources: 'Inga källänkar.', openExample: 'Öppna exempelfråga', showDetails: 'Visa detaljer →', selectFromList: 'Välj en tillgång, faktura, beställning, serviceärende eller felanmälan från listan.', companySummary: 'Företagssammanfattning', companyName: 'Företag', user: 'Användare', productSpeed: 'Produkt/hastighet', category: 'Kategori', fixedTerm: 'Bindningstid slutar', actions: 'Åtgärder', relatedOrders: 'Relaterade beställningar', noActions: 'Inga definierade åtgärder.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', productType: 'Produkttyp', item: 'Objekt', billingAccount: 'Fakturakonto', orderDate: 'Beställningsdatum', status: 'Status', invoiceType: 'Fakturatyp', invoiceDate: 'Fakturadatum', invoiceNumber: 'Fakturanummer', amount: 'Belopp', referenceNumber: 'Referensnummer', requestType: 'Ärendetyp', description: 'Beskrivning', requestDate: 'Ärendedatum', createdBy: 'Skapad av', startDate: 'Startdatum', open: 'Öppen', completed: 'Slutförd', resolved: 'Löst', inProgress: 'Under behandling', underInvestigation: 'Under utredning', ordered: 'Beställd', target: 'Target', legacy: 'Legacy', quickActions: 'Snabbåtgärder', quickActionsDesc: 'Beställ fler tjänster, skapa ett serviceärende eller rapportera ett fel från den här vyn.', orderNewService: 'Beställ tjänst', orderNewServiceDesc: 'Starta en ny tjänstebeställning.', contactUs: 'Kontakta oss', contactUsDesc: 'Välj chatt, serviceärende eller andra kontaktvägar.', createServiceRequest: 'Skapa serviceärende', createServiceRequestDesc: 'Skicka en ny begäran till kundservice.', showOrder: 'Visa beställning', askAboutOrder: 'Fråga om beställning', showInvoice: 'Visa faktura', invoicePdf: 'PDF', payInvoice: 'Betala faktura', openConversation: 'Öppna', reply: 'Svara', sendReply: 'Skicka svar', messageThread: 'Meddelandetråd', paymentSummary: 'Betalningssammanfattning', confirmPayment: 'Bekräfta betalning', paymentDone: 'Fakturan markerades som betald.', invoicePdfTitle: 'Faktura-PDF', invoicePdfText: 'Demo: den ursprungliga PDF-fakturan skulle öppnas här.', orderQuestionText: 'Jag vill ha mer information om denna beställning.', paid: 'Betald', teliaSender: 'Telia', customerSender: 'Kund', timeline: 'Tidslinje', created: 'Skapad', updated: 'Uppdaterad', pdfPreview: 'PDF-förhandsvisning', settings: 'Inställningar', settingsComingSoon: 'Inställningsvyn kommer i nästa version.', chat: 'Chatt', chatDesc: 'Starta en konversation med kundservice.', serviceRequestOption: 'Skapa serviceärende', serviceRequestOptionDesc: 'Skapa ett skriftligt serviceärende.', otherWays: 'Andra sätt', otherWaysDesc: 'Se andra kontaktuppgifter på Telias webbplats.', chatDemoTitle: 'Chatt', chatDemoText: 'Chatten skulle normalt öppnas här. I demon visas endast kontaktflödets struktur.', reportIncident: 'Rapportera fel', reportIncidentDesc: 'Öppna en ny felanmälan för en tjänst.', modalCompany: 'Företag', modalServiceType: 'Tjänst', modalRequestType: 'Ärendetyp', modalAffectedService: 'Berörd tjänst', modalDescription: 'Beskrivning', modalCancel: 'Avbryt', modalSubmit: 'Skicka', modalContinue: 'Skapa demoärende', mobileSubscription: 'Mobilabonnemang', businessInternet: 'Företagsinternet', license: 'Licens', securityService: 'Säkerhetstjänst', requestUserChange: 'Användarändring', requestBilling: 'Faktureringsärende', requestServiceChange: 'Tjänsteändring', incidentMobileData: 'Mobildata fungerar inte', incidentInternet: 'Företagsinternet fungerar inte', incidentDevice: 'Enhetsproblem', demoUser: 'Demoanvändare', currentUser: 'Vald användare', switchUser: 'Byt till användare', userManagement: 'Användarhantering', userManagementDesc: 'Välj en demoanvändare och visa hur rollen begränsar företag, flikar och data.', role: 'Roll', visibleCompanies: 'Synliga företag', visibleData: 'Synliga data', adminRole: 'Huvudadministratör', limitedRole: 'Begränsad användare', endUserRole: 'Slutanvändare', adminRoleDesc: 'Ser alla företag, all data och användarhantering.', limitedRoleDesc: 'Ser endast valda företag och deras data.', endUserRoleDesc: 'Ser endast egna abonnemang och tjänster där personen är användare.', allData: 'Alla företag och alla vyer', selectedCompaniesOnly: 'Endast valda företag', ownAssetsOnly: 'Endast egna abonnemang och tjänster', addUser: 'Lägg till användare', editPermissions: 'Redigera rättigheter', removeAccess: 'Ta bort behörighet', permissionDemoTitle: 'Behörigheter', permissionDemoText: 'Demo: i denna vy skulle huvudadministratören välja synliga företag och behörigheter.', activeUserChanged: 'Demoanvändare bytt', noAccessToTab: 'Den här vyn ingår inte i den valda användarens behörigheter.'
       }
     };
 
     const state = {
       activeTab: 'assets', searchMode: 'customer', assetView: 'list', statusFilter: null,
       language: localStorage.getItem('mtyLanguage') || 'fi',
+      currentUserId: localStorage.getItem('mtyCurrentUserId') || 'admin-anna',
       selectedCompanyId: '', selectedItem: null, activeActionType: null, data: {}
     };
 
@@ -1082,6 +1069,15 @@
       incidents: 'data/incidents.json', news: 'data/news.json', detailActions: 'data/detail-actions.json'
     };
 
+    const demoUsers = [
+      { id: 'admin-anna', name: 'Anna Admin', email: 'anna.admin@example.com', role: 'admin', companyIds: ['ALL'], assetUser: '' },
+      { id: 'limited-pekka', name: 'Pekka Yritysvastaava', email: 'pekka.yritysvastaava@example.com', role: 'limited', companyIds: [], assetUser: '' },
+      { id: 'limited-laura', name: 'Laura Aluepäällikkö', email: 'laura.aluepaallikko@example.com', role: 'limited', companyIds: [], assetUser: '' },
+      { id: 'end-matti', name: 'Matti Meikäläinen', email: 'matti.meikalainen@example.com', role: 'enduser', companyIds: [], assetUser: '' },
+      { id: 'end-tiina', name: 'Tiina Testaaja', email: 'tiina.testaaja@example.com', role: 'enduser', companyIds: [], assetUser: '' }
+    ];
+
+
     const tabs = [
       { id: 'assets', labelKey: 'assets' }, { id: 'orders', labelKey: 'orders' },
       { id: 'invoices', labelKey: 'invoices' }, { id: 'requests', labelKey: 'requests' },
@@ -1089,6 +1085,107 @@
     ];
 
     function t(key) { return i18n[state.language]?.[key] || i18n.fi[key] || key; }
+    function bootstrapDemoUsers() {
+      const companies = state.data.companies || [];
+      const assets = state.data.assets || [];
+      const firstCompany = companies[0]?.companyId || '';
+      const secondCompany = companies[1]?.companyId || firstCompany;
+      const thirdCompany = companies[2]?.companyId || firstCompany;
+      const assetUsers = [...new Set(assets.map(a => a.user).filter(Boolean))];
+      const firstAssetUser = assetUsers[0] || '';
+      const secondAssetUser = assetUsers[1] || firstAssetUser;
+      demoUsers.forEach(user => {
+        if (user.id === 'limited-pekka' && !user.companyIds.length) user.companyIds = [firstCompany].filter(Boolean);
+        if (user.id === 'limited-laura' && !user.companyIds.length) user.companyIds = [secondCompany, thirdCompany].filter(Boolean);
+        if (user.id === 'end-matti' && !user.assetUser) user.assetUser = firstAssetUser;
+        if (user.id === 'end-tiina' && !user.assetUser) user.assetUser = secondAssetUser;
+      });
+      if (!demoUsers.some(user => user.id === state.currentUserId)) state.currentUserId = 'admin-anna';
+    }
+    function currentDemoUser() {
+      return demoUsers.find(user => user.id === state.currentUserId) || demoUsers[0];
+    }
+    function roleLabel(role) {
+      if (role === 'admin') return t('adminRole');
+      if (role === 'limited') return t('limitedRole');
+      if (role === 'enduser') return t('endUserRole');
+      return role || '-';
+    }
+    function roleDescription(role) {
+      if (role === 'admin') return t('adminRoleDesc');
+      if (role === 'limited') return t('limitedRoleDesc');
+      if (role === 'enduser') return t('endUserRoleDesc');
+      return '';
+    }
+    function accessibleCompanyIds(user = currentDemoUser()) {
+      if (user.role === 'admin') return (state.data.companies || []).map(company => company.companyId);
+      if (user.role === 'limited') return user.companyIds || [];
+      if (user.role === 'enduser') {
+        return [...new Set((state.data.assets || []).filter(asset => asset.user === user.assetUser).map(asset => asset.companyId))];
+      }
+      return [];
+    }
+    function isCompanyAllowed(companyId) {
+      if (!companyId) return true;
+      return accessibleCompanyIds().includes(companyId);
+    }
+    function userCanSeeTab(tabId) {
+      const role = currentDemoUser().role;
+      if (role === 'admin' || role === 'limited') return true;
+      return tabId === 'assets';
+    }
+    function availableTabs() {
+      return tabs.filter(tab => userCanSeeTab(tab.id));
+    }
+    function ensureAllowedState() {
+      const allowedTabs = availableTabs();
+      if (!allowedTabs.some(tab => tab.id === state.activeTab)) state.activeTab = allowedTabs[0]?.id || 'assets';
+      const allowedCompanies = accessibleCompanyIds();
+      if (currentDemoUser().role === 'admin') return;
+      if (state.selectedCompanyId === 'ALL' && allowedCompanies.length > 1) return;
+      if (state.selectedCompanyId === 'ALL' && allowedCompanies.length <= 1) state.selectedCompanyId = allowedCompanies[0] || 'ALL';
+      if (state.selectedCompanyId !== 'ALL' && !allowedCompanies.includes(state.selectedCompanyId)) state.selectedCompanyId = allowedCompanies[0] || 'ALL';
+    }
+    function filterItemsByCurrentUser(key, items) {
+      const user = currentDemoUser();
+      let filtered = items || [];
+      if (user.role === 'limited') filtered = filtered.filter(item => isCompanyAllowed(item.companyId));
+      if (user.role === 'enduser') {
+        if (key === 'assets') filtered = filtered.filter(item => item.user === user.assetUser);
+        else filtered = [];
+      }
+      return filtered;
+    }
+    function companyNameById(companyId) {
+      return (state.data.companies || []).find(company => company.companyId === companyId)?.companyName || companyId || '-';
+    }
+    function visibleCompaniesText(user = currentDemoUser()) {
+      if (user.role === 'admin') return t('allCompanies');
+      if (user.role === 'enduser') {
+        const ids = accessibleCompanyIds(user);
+        return ids.length ? ids.map(companyNameById).join(', ') : '-';
+      }
+      return (user.companyIds || []).map(companyNameById).join(', ') || '-';
+    }
+    function visibleDataText(user = currentDemoUser()) {
+      if (user.role === 'admin') return t('allData');
+      if (user.role === 'limited') return t('selectedCompaniesOnly');
+      if (user.role === 'enduser') return `${t('ownAssetsOnly')}: ${user.assetUser || '-'}`;
+      return '-';
+    }
+    function updateCurrentUserPill() {
+      const user = currentDemoUser();
+      const firstName = (user.name || '').split(' ')[0];
+      const title = document.getElementById('appTitle');
+      if (title) {
+        title.textContent = `${t('appTitleBase')} (${firstName}, ${roleLabel(user.role)})`;
+      }
+      const pill = document.getElementById('currentUserPill');
+      if (pill) {
+        pill.textContent = `👤 ${user.name} | ${roleLabel(user.role)}`;
+      }
+    }
+
 
 
     function translateStatus(value) {
@@ -1096,6 +1193,7 @@
       const v = raw.toLowerCase();
       if (v === 'avoinna') return t('open');
       if (v === 'valmis') return t('completed');
+      if (v === 'maksettu') return t('paid');
       if (v === 'ratkaistu') return t('resolved');
       if (v.includes('käsittelyssä')) return t('inProgress');
       if (v.includes('selvityksessä')) return t('underInvestigation');
@@ -1119,6 +1217,7 @@
       }));
       state.data = Object.fromEntries(entries);
       state.data.contentSearch = await loadOptionalJson('data/content-search.json', []);
+      bootstrapDemoUsers();
       state.selectedCompanyId = pickDefaultCompany();
       initControls();
       renderAll();
@@ -1142,15 +1241,20 @@
     function renderCompanySelectOptions() {
       const companySelect = document.getElementById('companySelect');
       if (!companySelect) return;
+      ensureAllowedState();
       const currentValue = state.selectedCompanyId || 'ALL';
+      const user = currentDemoUser();
+      const allowedIds = accessibleCompanyIds();
+      const allowedCompanies = (state.data.companies || []).filter(c => allowedIds.includes(c.companyId));
+      const showAllOption = user.role === 'admin' || allowedCompanies.length > 1;
       companySelect.innerHTML =
-        `<option value="ALL">${escapeHtml(t('allCompanies'))}</option>` +
-        state.data.companies
+        (showAllOption ? `<option value="ALL">${escapeHtml(user.role === 'admin' ? t('allCompanies') : t('selectedCompaniesOnly'))}</option>` : '') +
+        allowedCompanies
           .map(c => `<option value="${escapeHtml(c.companyId)}">${escapeHtml(c.companyName)} (${escapeHtml(c.companyId)})</option>`)
           .join('');
-      companySelect.value = currentValue;
+      companySelect.value = showAllOption ? currentValue : (allowedCompanies[0]?.companyId || 'ALL');
+      state.selectedCompanyId = companySelect.value || 'ALL';
     }
-
     function initControls() {
       document.querySelectorAll('.language-switcher button[data-lang]').forEach(button => {
         button.addEventListener('click', () => {
@@ -1209,7 +1313,9 @@
     }
 
     function renderAll() {
+      ensureAllowedState();
       updateStaticTexts();
+      updateCurrentUserPill();
       updateSearchModeUi();
       if (state.searchMode === 'content') { renderContentSearch(); return; }
       renderCustomerSearch();
@@ -1229,43 +1335,11 @@
       updateAssetViewToggleVisibility();
     }
 
-    function renderCustomerSearch() { renderSidebar(); renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); renderDetail(); }
+    function renderCustomerSearch() { renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); }
     function companyItems(key) {
-      if (state.selectedCompanyId === 'ALL') return state.data[key] || [];
-      return (state.data[key] || []).filter(item => item.companyId === state.selectedCompanyId);
-    }
-
-    function renderSidebar() {
-      const navItems = [
-        ['assets', '📱', t('assets')],
-        ['orders', '📦', t('orders')],
-        ['invoices', '🧾', t('invoices')],
-        ['requests', '🛠️', t('requests')],
-        ['incidents', '⚠️', t('incidents')]
-      ];
-      document.getElementById('mtySidebar').innerHTML = `
-        <div class="mty-brand">
-          <div class="mty-brand-title">${escapeHtml(t('mtyNavTitle'))}</div>
-          <div class="mty-brand-subtitle">${escapeHtml(t('mtyNavSubtitle'))}</div>
-        </div>
-        <div class="mty-nav-section">${escapeHtml(t('navMain'))}</div>
-        <div class="mty-nav-grid">
-          <button class="mty-nav-button ${state.activeTab === 'assets' ? 'active' : ''}" type="button" onclick="handleSidebarTab('assets')"><span class="mty-nav-icon">🏠</span><span>${escapeHtml(t('navOverview'))}</span></button>
-          ${navItems.map(([tab, icon, label]) => `<button class="mty-nav-button ${state.activeTab === tab ? 'active' : ''}" type="button" onclick="handleSidebarTab('${tab}')"><span class="mty-nav-icon">${icon}</span><span>${escapeHtml(label)}</span></button>`).join('')}
-        </div>
-        <div class="mty-nav-section">${escapeHtml(t('navSupport'))}</div>
-        <div class="mty-nav-grid">
-          <button class="mty-nav-button" type="button" onclick="openActionModal('contact')"><span class="mty-nav-icon">💬</span><span>${escapeHtml(t('navContact'))}</span></button>
-          <button class="mty-nav-button" type="button"><span class="mty-nav-icon">⚙️</span><span>${escapeHtml(t('navSettings'))}</span></button>
-        </div>`;
-    }
-
-    function handleSidebarTab(tab) {
-      state.searchMode = 'customer';
-      state.activeTab = tab;
-      state.statusFilter = null;
-      state.selectedItem = null;
-      renderAll();
+      let items = filterItemsByCurrentUser(key, state.data[key] || []);
+      if (state.selectedCompanyId === 'ALL') return items;
+      return items.filter(item => item.companyId === state.selectedCompanyId);
     }
     function renderNews() {
       const area = document.getElementById('newsArea');
@@ -1399,7 +1473,7 @@
 
     function openActionModal(type) {
       state.activeActionType = type;
-      document.getElementById('actionModalTitle').textContent = actionTitle(type);
+      setModalHeader(actionIconForModal(type), actionTitle(type));
       document.getElementById('actionModalBody').innerHTML = actionModalBody(type);
       document.getElementById('actionModalCancel').textContent = t('modalCancel');
       const submitButton = document.getElementById('actionModalSubmit');
@@ -1412,6 +1486,16 @@
       document.getElementById('actionModal').hidden = true;
       document.getElementById('actionModalSubmit').style.display = 'inline-block';
       state.activeActionType = null;
+      state.activeRecordType = null;
+      state.activeRecordId = null;
+    }
+
+    function actionIconForModal(type) {
+      if (type === 'order') return '🛒';
+      if (type === 'contact') return '💬';
+      if (type === 'request') return '🛠️';
+      if (type === 'incident') return '⚠️';
+      return 'ℹ️';
     }
 
     function actionTitle(type) {
@@ -1481,27 +1565,26 @@
 
     function openChatDemo() {
       state.activeActionType = 'chat';
-      document.getElementById('actionModalTitle').textContent = t('chatDemoTitle');
+      setModalHeader('💬', t('chatDemoTitle'));
       document.getElementById('actionModalBody').innerHTML = `<div class="empty">${escapeHtml(t('chatDemoText'))}</div>`;
       document.getElementById('actionModalSubmit').style.display = 'none';
     }
 
     function companyOptionsHtml() {
-      const defaultCompanyId = state.selectedCompanyId === 'ALL' ? state.data.companies[0]?.companyId : state.selectedCompanyId;
-      return state.data.companies.map(company => `
+      const allowedIds = accessibleCompanyIds();
+      const defaultCompanyId = state.selectedCompanyId === 'ALL' ? allowedIds[0] : state.selectedCompanyId;
+      return (state.data.companies || []).filter(company => allowedIds.includes(company.companyId)).map(company => `
         <option value="${escapeHtml(company.companyId)}" ${company.companyId === defaultCompanyId ? 'selected' : ''}>
           ${escapeHtml(company.companyName)} (${escapeHtml(company.companyId)})
         </option>`).join('');
     }
-
     function assetOptionsHtml() {
-      const companyId = state.selectedCompanyId === 'ALL' ? state.data.companies[0]?.companyId : state.selectedCompanyId;
-      const assets = (state.data.assets || []).filter(asset => !companyId || asset.companyId === companyId);
+      const companyId = state.selectedCompanyId === 'ALL' ? accessibleCompanyIds()[0] : state.selectedCompanyId;
+      const assets = companyItems('assets').filter(asset => !companyId || asset.companyId === companyId);
       return assets.length
         ? assets.map(asset => `<option value="${escapeHtml(asset.name)}">${escapeHtml(asset.name)} · ${escapeHtml(asset.user || '-')}</option>`).join('')
         : `<option value="-">-</option>`;
     }
-
     function submitActionModal() {
       const type = state.activeActionType;
       const companyId = document.getElementById('actionCompany')?.value || state.data.companies[0]?.companyId || '';
@@ -1510,6 +1593,27 @@
       const today = new Date().toISOString().slice(0, 10);
       const suffix = Date.now().toString().slice(-6);
 
+      if (type === 'payInvoice') {
+        const invoice = findRecord('invoices', state.activeRecordId);
+        if (invoice) invoice.status = 'Maksettu';
+        closeActionModal();
+        renderAll();
+        return;
+      }
+      if (type === 'reply-requests' || type === 'reply-incidents') {
+        const recordType = state.activeRecordType;
+        const recordId = state.activeRecordId;
+        const item = findRecord(recordType, recordId);
+        const replyText = document.getElementById('threadReplyText')?.value || '';
+        if (item && replyText.trim()) {
+          const messages = getThreadMessages(recordType, recordId, item);
+          messages.push({ senderKey: 'customer', sender: t('customerSender'), date: new Date().toISOString().slice(0, 10), text: replyText.trim() });
+          saveThreadMessages(recordType, recordId, messages);
+        }
+        closeActionModal();
+        renderAll();
+        return;
+      }
       if (type === 'order') {
         const serviceType = document.getElementById('actionServiceType')?.value || t('mobileSubscription');
         state.data.orders.unshift({
@@ -1592,12 +1696,12 @@
         state.activeTab = card.dataset.tab;
         state.statusFilter = card.dataset.filter || null;
         state.selectedItem = null;
-        renderKpis(); renderTabs(); renderList(); renderDetail();
+        renderKpis(); renderTabs(); renderList();
       }));
     }
 
     function renderTabs() {
-      document.getElementById('tabs').innerHTML = tabs.map(tab => `<button class="tab ${state.activeTab === tab.id ? 'active' : ''}" data-tab="${tab.id}">${t(tab.labelKey)}</button>`).join('');
+      document.getElementById('tabs').innerHTML = availableTabs().map(tab => `<button class="tab ${state.activeTab === tab.id ? 'active' : ''}" data-tab="${tab.id}">${t(tab.labelKey)}</button>`).join('');
       document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
         state.activeTab = btn.dataset.tab;
         state.statusFilter = null;
@@ -1656,7 +1760,6 @@
       list.innerHTML = filterPrefix + items.map(item => rowTemplate(item, state.activeTab)).join('');
       list.querySelectorAll('.row').forEach(row => row.addEventListener('click', () => {
         if (state.activeTab === 'assets') window.location.href = `asset-detail.html?id=${row.dataset.id}`;
-        else { state.selectedItem = { id: row.dataset.id, type: state.activeTab }; renderDetail(); }
       }));
     }
 
@@ -1693,24 +1796,248 @@
 
     function rowTemplate(item, type) {
       const icon = iconFor(type, item);
-      let primary = '', secondary = '', badge = '';
-      if (type === 'assets') { primary = `${item.type}: ${item.name}`; secondary = [item.user, item.subscriptionTypeOrSpeed].filter(Boolean).join(' · ') || item.companyName; badge = item.category || ''; }
-      else if (type === 'orders') { primary = `${item.productType}: ${item.item}`; secondary = [item.user, item.orderDate, translateStatus(item.status)].filter(Boolean).join(' · '); badge = item.status || ''; }
-      else if (type === 'invoices') { primary = `${item.invoiceType}: ${formatCurrency(item.amount)}`; secondary = [`Lasku ${item.invoiceNumber}`, item.invoiceDate, translateStatus(item.status)].filter(Boolean).join(' · '); badge = item.status || ''; }
-      else if (type === 'requests') { primary = item.requestType; secondary = [translateStatus(item.status), item.requestDate, item.createdBy].filter(Boolean).join(' · '); badge = item.status || ''; }
-      else if (type === 'incidents') { primary = item.category; secondary = [translateStatus(item.status), item.startDate].filter(Boolean).join(' · '); badge = item.status || ''; }
-      return `<div class="row" data-id="${escapeHtml(item.id)}"><div class="icon">${icon}</div><div><div class="primary">${escapeHtml(primary)}</div><div class="secondary">${escapeHtml(secondary)}</div>${type === 'assets' ? `<a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a>` : ''}</div><span class="badge ${badgeClass(badge)}">${escapeHtml(translateStatus(translateCategory(badge)))}</span></div>`;
+      let primary = '', secondary = '', badge = '', details = [];
+      if (type === 'assets') {
+        primary = `${item.type}: ${item.name}`;
+        secondary = [item.user, item.subscriptionTypeOrSpeed, item.companyName].filter(Boolean).join(' · ');
+        badge = item.category || '';
+        details = [[t('companyName'), item.companyName], [t('user'), item.user], [t('productSpeed'), item.subscriptionTypeOrSpeed], [t('category'), translateCategory(item.category)], [t('fixedTerm'), item.fixedTermEndDate]];
+      } else if (type === 'orders') {
+        primary = `${item.productType}: ${item.item}`;
+        secondary = [item.companyName, item.user, translateStatus(item.status)].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [[t('companyName'), item.companyName], [t('user'), item.user], [t('billingAccount'), item.billingAccount], [t('orderDate'), item.orderDate], [t('status'), translateStatus(item.status)], [t('category'), translateCategory(item.category)]];
+      } else if (type === 'invoices') {
+        primary = `${item.invoiceType}: ${formatCurrency(item.amount)}`;
+        secondary = [`${t('invoiceNumber')} ${item.invoiceNumber || ''}`, item.companyName, translateStatus(item.status)].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [[t('companyName'), item.companyName], [t('invoiceNumber'), item.invoiceNumber], [t('invoiceDate'), item.invoiceDate], [t('billingAccount'), item.billingAccount], [t('referenceNumber'), item.referenceNumber], [t('status'), translateStatus(item.status)]];
+      } else if (type === 'requests') {
+        primary = item.requestType;
+        secondary = [item.companyName, translateStatus(item.status), item.requestDate].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [[t('companyName'), item.companyName], [t('description'), item.description], [t('requestDate'), item.requestDate], [t('createdBy'), item.createdBy], [t('status'), translateStatus(item.status)]];
+      } else if (type === 'incidents') {
+        primary = item.category;
+        secondary = [item.companyName, translateStatus(item.status), item.startDate].filter(Boolean).join(' · ');
+        badge = item.status || '';
+        details = [[t('companyName'), item.companyName], [t('description'), item.description], [t('startDate'), item.startDate], [t('status'), translateStatus(item.status)]];
+      }
+      return `
+        <div class="row" data-id="${escapeHtml(item.id)}">
+          <div class="icon">${icon}</div>
+          <div>
+            <div class="primary">${escapeHtml(primary || '-')}</div>
+            <div class="secondary">${escapeHtml(secondary || '-')}</div>
+            <div class="row-details">${detailChips(details)}</div>
+            ${rowActions(item, type)}
+          </div>
+          <span class="badge ${badgeClass(badge)}">${escapeHtml(translateStatus(translateCategory(badge)))}</span>
+        </div>`;
+    }
+
+    function rowActions(item, type) {
+      const id = escapeHtml(item.id || '');
+      if (type === 'assets') return `<div class="row-actions"><a class="row-action-button primary" href="asset-detail.html?id=${id}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
+      if (type === 'orders') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openOrderDetail(event, '${id}')">${t('showOrder')}</button><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
+      if (type === 'invoices') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openInvoiceDetail(event, '${id}')">${t('showInvoice')}</button><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
+      if (type === 'requests') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openThreadModal(event, 'requests', '${id}', false)">${t('openConversation')}</button><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('reply')}</button></div>`;
+      if (type === 'incidents') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openThreadModal(event, 'incidents', '${id}', false)">${t('openConversation')}</button><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('reply')}</button></div>`;
+      return '';
+    }
+
+    function detailChips(details) {
+      return details
+        .filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '')
+        .map(([label, value]) => `<span class="row-detail-chip"><span>${escapeHtml(label)}:</span> <strong>${escapeHtml(String(value))}</strong></span>`)
+        .join('');
+    }
+
+
+
+
+
+    function modalHeaderHtml(icon, title, subtitle = '') {
+      return `<span class="modal-title-line"><span class="modal-title-icon">${icon}</span><span><span>${escapeHtml(title)}</span>${subtitle ? `<div class="modal-subtitle">${escapeHtml(subtitle)}</div>` : ''}</span></span>`;
+    }
+
+    function setModalHeader(icon, title, subtitle = '') {
+      document.getElementById('actionModalTitle').innerHTML = modalHeaderHtml(icon, title, subtitle);
+    }
+
+    function statusBanner(status) {
+      if (!status) return '';
+      return `<div class="status-banner ${statusClass(status)}">${statusIcon(status)} ${escapeHtml(translateStatus(status))}</div>`;
+    }
+
+    function statusClass(status) {
+      const value = String(status || '').toLowerCase();
+      if (value.includes('maksettu') || value.includes('ratkaistu')) return 'paid resolved';
+      if (value.includes('valmis')) return 'completed';
+      if (value.includes('selvityks') || value.includes('käsittely')) return 'progress';
+      if (value.includes('avoin') || value.includes('tilauksessa')) return 'open';
+      return '';
+    }
+
+    function statusIcon(status) {
+      const value = String(status || '').toLowerCase();
+      if (value.includes('maksettu') || value.includes('valmis') || value.includes('ratkaistu')) return '🟢';
+      if (value.includes('selvityks') || value.includes('käsittely')) return '🟣';
+      if (value.includes('tilauksessa') || value.includes('avoin')) return '🟡';
+      return 'ℹ️';
+    }
+
+    function timelineSection(items) {
+      const clean = items.filter(item => item && item.text);
+      if (!clean.length) return '';
+      return `<div><h3>${escapeHtml(t('timeline'))}</h3><div class="timeline">${clean.map(item => `<div class="timeline-item"><strong>${escapeHtml(item.date || '')}</strong> ${escapeHtml(item.text)}</div>`).join('')}</div></div>`;
+    }
+
+    function orderTimeline(order) {
+      return timelineSection([
+        { date: order.orderDate, text: `${t('created')}: ${order.item || order.productType || '-'}` },
+        { date: order.orderDate, text: `${t('status')}: ${translateStatus(order.status)}` }
+      ]);
+    }
+
+    function invoiceTimeline(invoice) {
+      return timelineSection([
+        { date: invoice.invoiceDate, text: `${t('created')}: ${invoice.invoiceNumber || '-'}` },
+        { date: invoice.invoiceDate, text: `${t('status')}: ${translateStatus(invoice.status)}` }
+      ]);
+    }
+
+    function threadTimeline(item, type) {
+      const messages = getThreadMessages(type, item.id, item);
+      return timelineSection(messages.map((message, index) => ({ date: message.date, text: `${index === 0 ? t('created') : t('updated')}: ${message.sender}` })));
+    }
+
+    function invoicePdfPreview(invoice) {
+      return `<div class="pdf-preview"><div class="pdf-preview-header"><div class="pdf-preview-title">TELIA</div><div>${escapeHtml(t('pdfPreview'))}</div></div>${recordSummary([[t('invoiceNumber'), invoice.invoiceNumber], [t('invoiceDate'), invoice.invoiceDate], [t('companyName'), invoice.companyName], [t('billingAccount'), invoice.billingAccount], [t('referenceNumber'), invoice.referenceNumber], [t('status'), translateStatus(invoice.status)]])}<div class="pdf-preview-total">${escapeHtml(t('amount'))}: ${escapeHtml(formatCurrency(invoice.amount))}</div></div>`;
+    }
+
+    function findRecord(type, id) {
+      return (state.data[type] || []).find(item => String(item.id) === String(id));
+    }
+
+    function recordSummary(rows) {
+      return `<div class="record-summary">${rows.filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '').map(([label, value]) => `<div class="record-summary-item"><div class="record-summary-label">${escapeHtml(label)}</div><div class="record-summary-value">${escapeHtml(String(value))}</div></div>`).join('')}</div>`;
+    }
+
+    function showModalContent(title, html, icon = 'ℹ️', subtitle = '') {
+      state.activeActionType = 'contentOnly';
+      setModalHeader(icon, title, subtitle);
+      document.getElementById('actionModalBody').innerHTML = html;
+      document.getElementById('actionModalCancel').textContent = t('modalCancel');
+      document.getElementById('actionModalSubmit').style.display = 'none';
+      document.getElementById('actionModal').hidden = false;
+    }
+
+    function openOrderDetail(event, id) {
+      event?.stopPropagation?.();
+      const order = findRecord('orders', id);
+      if (!order) return;
+      showModalContent(`${t('orders')} · ${order.item || order.productType || id}`, `${statusBanner(order.status)}${recordSummary([[t('companyName'), order.companyName], [t('productType'), order.productType], [t('item'), order.item], [t('user'), order.user], [t('billingAccount'), order.billingAccount], [t('orderDate'), order.orderDate], [t('status'), translateStatus(order.status)], [t('category'), translateCategory(order.category)]])}${orderTimeline(order)}`, '📦', order.companyName || '');
+    }
+
+
+    function askAboutOrder(event, id) {
+      event?.stopPropagation?.();
+      const order = findRecord('orders', id);
+      if (!order) return;
+      openActionModal('request');
+      const requestType = document.getElementById('actionRequestType');
+      const description = document.getElementById('actionDescription');
+      if (requestType) requestType.value = t('requestServiceChange');
+      if (description) description.value = `${t('askAboutOrder')}: ${order.item || order.productType || id}\n\n${t('orderQuestionText')}`;
+    }
+
+    function openInvoiceDetail(event, id) {
+      event?.stopPropagation?.();
+      const invoice = findRecord('invoices', id);
+      if (!invoice) return;
+      showModalContent(`${t('invoices')} · ${invoice.invoiceNumber || id}`, `${statusBanner(invoice.status)}${recordSummary([[t('companyName'), invoice.companyName], [t('invoiceType'), invoice.invoiceType], [t('invoiceNumber'), invoice.invoiceNumber], [t('invoiceDate'), invoice.invoiceDate], [t('billingAccount'), invoice.billingAccount], [t('referenceNumber'), invoice.referenceNumber], [t('amount'), formatCurrency(invoice.amount)], [t('status'), translateStatus(invoice.status)]])}${invoiceTimeline(invoice)}`, '🧾', invoice.companyName || '');
+    }
+
+
+    function openInvoicePdf(event, id) {
+      event?.stopPropagation?.();
+      const invoice = findRecord('invoices', id);
+      if (!invoice) return;
+      showModalContent(t('invoicePdfTitle'), `${invoicePdfPreview(invoice)}<p>${escapeHtml(t('invoicePdfText'))}</p>`, '📄', invoice.invoiceNumber || '');
+    }
+
+
+    function openPayInvoice(event, id) {
+      event?.stopPropagation?.();
+      const invoice = findRecord('invoices', id);
+      if (!invoice) return;
+      state.activeActionType = 'payInvoice';
+      state.activeRecordId = id;
+      setModalHeader('💳', t('paymentSummary'), invoice.invoiceNumber || '');
+      document.getElementById('actionModalBody').innerHTML = `${statusBanner(invoice.status)}${recordSummary([[t('invoiceNumber'), invoice.invoiceNumber], [t('companyName'), invoice.companyName], [t('amount'), formatCurrency(invoice.amount)], [t('referenceNumber'), invoice.referenceNumber], [t('status'), translateStatus(invoice.status)]])}${invoiceTimeline(invoice)}`;
+      document.getElementById('actionModalCancel').textContent = t('modalCancel');
+      const submitButton = document.getElementById('actionModalSubmit');
+      submitButton.textContent = t('confirmPayment');
+      submitButton.style.display = 'inline-block';
+      document.getElementById('actionModal').hidden = false;
+    }
+
+
+    function openThreadModal(event, type, id, replyMode) {
+      event?.stopPropagation?.();
+      const item = findRecord(type, id);
+      if (!item) return;
+      state.activeActionType = replyMode ? `reply-${type}` : 'threadOnly';
+      state.activeRecordType = type;
+      state.activeRecordId = id;
+      setModalHeader(type === 'requests' ? '🛠️' : '⚠️', `${t('messageThread')} · ${threadTitle(item, type)}`, item.companyName || '');
+      document.getElementById('actionModalBody').innerHTML = `${statusBanner(item.status)}${threadTimeline(item, type)}${renderThread(item, type)}${replyMode ? `<div class="form-row"><label for="threadReplyText">${t('reply')}</label><textarea id="threadReplyText"></textarea></div>` : ''}`;
+      document.getElementById('actionModalCancel').textContent = t('modalCancel');
+      const submitButton = document.getElementById('actionModalSubmit');
+      submitButton.textContent = t('sendReply');
+      submitButton.style.display = replyMode ? 'inline-block' : 'none';
+      document.getElementById('actionModal').hidden = false;
+    }
+
+
+    function threadTitle(item, type) {
+      if (type === 'requests') return item.requestType || item.id;
+      if (type === 'incidents') return item.category || item.id;
+      return item.id || '';
+    }
+
+    function renderThread(item, type) {
+      const messages = getThreadMessages(type, item.id, item);
+      return `<div class="thread">${messages.map(message => `<div class="thread-message ${message.senderKey === 'customer' ? 'customer' : ''}"><div class="thread-meta">${escapeHtml(message.sender)} · ${escapeHtml(message.date)}</div><div class="thread-text">${escapeHtml(message.text)}</div></div>`).join('')}</div>`;
+    }
+
+    function getThreadMessages(type, id, item) {
+      const key = `mtyThread-${type}-${id}`;
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try { return JSON.parse(saved); } catch (error) { /* ignore */ }
+      }
+      const date = item.requestDate || item.startDate || new Date().toISOString().slice(0, 10);
+      return [
+        { senderKey: 'telia', sender: t('teliaSender'), date, text: item.description || threadTitle(item, type) || '-' },
+        { senderKey: 'customer', sender: t('customerSender'), date, text: type === 'requests' ? t('createServiceRequestDesc') : t('reportIncidentDesc') }
+      ];
+    }
+
+    function saveThreadMessages(type, id, messages) {
+      localStorage.setItem(`mtyThread-${type}-${id}`, JSON.stringify(messages));
     }
 
     function tileTemplate(item) {
       const icon = iconFor('assets', item);
-      return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
+      return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('companyName')}: ${escapeHtml(item.companyName || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div class="asset-tile-sub">${t('fixedTerm')}: ${escapeHtml(item.fixedTermEndDate || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
     }
 
 
 
     function setDetailPanelTitle(title) {
-      document.getElementById('detailPanelTitle').textContent = title;
+      // Detail pane removed in full-width list view.
     }
 
     function customerSummary() {
@@ -1784,6 +2111,81 @@
       return String(value ?? '').replace(/[&<>'"]/g, char => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
       }[char]));
+    }
+
+
+
+    function renderSettingsModalBody() {
+      const user = currentDemoUser();
+      const canManageUsers = user.role === 'admin';
+      const userRows = demoUsers.map(demoUser => `
+        <button class="demo-user-card ${demoUser.id === state.currentUserId ? 'active' : ''}" type="button" onclick="switchDemoUser('${escapeHtml(demoUser.id)}')">
+          <span class="demo-user-name"><span>${demoUser.id === state.currentUserId ? '✅ ' : '👤 '}${escapeHtml(demoUser.name)}</span><span class="role-badge ${escapeHtml(demoUser.role)}">${escapeHtml(roleLabel(demoUser.role))}</span></span>
+          <span class="demo-user-meta">${escapeHtml(demoUser.email)}</span>
+          <span class="demo-user-meta">${escapeHtml(visibleCompaniesText(demoUser))}</span><span class="demo-user-meta">${escapeHtml(visibleDataText(demoUser))}</span>
+        </button>`).join('');
+      const managementRows = demoUsers.map(demoUser => `
+        <div class="user-management-row">
+          <div><strong>${escapeHtml(demoUser.name)}</strong><div class="demo-user-meta">${escapeHtml(demoUser.email)}</div></div>
+          <div><span class="role-badge ${escapeHtml(demoUser.role)}">${escapeHtml(roleLabel(demoUser.role))}</span></div>
+          <div>${escapeHtml(demoUser.role === 'admin' ? t('allCompanies') : demoUser.role === 'enduser' ? (demoUser.assetUser || '-') : (demoUser.companyIds || []).map(companyNameById).join(', '))}</div>
+          <div class="settings-actions">
+            <button class="settings-action-button" type="button" onclick="openPermissionDemo('${escapeHtml(demoUser.id)}')">${escapeHtml(t('editPermissions'))}</button>
+          </div>
+        </div>`).join('');
+      return `
+        <div class="settings-intro">${escapeHtml(t('userManagementDesc'))}</div>
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h4>${escapeHtml(t('demoUser'))}</h4>
+            <p>${escapeHtml(t('userManagementDesc'))}</p>
+            <div class="demo-user-list">${userRows}</div>
+          </div>
+          <div class="settings-card">
+            <h4>${escapeHtml(t('visibleData'))}</h4>
+            <div class="access-summary">
+              <div class="access-row"><strong>${escapeHtml(t('currentUser'))}</strong>${escapeHtml(user.name)} · ${escapeHtml(roleLabel(user.role))}</div>
+              <div class="access-row"><strong>${escapeHtml(t('role'))}</strong>${escapeHtml(roleDescription(user.role))}</div>
+              <div class="access-row"><strong>${escapeHtml(t('visibleCompanies'))}</strong>${escapeHtml(visibleCompaniesText(user))}</div>
+              <div class="access-row"><strong>${escapeHtml(t('visibleData'))}</strong>${escapeHtml(visibleDataText(user))}</div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h4>${escapeHtml(t('userManagement'))}</h4>
+          ${canManageUsers ? `
+            <p>${escapeHtml(t('adminRoleDesc'))}</p>
+            <div class="settings-actions"><button class="settings-action-button primary" type="button" onclick="openPermissionDemo('new')">+ ${escapeHtml(t('addUser'))}</button></div>
+            <div class="user-management-table" style="margin-top:12px">
+              <div class="user-management-row header"><div>${escapeHtml(t('user'))}</div><div>${escapeHtml(t('role'))}</div><div>${escapeHtml(t('visibleCompanies'))}</div><div>${escapeHtml(t('actions'))}</div></div>
+              ${managementRows}
+            </div>` : `<div class="empty">${escapeHtml(t('noAccessToTab'))}</div>`}
+        </div>`;
+    }
+    function switchDemoUser(userId) {
+      state.currentUserId = userId;
+      localStorage.setItem('mtyCurrentUserId', userId);
+      state.selectedCompanyId = pickDefaultCompany();
+      state.selectedItem = null;
+      state.statusFilter = null;
+      ensureAllowedState();
+      document.getElementById('settingsModalBody').innerHTML = renderSettingsModalBody();
+      renderAll();
+    }
+    function openPermissionDemo(userId) {
+      const demoUser = demoUsers.find(user => user.id === userId);
+      const title = userId === 'new' ? t('addUser') : `${t('permissionDemoTitle')} · ${demoUser?.name || ''}`;
+      const html = `<div class="empty">${escapeHtml(t('permissionDemoText'))}</div>`;
+      showModalContent(title, html, '🔐', demoUser ? roleLabel(demoUser.role) : t('userManagement'));
+    }
+    function openSettingsModal() {
+      document.getElementById('settingsModalTitle').textContent = `⚙️ ${t('settings')}`;
+      document.getElementById('settingsModalBody').innerHTML = renderSettingsModalBody();
+      document.getElementById('settingsModalCloseButton').textContent = t('modalCancel');
+      document.getElementById('settingsModal').hidden = false;
+    }
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').hidden = true;
     }
 
     loadData().catch(error => {
