@@ -907,7 +907,11 @@
       .thread-message.customer { justify-self: stretch; }
     }
 
-  </style>
+  .current-user-pill { margin-top:14px; display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:999px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:white; font-size:13px; font-weight:800; }
+.demo-user-card { width:100%; border:1px solid var(--border); background:white; border-radius:16px; padding:16px; text-align:left; cursor:pointer; display:grid; gap:8px; transition:all .2s ease; }
+.demo-user-card:hover { transform:translateY(-2px); box-shadow:var(--shadow); border-color:#ead7ff; }
+.demo-user-card.active { border-color:var(--telia); background:#fbf5ff; box-shadow:0 10px 24px rgba(153,10,227,.15); }
+</style>
 </head>
 <body>
   <header>
@@ -1174,7 +1178,7 @@
       const pill = document.getElementById('currentUserPill');
       if (!pill) return;
       const user = currentDemoUser();
-      pill.textContent = `${t('currentUser')}: ${user.name} · ${roleLabel(user.role)}`;
+      pill.textContent = `👤 ${user.name} | ${roleLabel(user.role)}`;
     }
 
 
@@ -2111,9 +2115,9 @@
       const canManageUsers = user.role === 'admin';
       const userRows = demoUsers.map(demoUser => `
         <button class="demo-user-card ${demoUser.id === state.currentUserId ? 'active' : ''}" type="button" onclick="switchDemoUser('${escapeHtml(demoUser.id)}')">
-          <span class="demo-user-name"><span>${escapeHtml(demoUser.name)}</span><span class="role-badge ${escapeHtml(demoUser.role)}">${escapeHtml(roleLabel(demoUser.role))}</span></span>
+          <span class="demo-user-name"><span>${demoUser.id === state.currentUserId ? '✅ ' : '👤 '}${escapeHtml(demoUser.name)}</span><span class="role-badge ${escapeHtml(demoUser.role)}">${escapeHtml(roleLabel(demoUser.role))}</span></span>
           <span class="demo-user-meta">${escapeHtml(demoUser.email)}</span>
-          <span class="demo-user-meta">${escapeHtml(visibleDataText(demoUser))}</span>
+          <span class="demo-user-meta">${escapeHtml(visibleCompaniesText(demoUser))}</span><span class="demo-user-meta">${escapeHtml(visibleDataText(demoUser))}</span>
         </button>`).join('');
       const managementRows = demoUsers.map(demoUser => `
         <div class="user-management-row">
