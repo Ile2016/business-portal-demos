@@ -1028,7 +1028,7 @@
         <h3 id="settingsModalTitle">⚙️ Asetukset</h3>
         <button class="action-modal-close" type="button" onclick="closeSettingsModal()" aria-label="Sulje">×</button>
       </div>
-      <div class="action-modal-body">
+      <div class="action-modal-body" id="settingsModalBody">
         <div class="empty" id="settingsModalBodyText">Asetusnäkymä tulossa seuraavaan versioon.</div>
       </div>
       <div class="action-modal-footer">
@@ -1304,7 +1304,9 @@
     }
 
     function renderAll() {
+      ensureAllowedState();
       updateStaticTexts();
+      updateCurrentUserPill();
       updateSearchModeUi();
       if (state.searchMode === 'content') { renderContentSearch(); return; }
       renderCustomerSearch();
@@ -1326,8 +1328,9 @@
 
     function renderCustomerSearch() { renderNews(); renderQuickActions(); renderKpis(); renderTabs(); renderList(); }
     function companyItems(key) {
-      if (state.selectedCompanyId === 'ALL') return state.data[key] || [];
-      return (state.data[key] || []).filter(item => item.companyId === state.selectedCompanyId);
+      let items = filterItemsByCurrentUser(key, state.data[key] || []);
+      if (state.selectedCompanyId === 'ALL') return items;
+      return items.filter(item => item.companyId === state.selectedCompanyId);
     }
     function renderNews() {
       const area = document.getElementById('newsArea');
