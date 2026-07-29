@@ -29,11 +29,11 @@
       position: relative;
       background: linear-gradient(135deg, #3b0764, var(--telia));
       color: white;
-      padding: 28px 32px;
+      padding: 18px 32px;
     }
 
     .header-content { padding-right: 220px; }
-    header h1 { margin: 0 0 8px; font-size: 28px; }
+    header h1 { margin: 0 0 8px; font-size: 24px; }
     header p { margin: 0; opacity: 0.9; }
 
     .language-switcher {
@@ -940,8 +940,7 @@
     <div class="header-content">
       <h1 id="appTitle">MTY Small Customer 360 Demo</h1>
       <p id="appSubtitle">Excelistä muunnettu JSON-data, asiakasvalinta, KPI:t, asset-lista ja älykäs sisältöhaku.</p>
-      <div id="currentUserPill" class="current-user-pill"></div>
-    </div>
+          </div>
   </header>
 
   <main>
@@ -1175,10 +1174,7 @@
       if (title) {
         title.textContent = `${t('appTitleBase')} (${firstName}, ${roleLabel(user.role)})`;
       }
-      const pill = document.getElementById('currentUserPill');
-      if (pill) {
-        pill.textContent = `👤 ${user.name} | ${roleLabel(user.role)}`;
-      }
+     
     }
 
 
