@@ -979,7 +979,7 @@
       <div class="panel">
         <div class="panel-header">
           <h2 id="customerPanelTitle">Asiakkaan tiedot</h2>
-          <span id="resultCount" class="badge"></span>
+          <div class="panel-header-actions"><button id="contextActionBtn" class="tab-action-btn" type="button">Action</button><span id="resultCount" class="badge"></span></div>
         </div>
         <div class="view-toggle" id="assetViewToggle">
           <button id="listViewBtn" class="view-btn active" type="button">Listanäkymä</button>
@@ -1334,7 +1334,7 @@
       updateAssetViewToggleVisibility();
     }
 
-    function renderCustomerSearch() { renderNews(); renderKpis(); renderTabs(); renderList(); updateContextActionButton(); }
+    function renderCustomerSearch() { renderNews(); renderKpis(); renderTabs(); renderList(); updateContextActionButton(); updateContextActionButton(); }
 
     function updateContextActionButton() {
       const btn = document.getElementById("contextActionBtn");
@@ -1711,7 +1711,7 @@
         state.activeTab = card.dataset.tab;
         state.statusFilter = card.dataset.filter || null;
         state.selectedItem = null;
-        renderKpis(); renderTabs(); renderList();
+        renderKpis(); renderTabs(); renderList(); updateContextActionButton();
       }));
     }
 
@@ -1722,7 +1722,7 @@
       const nav = document.getElementById('appNav');
       if (!nav) return;
       nav.innerHTML = availableTabs().map(tab => `<button class="side-nav-button ${state.activeTab === tab.id ? 'active' : ''}" type="button" data-tab="${tab.id}"><span class="side-nav-left"><span>${navIconForTab(tab.id)}</span><span>${t(tab.labelKey)}</span></span><span>›</span></button>`).join('');
-      nav.querySelectorAll('.side-nav-button').forEach(btn => btn.addEventListener('click', () => { state.activeTab = btn.dataset.tab; state.statusFilter = null; state.selectedItem = null; renderAll(); }));
+      nav.querySelectorAll('.side-nav-button').forEach(btn => btn.addEventListener('click', () => { state.activeTab = btn.dataset.tab; state.statusFilter = null; state.selectedItem = null; renderAll(); updateContextActionButton(); }));
       updateAssetViewToggleVisibility();
     }
 
@@ -1746,6 +1746,9 @@
     }
 
     function renderList() {
+      updateContextActionButton();
+      const activeTab = tabs.find(tab => tab.id === state.activeTab);
+      document.getElementById('customerPanelTitle').textContent = activeTab ? t(activeTab.labelKey) : t('customerInfo');
       const list = document.getElementById('listArea');
       const q = document.getElementById('searchInput').value.toLowerCase();
       const typeFilter = document.getElementById('typeSelect').value;
