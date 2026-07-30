@@ -1252,7 +1252,7 @@
     };
 
     const state = {
-      activeTab: 'assets', searchMode: 'customer', assetView: 'list', statusFilter: null, searchScope: 'assets',
+      activeTab: 'assets', searchMode: 'customer', assetView: 'list', statusFilter: null, searchScope: 'allViews',
       language: localStorage.getItem('mtyLanguage') || 'fi',
       currentUserId: localStorage.getItem('mtyCurrentUserId') || 'admin-anna',
       selectedCompanyId: '', selectedItem: null, activeActionType: null, data: {}
@@ -1537,7 +1537,7 @@
       const totalCount = totalSearchCount(counts);
       const viewOptions = [{ id: 'allViews', label: showCounts ? `${t('allViews')} (${totalCount})` : t('allViews') }, ...availableTabs().map(tab => ({ id: tab.id, label: showCounts ? `${t(tab.labelKey)} (${counts[tab.id] || 0})` : t(tab.labelKey) }))];
       typeSelect.innerHTML = viewOptions.map(option => `<option value="${escapeHtml(option.id)}">${escapeHtml(option.label)}</option>`).join('');
-      typeSelect.value = viewOptions.some(option => option.id === oldValue) ? oldValue : 'assets';
+      typeSelect.value = viewOptions.some(option => option.id === oldValue) ? oldValue : 'allViews';
       state.searchScope = typeSelect.value;
     }
 
