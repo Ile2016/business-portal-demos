@@ -1071,6 +1071,57 @@
         font-size:12px;
       }
     }
+
+    /* MTY global search: scope selector, view result counts and grouped results */
+    .nav-count-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:24px;
+      padding:3px 7px;
+      border-radius:999px;
+      background:#f3f4f6;
+      color:#374151;
+      font-size:12px;
+      font-weight:900;
+    }
+    .side-nav-button.active .nav-count-badge{
+      background:rgba(255,255,255,.22);
+      color:#fff;
+    }
+    .global-result-group{
+      margin:8px 0 14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .global-result-group-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      background:#fbfcfe;
+      border-bottom:1px solid var(--border);
+      font-weight:900;
+    }
+    .global-result-group-header button{
+      border:0;
+      background:transparent;
+      color:var(--blue);
+      font:inherit;
+      font-weight:900;
+      cursor:pointer;
+      padding:0;
+    }
+    .global-result-group .row{
+      border-radius:0;
+      border-bottom:1px solid #f1f5f9;
+    }
+    .global-result-group .row:last-child{
+      border-bottom:0;
+    }
 </style>
 </head>
 <body>
@@ -1188,20 +1239,20 @@
     const i18n = {
       fi: {
         appTitle: 'MTY Small Customer 360 Demo', appTitleBase: 'MTY Small Customer 360 Demo', appSubtitle: 'Excelistä muunnettu JSON-data, asiakasvalinta, KPI:t, asset-lista ja älykäs sisältöhaku.',
-        company: 'Valitse yritys', searchCustomer: 'Hae liittymistä ja palveluista', searchContent: 'Kysy Telian yrityssisällöistä', customerPlaceholder: 'Esim. numero, käyttäjä, laite...', contentPlaceholder: 'Esim. Miten vaihdan SIM-kortin?', typeFilter: 'Rajaa tyyppi', all: 'Kaikki', allCompanies: 'Kaikki yritykset', companies: 'Yrityksiä', searchMode: 'Hakutyyppi', customerData: 'Minun Telia Yrityksille data', teliaContent: 'Telia Ohjeet & Sisällöt', aiAnswer: 'AI-vastaus', customerInfo: 'Asiakkaan tiedot', detailView: 'Detail-näkymä', listView: 'Listanäkymä', tileView: 'Tiilinäkymä', assets: 'Liittymät ja palvelut', orders: 'Tilaukset', invoices: 'Laskut', requests: 'Palvelupyynnöt', incidents: 'Vikailmoitukset', openInvoices: 'Avoimet laskut', openRequests: 'Avoimet pyynnöt', openIncidents: 'Avoimet viat', openInvoicesNotification: 'Avoimia laskuja', openRequestsNotification: 'Avoimia palvelupyyntöjä', openIncidentsNotification: 'Avoimia vikoja', rows: 'riviä', filterOpenInvoices: 'Suodatus: vain avoimet laskut', filterOpenRequests: 'Suodatus: vain avoimet palvelupyynnöt', filterOpenIncidents: 'Suodatus: vain avoimet vikailmoitukset', noResults: 'Ei tuloksia valitulla rajauksella.', askTelia: 'Kirjoita kysymys Telian yrityssisällöistä.', contentMissing: 'content-search.json puuttuu tai on tyhjä.', noDirectAnswer: 'Ei suoraa vastausta', noMockAnswer: 'En löytänyt mock-datasta suoraa vastausta kysymykseen', sources: 'Lähteet', noSources: 'Ei lähdelinkkejä.', openExample: 'Avaa esimerkkikysymys', showDetails: 'Näytä tiedot →', selectFromList: 'Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.', companySummary: 'Yrityksen yhteenveto', companyName: 'Yritys', user: 'Käyttäjä', productSpeed: 'Tuote/nopeus', category: 'Kategoria', fixedTerm: 'Määräaika päättyy', actions: 'Toiminnot', relatedOrders: 'Liittyvät tilaukset', noActions: 'Ei määriteltyjä toimintoja.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', productType: 'Tuotetyyppi', item: 'Kohde', billingAccount: 'Laskutili', orderDate: 'Tilauspäivä', status: 'Status', invoiceType: 'Laskun tyyppi', invoiceDate: 'Laskun päivämäärä', invoiceNumber: 'Laskun numero', amount: 'Summa', referenceNumber: 'Viitenumero', requestType: 'Pyyntölaji', description: 'Kuvaus', requestDate: 'Pyyntöpäivä', createdBy: 'Luonut', startDate: 'Aloituspäivä', open: 'Avoinna', completed: 'Valmis', resolved: 'Ratkaistu', inProgress: 'Käsittelyssä', underInvestigation: 'Selvityksessä', ordered: 'Tilauksessa', target: 'Target', legacy: 'Legacy', quickActions: 'Pikatoiminnot', quickActionsDesc: 'Tilaa lisää, luo palvelupyyntö tai ilmoita vika suoraan tästä näkymästä.', orderNewService: 'Tilaa palvelu', orderNewServiceDesc: 'Aloita uuden palvelun tilaus.', contactUs: 'Ota meihin yhteyttä', contactUsDesc: 'Valitse chat, palvelupyyntö tai muut yhteydenottotavat.', createServiceRequest: 'Luo palvelupyyntö', createServiceRequestDesc: 'Lähetä uusi pyyntö asiakaspalveluun.', showOrder: 'Näytä tilaus', askAboutOrder: 'Kysy tilauksesta', showInvoice: 'Näytä lasku', invoicePdf: 'PDF', payInvoice: 'Maksa lasku', openConversation: 'Avaa', reply: 'Vastaa', sendReply: 'Lähetä vastaus', messageThread: 'Viestiketju', paymentSummary: 'Maksun yhteenveto', confirmPayment: 'Vahvista maksu', paymentDone: 'Lasku merkitty maksetuksi.', invoicePdfTitle: 'Laskun PDF', invoicePdfText: 'Demo: tästä avautuisi laskun alkuperäinen PDF-tiedosto.', orderQuestionText: 'Haluan lisätietoja tästä tilauksesta.', paid: 'Maksettu', teliaSender: 'Telia', customerSender: 'Asiakas', timeline: 'Aikajana', created: 'Luotu', updated: 'Päivitetty', pdfPreview: 'PDF-esikatselu', settings: 'Asetukset', settingsComingSoon: 'Asetusnäkymä tulossa seuraavaan versioon.', chat: 'Chat', chatDesc: 'Aloita keskustelu asiakaspalvelun kanssa.', serviceRequestOption: 'Luo palvelupyyntö', serviceRequestOptionDesc: 'Tee kirjallinen palvelupyyntö.', otherWays: 'Muut tavat', otherWaysDesc: 'Katso muut yhteystiedot Telian sivuilta.', chatDemoTitle: 'Chat', chatDemoText: 'Chat avautuisi normaalisti tästä. Demossa näytetään vain yhteydenottopolun rakenne.', reportIncident: 'Ilmoita vika', reportIncidentDesc: 'Avaa uusi vikailmoitus palvelusta.', modalCompany: 'Yritys', modalServiceType: 'Palvelu', modalRequestType: 'Pyyntölaji', modalAffectedService: 'Vaikutettu palvelu', modalDescription: 'Kuvaus', modalCancel: 'Peruuta', modalSubmit: 'Lähetä', modalContinue: 'Luo demotapahtuma', mobileSubscription: 'Matkapuhelinliittymä', businessInternet: 'Yritysnetti', license: 'Lisenssi', securityService: 'Tietoturvapalvelu', requestUserChange: 'Käyttäjämuutos', requestBilling: 'Laskutusasia', requestServiceChange: 'Palvelumuutos', incidentMobileData: 'Mobiilidata ei toimi', incidentInternet: 'Yritysnetti ei toimi', incidentDevice: 'Laitteen ongelma', demoUser: 'Demokäyttäjä', currentUser: 'Valittu käyttäjä', switchUser: 'Vaihda käyttäjäksi', userManagement: 'Käyttäjien hallinta', userManagementDesc: 'Valitse demokäyttäjä ja näytä, miten rooli rajaa yritykset, välilehdet ja datan.', role: 'Rooli', visibleCompanies: 'Näkyvät yritykset', visibleData: 'Näkyvä data', adminRole: 'Pääkäyttäjä', limitedRole: 'Rajattu käyttäjä', endUserRole: 'Loppukäyttäjä', adminRoleDesc: 'Näkee kaikki yritykset, kaikki tiedot ja käyttäjähallinnan.', limitedRoleDesc: 'Näkee vain hänelle valitut yritykset ja niiden tiedot.', endUserRoleDesc: 'Näkee vain omat liittymät ja palvelut, joissa hän on käyttäjänä.', allData: 'Kaikki yritykset ja kaikki näkymät', selectedCompaniesOnly: 'Vain valitut yritykset', ownAssetsOnly: 'Vain omat liittymät ja palvelut', addUser: 'Lisää käyttäjä', editPermissions: 'Muokkaa oikeuksia', removeAccess: 'Poista käyttöoikeus', permissionDemoTitle: 'Käyttöoikeudet', permissionDemoText: 'Demo: tässä näkymässä pääkäyttäjä valitsisi matkittavat yritykset ja käyttöoikeudet.', activeUserChanged: 'Demokäyttäjä vaihdettu', noAccessToTab: 'Tämä näkymä ei kuulu valitun käyttäjän oikeuksiin.', sidebarSituation: 'Tilanne', sidebarViews: 'Näkymät', vnextSubtitle: 'Sivupalkki, roolit ja toimintalähtöinen navigaatio.', contextActionAssets: '🛒 Tilaa liittymä tai laite', contextActionOrders: '📄 Tulosta raportti', contextActionInvoices: '✏️ Muuta laskutustietoja', contextActionRequests: '🛠️ Tee palvelupyyntö', contextActionIncidents: '⚠️ Tee vikailmoitus', mobileSearchFilters: '🔍 Haku ja suodattimet'
+        company: 'Valitse yritys', searchCustomer: 'Hae Minun Telia Yrityksille -datasta', searchContent: 'Kysy Telian yrityssisällöistä', customerPlaceholder: 'Esim. numero, käyttäjä, laite...', contentPlaceholder: 'Esim. Miten vaihdan SIM-kortin?', typeFilter: 'Rajaa hakualue', all: 'Kaikki', allCompanies: 'Kaikki yritykset', companies: 'Yrityksiä', searchMode: 'Hakutyyppi', customerData: 'Minun Telia Yrityksille data', teliaContent: 'Telia Ohjeet & Sisällöt', aiAnswer: 'AI-vastaus', customerInfo: 'Asiakkaan tiedot', detailView: 'Detail-näkymä', listView: 'Listanäkymä', tileView: 'Tiilinäkymä', assets: 'Liittymät ja palvelut', orders: 'Tilaukset', invoices: 'Laskut', requests: 'Palvelupyynnöt', incidents: 'Vikailmoitukset', openInvoices: 'Avoimet laskut', openRequests: 'Avoimet pyynnöt', openIncidents: 'Avoimet viat', openInvoicesNotification: 'Avoimia laskuja', openRequestsNotification: 'Avoimia palvelupyyntöjä', openIncidentsNotification: 'Avoimia vikoja', rows: 'riviä', filterOpenInvoices: 'Suodatus: vain avoimet laskut', filterOpenRequests: 'Suodatus: vain avoimet palvelupyynnöt', filterOpenIncidents: 'Suodatus: vain avoimet vikailmoitukset', noResults: 'Ei tuloksia valitulla rajauksella.', askTelia: 'Kirjoita kysymys Telian yrityssisällöistä.', contentMissing: 'content-search.json puuttuu tai on tyhjä.', noDirectAnswer: 'Ei suoraa vastausta', noMockAnswer: 'En löytänyt mock-datasta suoraa vastausta kysymykseen', sources: 'Lähteet', noSources: 'Ei lähdelinkkejä.', openExample: 'Avaa esimerkkikysymys', showDetails: 'Näytä tiedot →', selectFromList: 'Valitse listasta asset, lasku, tilaus, palvelupyyntö tai vikailmoitus.', companySummary: 'Yrityksen yhteenveto', companyName: 'Yritys', user: 'Käyttäjä', productSpeed: 'Tuote/nopeus', category: 'Kategoria', fixedTerm: 'Määräaika päättyy', actions: 'Toiminnot', relatedOrders: 'Liittyvät tilaukset', noActions: 'Ei määriteltyjä toimintoja.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', productType: 'Tuotetyyppi', item: 'Kohde', billingAccount: 'Laskutili', orderDate: 'Tilauspäivä', status: 'Status', invoiceType: 'Laskun tyyppi', invoiceDate: 'Laskun päivämäärä', invoiceNumber: 'Laskun numero', amount: 'Summa', referenceNumber: 'Viitenumero', requestType: 'Pyyntölaji', description: 'Kuvaus', requestDate: 'Pyyntöpäivä', createdBy: 'Luonut', startDate: 'Aloituspäivä', open: 'Avoinna', completed: 'Valmis', resolved: 'Ratkaistu', inProgress: 'Käsittelyssä', underInvestigation: 'Selvityksessä', ordered: 'Tilauksessa', target: 'Target', legacy: 'Legacy', quickActions: 'Pikatoiminnot', quickActionsDesc: 'Tilaa lisää, luo palvelupyyntö tai ilmoita vika suoraan tästä näkymästä.', orderNewService: 'Tilaa palvelu', orderNewServiceDesc: 'Aloita uuden palvelun tilaus.', contactUs: 'Ota meihin yhteyttä', contactUsDesc: 'Valitse chat, palvelupyyntö tai muut yhteydenottotavat.', createServiceRequest: 'Luo palvelupyyntö', createServiceRequestDesc: 'Lähetä uusi pyyntö asiakaspalveluun.', showOrder: 'Näytä tilaus', askAboutOrder: 'Kysy tilauksesta', showInvoice: 'Näytä lasku', invoicePdf: 'PDF', payInvoice: 'Maksa lasku', openConversation: 'Avaa', reply: 'Vastaa', sendReply: 'Lähetä vastaus', messageThread: 'Viestiketju', paymentSummary: 'Maksun yhteenveto', confirmPayment: 'Vahvista maksu', paymentDone: 'Lasku merkitty maksetuksi.', invoicePdfTitle: 'Laskun PDF', invoicePdfText: 'Demo: tästä avautuisi laskun alkuperäinen PDF-tiedosto.', orderQuestionText: 'Haluan lisätietoja tästä tilauksesta.', paid: 'Maksettu', teliaSender: 'Telia', customerSender: 'Asiakas', timeline: 'Aikajana', created: 'Luotu', updated: 'Päivitetty', pdfPreview: 'PDF-esikatselu', settings: 'Asetukset', settingsComingSoon: 'Asetusnäkymä tulossa seuraavaan versioon.', chat: 'Chat', chatDesc: 'Aloita keskustelu asiakaspalvelun kanssa.', serviceRequestOption: 'Luo palvelupyyntö', serviceRequestOptionDesc: 'Tee kirjallinen palvelupyyntö.', otherWays: 'Muut tavat', otherWaysDesc: 'Katso muut yhteystiedot Telian sivuilta.', chatDemoTitle: 'Chat', chatDemoText: 'Chat avautuisi normaalisti tästä. Demossa näytetään vain yhteydenottopolun rakenne.', reportIncident: 'Ilmoita vika', reportIncidentDesc: 'Avaa uusi vikailmoitus palvelusta.', modalCompany: 'Yritys', modalServiceType: 'Palvelu', modalRequestType: 'Pyyntölaji', modalAffectedService: 'Vaikutettu palvelu', modalDescription: 'Kuvaus', modalCancel: 'Peruuta', modalSubmit: 'Lähetä', modalContinue: 'Luo demotapahtuma', mobileSubscription: 'Matkapuhelinliittymä', businessInternet: 'Yritysnetti', license: 'Lisenssi', securityService: 'Tietoturvapalvelu', requestUserChange: 'Käyttäjämuutos', requestBilling: 'Laskutusasia', requestServiceChange: 'Palvelumuutos', incidentMobileData: 'Mobiilidata ei toimi', incidentInternet: 'Yritysnetti ei toimi', incidentDevice: 'Laitteen ongelma', demoUser: 'Demokäyttäjä', currentUser: 'Valittu käyttäjä', switchUser: 'Vaihda käyttäjäksi', userManagement: 'Käyttäjien hallinta', userManagementDesc: 'Valitse demokäyttäjä ja näytä, miten rooli rajaa yritykset, välilehdet ja datan.', role: 'Rooli', visibleCompanies: 'Näkyvät yritykset', visibleData: 'Näkyvä data', adminRole: 'Pääkäyttäjä', limitedRole: 'Rajattu käyttäjä', endUserRole: 'Loppukäyttäjä', adminRoleDesc: 'Näkee kaikki yritykset, kaikki tiedot ja käyttäjähallinnan.', limitedRoleDesc: 'Näkee vain hänelle valitut yritykset ja niiden tiedot.', endUserRoleDesc: 'Näkee vain omat liittymät ja palvelut, joissa hän on käyttäjänä.', allData: 'Kaikki yritykset ja kaikki näkymät', selectedCompaniesOnly: 'Vain valitut yritykset', ownAssetsOnly: 'Vain omat liittymät ja palvelut', addUser: 'Lisää käyttäjä', editPermissions: 'Muokkaa oikeuksia', removeAccess: 'Poista käyttöoikeus', permissionDemoTitle: 'Käyttöoikeudet', permissionDemoText: 'Demo: tässä näkymässä pääkäyttäjä valitsisi matkittavat yritykset ja käyttöoikeudet.', activeUserChanged: 'Demokäyttäjä vaihdettu', noAccessToTab: 'Tämä näkymä ei kuulu valitun käyttäjän oikeuksiin.', sidebarSituation: 'Tilanne', sidebarViews: 'Näkymät', vnextSubtitle: 'Sivupalkki, roolit ja toimintalähtöinen navigaatio.', contextActionAssets: '🛒 Tilaa liittymä tai laite', contextActionOrders: '📄 Tulosta raportti', contextActionInvoices: '✏️ Muuta laskutustietoja', contextActionRequests: '🛠️ Tee palvelupyyntö', contextActionIncidents: '⚠️ Tee vikailmoitus', mobileSearchFilters: '🔍 Haku ja suodattimet', allViews: 'Kaikki näkymät'
       },
       en: {
         appTitle: 'MTY Small Customer 360 Demo', appTitleBase: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON data converted from Excel, customer selector, KPIs, asset list and smart content search.',
-        company: 'Select company', searchCustomer: 'Search subscriptions and services', searchContent: 'Ask about Telia business content', customerPlaceholder: 'E.g. number, user, device...', contentPlaceholder: 'E.g. How do I replace a SIM card?', typeFilter: 'Filter type', all: 'All', allCompanies: 'All companies', companies: 'Companies', searchMode: 'Search type', customerData: 'My Telia for Business data', teliaContent: 'Telia Help & Content', aiAnswer: 'AI answer', customerInfo: 'Customer data', detailView: 'Detail view', listView: 'List view', tileView: 'Tile view', assets: 'Subscriptions and services', orders: 'Orders', invoices: 'Invoices', requests: 'Service requests', incidents: 'Incidents', openInvoices: 'Open invoices', openRequests: 'Open requests', openIncidents: 'Open incidents', openInvoicesNotification: 'Open invoices', openRequestsNotification: 'Open service requests', openIncidentsNotification: 'Open incidents', rows: 'rows', filterOpenInvoices: 'Filter: only open invoices', filterOpenRequests: 'Filter: only open service requests', filterOpenIncidents: 'Filter: only open incidents', noResults: 'No results with the selected filter.', askTelia: 'Ask a question about Telia business content.', contentMissing: 'content-search.json is missing or empty.', noDirectAnswer: 'No direct answer', noMockAnswer: 'No direct answer found in mock data for', sources: 'Sources', noSources: 'No source links.', openExample: 'Open example question', showDetails: 'Show details →', selectFromList: 'Select an asset, invoice, order, service request or incident from the list.', companySummary: 'Company summary', companyName: 'Company', user: 'User', productSpeed: 'Product/speed', category: 'Category', fixedTerm: 'Fixed term ends', actions: 'Actions', relatedOrders: 'Related orders', noActions: 'No configured actions.', noRelatedOrders: 'No related orders in the mock data.', productType: 'Product type', item: 'Item', billingAccount: 'Billing account', orderDate: 'Order date', status: 'Status', invoiceType: 'Invoice type', invoiceDate: 'Invoice date', invoiceNumber: 'Invoice number', amount: 'Amount', referenceNumber: 'Reference number', requestType: 'Request type', description: 'Description', requestDate: 'Request date', createdBy: 'Created by', startDate: 'Start date', open: 'Open', completed: 'Completed', resolved: 'Resolved', inProgress: 'In progress', underInvestigation: 'Under investigation', ordered: 'Ordered', target: 'Target', legacy: 'Legacy', quickActions: 'Quick actions', quickActionsDesc: 'Order more services, create a service request or report an incident from this view.', orderNewService: 'Order service', orderNewServiceDesc: 'Start a new service order.', contactUs: 'Contact us', contactUsDesc: 'Choose chat, service request or other contact methods.', createServiceRequest: 'Create service request', createServiceRequestDesc: 'Send a new request to customer service.', showOrder: 'Show order', askAboutOrder: 'Ask about order', showInvoice: 'Show invoice', invoicePdf: 'PDF', payInvoice: 'Pay invoice', openConversation: 'Open', reply: 'Reply', sendReply: 'Send reply', messageThread: 'Message thread', paymentSummary: 'Payment summary', confirmPayment: 'Confirm payment', paymentDone: 'Invoice marked as paid.', invoicePdfTitle: 'Invoice PDF', invoicePdfText: 'Demo: the original invoice PDF would open from here.', orderQuestionText: 'I would like more information about this order.', paid: 'Paid', teliaSender: 'Telia', customerSender: 'Customer', timeline: 'Timeline', created: 'Created', updated: 'Updated', pdfPreview: 'PDF preview', settings: 'Settings', settingsComingSoon: 'Settings view coming in the next version.', chat: 'Chat', chatDesc: 'Start a conversation with customer service.', serviceRequestOption: 'Create service request', serviceRequestOptionDesc: 'Create a written service request.', otherWays: 'Other ways', otherWaysDesc: 'See other contact details on Telia’s website.', chatDemoTitle: 'Chat', chatDemoText: 'Chat would normally open from here. In the demo, this shows the contact path structure only.', reportIncident: 'Report incident', reportIncidentDesc: 'Open a new incident for a service.', modalCompany: 'Company', modalServiceType: 'Service', modalRequestType: 'Request type', modalAffectedService: 'Affected service', modalDescription: 'Description', modalCancel: 'Cancel', modalSubmit: 'Submit', modalContinue: 'Create demo item', mobileSubscription: 'Mobile subscription', businessInternet: 'Business internet', license: 'License', securityService: 'Security service', requestUserChange: 'User change', requestBilling: 'Billing issue', requestServiceChange: 'Service change', incidentMobileData: 'Mobile data not working', incidentInternet: 'Business internet not working', incidentDevice: 'Device issue', demoUser: 'Demo user', currentUser: 'Selected user', switchUser: 'Switch to user', userManagement: 'User management', userManagementDesc: 'Select a demo user and show how the role limits companies, tabs and data.', role: 'Role', visibleCompanies: 'Visible companies', visibleData: 'Visible data', adminRole: 'Main admin', limitedRole: 'Limited user', endUserRole: 'End user', adminRoleDesc: 'Sees all companies, all data and user management.', limitedRoleDesc: 'Sees only the selected companies and their data.', endUserRoleDesc: 'Sees only own subscriptions and services where they are the user.', allData: 'All companies and all views', selectedCompaniesOnly: 'Selected companies only', ownAssetsOnly: 'Own subscriptions and services only', addUser: 'Add user', editPermissions: 'Edit permissions', removeAccess: 'Remove access', permissionDemoTitle: 'Permissions', permissionDemoText: 'Demo: in this view the main admin would choose visible companies and permissions.', activeUserChanged: 'Demo user changed', noAccessToTab: 'This view is not included in the selected user’s permissions.', sidebarSituation: 'Status', sidebarViews: 'Views', vnextSubtitle: 'Sidebar, roles and action-led navigation.', contextActionAssets: '🛒 Order subscription or device', contextActionOrders: '📄 Print report', contextActionInvoices: '✏️ Update billing details', contextActionRequests: '🛠️ Create service request', contextActionIncidents: '⚠️ Report incident', mobileSearchFilters: '🔍 Search and filters'
+        company: 'Select company', searchCustomer: 'Search My Telia for Business data', searchContent: 'Ask about Telia business content', customerPlaceholder: 'E.g. number, user, device...', contentPlaceholder: 'E.g. How do I replace a SIM card?', typeFilter: 'Limit search area', all: 'All', allCompanies: 'All companies', companies: 'Companies', searchMode: 'Search type', customerData: 'My Telia for Business data', teliaContent: 'Telia Help & Content', aiAnswer: 'AI answer', customerInfo: 'Customer data', detailView: 'Detail view', listView: 'List view', tileView: 'Tile view', assets: 'Subscriptions and services', orders: 'Orders', invoices: 'Invoices', requests: 'Service requests', incidents: 'Incidents', openInvoices: 'Open invoices', openRequests: 'Open requests', openIncidents: 'Open incidents', openInvoicesNotification: 'Open invoices', openRequestsNotification: 'Open service requests', openIncidentsNotification: 'Open incidents', rows: 'rows', filterOpenInvoices: 'Filter: only open invoices', filterOpenRequests: 'Filter: only open service requests', filterOpenIncidents: 'Filter: only open incidents', noResults: 'No results with the selected filter.', askTelia: 'Ask a question about Telia business content.', contentMissing: 'content-search.json is missing or empty.', noDirectAnswer: 'No direct answer', noMockAnswer: 'No direct answer found in mock data for', sources: 'Sources', noSources: 'No source links.', openExample: 'Open example question', showDetails: 'Show details →', selectFromList: 'Select an asset, invoice, order, service request or incident from the list.', companySummary: 'Company summary', companyName: 'Company', user: 'User', productSpeed: 'Product/speed', category: 'Category', fixedTerm: 'Fixed term ends', actions: 'Actions', relatedOrders: 'Related orders', noActions: 'No configured actions.', noRelatedOrders: 'No related orders in the mock data.', productType: 'Product type', item: 'Item', billingAccount: 'Billing account', orderDate: 'Order date', status: 'Status', invoiceType: 'Invoice type', invoiceDate: 'Invoice date', invoiceNumber: 'Invoice number', amount: 'Amount', referenceNumber: 'Reference number', requestType: 'Request type', description: 'Description', requestDate: 'Request date', createdBy: 'Created by', startDate: 'Start date', open: 'Open', completed: 'Completed', resolved: 'Resolved', inProgress: 'In progress', underInvestigation: 'Under investigation', ordered: 'Ordered', target: 'Target', legacy: 'Legacy', quickActions: 'Quick actions', quickActionsDesc: 'Order more services, create a service request or report an incident from this view.', orderNewService: 'Order service', orderNewServiceDesc: 'Start a new service order.', contactUs: 'Contact us', contactUsDesc: 'Choose chat, service request or other contact methods.', createServiceRequest: 'Create service request', createServiceRequestDesc: 'Send a new request to customer service.', showOrder: 'Show order', askAboutOrder: 'Ask about order', showInvoice: 'Show invoice', invoicePdf: 'PDF', payInvoice: 'Pay invoice', openConversation: 'Open', reply: 'Reply', sendReply: 'Send reply', messageThread: 'Message thread', paymentSummary: 'Payment summary', confirmPayment: 'Confirm payment', paymentDone: 'Invoice marked as paid.', invoicePdfTitle: 'Invoice PDF', invoicePdfText: 'Demo: the original invoice PDF would open from here.', orderQuestionText: 'I would like more information about this order.', paid: 'Paid', teliaSender: 'Telia', customerSender: 'Customer', timeline: 'Timeline', created: 'Created', updated: 'Updated', pdfPreview: 'PDF preview', settings: 'Settings', settingsComingSoon: 'Settings view coming in the next version.', chat: 'Chat', chatDesc: 'Start a conversation with customer service.', serviceRequestOption: 'Create service request', serviceRequestOptionDesc: 'Create a written service request.', otherWays: 'Other ways', otherWaysDesc: 'See other contact details on Telia’s website.', chatDemoTitle: 'Chat', chatDemoText: 'Chat would normally open from here. In the demo, this shows the contact path structure only.', reportIncident: 'Report incident', reportIncidentDesc: 'Open a new incident for a service.', modalCompany: 'Company', modalServiceType: 'Service', modalRequestType: 'Request type', modalAffectedService: 'Affected service', modalDescription: 'Description', modalCancel: 'Cancel', modalSubmit: 'Submit', modalContinue: 'Create demo item', mobileSubscription: 'Mobile subscription', businessInternet: 'Business internet', license: 'License', securityService: 'Security service', requestUserChange: 'User change', requestBilling: 'Billing issue', requestServiceChange: 'Service change', incidentMobileData: 'Mobile data not working', incidentInternet: 'Business internet not working', incidentDevice: 'Device issue', demoUser: 'Demo user', currentUser: 'Selected user', switchUser: 'Switch to user', userManagement: 'User management', userManagementDesc: 'Select a demo user and show how the role limits companies, tabs and data.', role: 'Role', visibleCompanies: 'Visible companies', visibleData: 'Visible data', adminRole: 'Main admin', limitedRole: 'Limited user', endUserRole: 'End user', adminRoleDesc: 'Sees all companies, all data and user management.', limitedRoleDesc: 'Sees only the selected companies and their data.', endUserRoleDesc: 'Sees only own subscriptions and services where they are the user.', allData: 'All companies and all views', selectedCompaniesOnly: 'Selected companies only', ownAssetsOnly: 'Own subscriptions and services only', addUser: 'Add user', editPermissions: 'Edit permissions', removeAccess: 'Remove access', permissionDemoTitle: 'Permissions', permissionDemoText: 'Demo: in this view the main admin would choose visible companies and permissions.', activeUserChanged: 'Demo user changed', noAccessToTab: 'This view is not included in the selected user’s permissions.', sidebarSituation: 'Status', sidebarViews: 'Views', vnextSubtitle: 'Sidebar, roles and action-led navigation.', contextActionAssets: '🛒 Order subscription or device', contextActionOrders: '📄 Print report', contextActionInvoices: '✏️ Update billing details', contextActionRequests: '🛠️ Create service request', contextActionIncidents: '⚠️ Report incident', mobileSearchFilters: '🔍 Search and filters', allViews: 'All views'
       },
       sv: {
         appTitle: 'MTY Small Customer 360 Demo', appTitleBase: 'MTY Small Customer 360 Demo', appSubtitle: 'JSON-data från Excel, kundval, KPI:er, tillgångslista och smart innehållssökning.',
-        company: 'Välj företag', searchCustomer: 'Sök abonnemang och tjänster', searchContent: 'Fråga om Telias företagsinnehåll', customerPlaceholder: 'T.ex. nummer, användare, enhet...', contentPlaceholder: 'T.ex. Hur byter jag SIM-kort?', typeFilter: 'Filtrera typ', all: 'Alla', allCompanies: 'Alla företag', companies: 'Företag', searchMode: 'Söktyp', customerData: 'Mitt Telia Företag-data', teliaContent: 'Telia hjälp & innehåll', aiAnswer: 'AI-svar', customerInfo: 'Kunduppgifter', detailView: 'Detaljvy', listView: 'Listvy', tileView: 'Rutnätsvy', assets: 'Abonnemang och tjänster', orders: 'Beställningar', invoices: 'Fakturor', requests: 'Serviceärenden', incidents: 'Felanmälningar', openInvoices: 'Öppna fakturor', openRequests: 'Öppna ärenden', openIncidents: 'Öppna fel', openInvoicesNotification: 'Öppna fakturor', openRequestsNotification: 'Öppna serviceärenden', openIncidentsNotification: 'Öppna fel', rows: 'rader', filterOpenInvoices: 'Filter: endast öppna fakturor', filterOpenRequests: 'Filter: endast öppna serviceärenden', filterOpenIncidents: 'Filter: endast öppna felanmälningar', noResults: 'Inga resultat med valt filter.', askTelia: 'Skriv en fråga om Telias företagsinnehåll.', contentMissing: 'content-search.json saknas eller är tom.', noDirectAnswer: 'Inget direkt svar', noMockAnswer: 'Inget direkt svar hittades i mockdata för', sources: 'Källor', noSources: 'Inga källänkar.', openExample: 'Öppna exempelfråga', showDetails: 'Visa detaljer →', selectFromList: 'Välj en tillgång, faktura, beställning, serviceärende eller felanmälan från listan.', companySummary: 'Företagssammanfattning', companyName: 'Företag', user: 'Användare', productSpeed: 'Produkt/hastighet', category: 'Kategori', fixedTerm: 'Bindningstid slutar', actions: 'Åtgärder', relatedOrders: 'Relaterade beställningar', noActions: 'Inga definierade åtgärder.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', productType: 'Produkttyp', item: 'Objekt', billingAccount: 'Fakturakonto', orderDate: 'Beställningsdatum', status: 'Status', invoiceType: 'Fakturatyp', invoiceDate: 'Fakturadatum', invoiceNumber: 'Fakturanummer', amount: 'Belopp', referenceNumber: 'Referensnummer', requestType: 'Ärendetyp', description: 'Beskrivning', requestDate: 'Ärendedatum', createdBy: 'Skapad av', startDate: 'Startdatum', open: 'Öppen', completed: 'Slutförd', resolved: 'Löst', inProgress: 'Under behandling', underInvestigation: 'Under utredning', ordered: 'Beställd', target: 'Target', legacy: 'Legacy', quickActions: 'Snabbåtgärder', quickActionsDesc: 'Beställ fler tjänster, skapa ett serviceärende eller rapportera ett fel från den här vyn.', orderNewService: 'Beställ tjänst', orderNewServiceDesc: 'Starta en ny tjänstebeställning.', contactUs: 'Kontakta oss', contactUsDesc: 'Välj chatt, serviceärende eller andra kontaktvägar.', createServiceRequest: 'Skapa serviceärende', createServiceRequestDesc: 'Skicka en ny begäran till kundservice.', showOrder: 'Visa beställning', askAboutOrder: 'Fråga om beställning', showInvoice: 'Visa faktura', invoicePdf: 'PDF', payInvoice: 'Betala faktura', openConversation: 'Öppna', reply: 'Svara', sendReply: 'Skicka svar', messageThread: 'Meddelandetråd', paymentSummary: 'Betalningssammanfattning', confirmPayment: 'Bekräfta betalning', paymentDone: 'Fakturan markerades som betald.', invoicePdfTitle: 'Faktura-PDF', invoicePdfText: 'Demo: den ursprungliga PDF-fakturan skulle öppnas här.', orderQuestionText: 'Jag vill ha mer information om denna beställning.', paid: 'Betald', teliaSender: 'Telia', customerSender: 'Kund', timeline: 'Tidslinje', created: 'Skapad', updated: 'Uppdaterad', pdfPreview: 'PDF-förhandsvisning', settings: 'Inställningar', settingsComingSoon: 'Inställningsvyn kommer i nästa version.', chat: 'Chatt', chatDesc: 'Starta en konversation med kundservice.', serviceRequestOption: 'Skapa serviceärende', serviceRequestOptionDesc: 'Skapa ett skriftligt serviceärende.', otherWays: 'Andra sätt', otherWaysDesc: 'Se andra kontaktuppgifter på Telias webbplats.', chatDemoTitle: 'Chatt', chatDemoText: 'Chatten skulle normalt öppnas här. I demon visas endast kontaktflödets struktur.', reportIncident: 'Rapportera fel', reportIncidentDesc: 'Öppna en ny felanmälan för en tjänst.', modalCompany: 'Företag', modalServiceType: 'Tjänst', modalRequestType: 'Ärendetyp', modalAffectedService: 'Berörd tjänst', modalDescription: 'Beskrivning', modalCancel: 'Avbryt', modalSubmit: 'Skicka', modalContinue: 'Skapa demoärende', mobileSubscription: 'Mobilabonnemang', businessInternet: 'Företagsinternet', license: 'Licens', securityService: 'Säkerhetstjänst', requestUserChange: 'Användarändring', requestBilling: 'Faktureringsärende', requestServiceChange: 'Tjänsteändring', incidentMobileData: 'Mobildata fungerar inte', incidentInternet: 'Företagsinternet fungerar inte', incidentDevice: 'Enhetsproblem', demoUser: 'Demoanvändare', currentUser: 'Vald användare', switchUser: 'Byt till användare', userManagement: 'Användarhantering', userManagementDesc: 'Välj en demoanvändare och visa hur rollen begränsar företag, flikar och data.', role: 'Roll', visibleCompanies: 'Synliga företag', visibleData: 'Synliga data', adminRole: 'Huvudadministratör', limitedRole: 'Begränsad användare', endUserRole: 'Slutanvändare', adminRoleDesc: 'Ser alla företag, all data och användarhantering.', limitedRoleDesc: 'Ser endast valda företag och deras data.', endUserRoleDesc: 'Ser endast egna abonnemang och tjänster där personen är användare.', allData: 'Alla företag och alla vyer', selectedCompaniesOnly: 'Endast valda företag', ownAssetsOnly: 'Endast egna abonnemang och tjänster', addUser: 'Lägg till användare', editPermissions: 'Redigera rättigheter', removeAccess: 'Ta bort behörighet', permissionDemoTitle: 'Behörigheter', permissionDemoText: 'Demo: i denna vy skulle huvudadministratören välja synliga företag och behörigheter.', activeUserChanged: 'Demoanvändare bytt', noAccessToTab: 'Den här vyn ingår inte i den valda användarens behörigheter.', sidebarSituation: 'Status', sidebarViews: 'Vyer', vnextSubtitle: 'Sidomeny, roller och åtgärdsstyrd navigation.', contextActionAssets: '🛒 Beställ abonnemang eller enhet', contextActionOrders: '📄 Skriv ut rapport', contextActionInvoices: '✏️ Uppdatera faktureringsuppgifter', contextActionRequests: '🛠️ Skapa serviceärende', contextActionIncidents: '⚠️ Rapportera fel', mobileSearchFilters: '🔍 Sök och filter'
+        company: 'Välj företag', searchCustomer: 'Sök i Mitt Telia Företag-data', searchContent: 'Fråga om Telias företagsinnehåll', customerPlaceholder: 'T.ex. nummer, användare, enhet...', contentPlaceholder: 'T.ex. Hur byter jag SIM-kort?', typeFilter: 'Avgränsa sökområde', all: 'Alla', allCompanies: 'Alla företag', companies: 'Företag', searchMode: 'Söktyp', customerData: 'Mitt Telia Företag-data', teliaContent: 'Telia hjälp & innehåll', aiAnswer: 'AI-svar', customerInfo: 'Kunduppgifter', detailView: 'Detaljvy', listView: 'Listvy', tileView: 'Rutnätsvy', assets: 'Abonnemang och tjänster', orders: 'Beställningar', invoices: 'Fakturor', requests: 'Serviceärenden', incidents: 'Felanmälningar', openInvoices: 'Öppna fakturor', openRequests: 'Öppna ärenden', openIncidents: 'Öppna fel', openInvoicesNotification: 'Öppna fakturor', openRequestsNotification: 'Öppna serviceärenden', openIncidentsNotification: 'Öppna fel', rows: 'rader', filterOpenInvoices: 'Filter: endast öppna fakturor', filterOpenRequests: 'Filter: endast öppna serviceärenden', filterOpenIncidents: 'Filter: endast öppna felanmälningar', noResults: 'Inga resultat med valt filter.', askTelia: 'Skriv en fråga om Telias företagsinnehåll.', contentMissing: 'content-search.json saknas eller är tom.', noDirectAnswer: 'Inget direkt svar', noMockAnswer: 'Inget direkt svar hittades i mockdata för', sources: 'Källor', noSources: 'Inga källänkar.', openExample: 'Öppna exempelfråga', showDetails: 'Visa detaljer →', selectFromList: 'Välj en tillgång, faktura, beställning, serviceärende eller felanmälan från listan.', companySummary: 'Företagssammanfattning', companyName: 'Företag', user: 'Användare', productSpeed: 'Produkt/hastighet', category: 'Kategori', fixedTerm: 'Bindningstid slutar', actions: 'Åtgärder', relatedOrders: 'Relaterade beställningar', noActions: 'Inga definierade åtgärder.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', productType: 'Produkttyp', item: 'Objekt', billingAccount: 'Fakturakonto', orderDate: 'Beställningsdatum', status: 'Status', invoiceType: 'Fakturatyp', invoiceDate: 'Fakturadatum', invoiceNumber: 'Fakturanummer', amount: 'Belopp', referenceNumber: 'Referensnummer', requestType: 'Ärendetyp', description: 'Beskrivning', requestDate: 'Ärendedatum', createdBy: 'Skapad av', startDate: 'Startdatum', open: 'Öppen', completed: 'Slutförd', resolved: 'Löst', inProgress: 'Under behandling', underInvestigation: 'Under utredning', ordered: 'Beställd', target: 'Target', legacy: 'Legacy', quickActions: 'Snabbåtgärder', quickActionsDesc: 'Beställ fler tjänster, skapa ett serviceärende eller rapportera ett fel från den här vyn.', orderNewService: 'Beställ tjänst', orderNewServiceDesc: 'Starta en ny tjänstebeställning.', contactUs: 'Kontakta oss', contactUsDesc: 'Välj chatt, serviceärende eller andra kontaktvägar.', createServiceRequest: 'Skapa serviceärende', createServiceRequestDesc: 'Skicka en ny begäran till kundservice.', showOrder: 'Visa beställning', askAboutOrder: 'Fråga om beställning', showInvoice: 'Visa faktura', invoicePdf: 'PDF', payInvoice: 'Betala faktura', openConversation: 'Öppna', reply: 'Svara', sendReply: 'Skicka svar', messageThread: 'Meddelandetråd', paymentSummary: 'Betalningssammanfattning', confirmPayment: 'Bekräfta betalning', paymentDone: 'Fakturan markerades som betald.', invoicePdfTitle: 'Faktura-PDF', invoicePdfText: 'Demo: den ursprungliga PDF-fakturan skulle öppnas här.', orderQuestionText: 'Jag vill ha mer information om denna beställning.', paid: 'Betald', teliaSender: 'Telia', customerSender: 'Kund', timeline: 'Tidslinje', created: 'Skapad', updated: 'Uppdaterad', pdfPreview: 'PDF-förhandsvisning', settings: 'Inställningar', settingsComingSoon: 'Inställningsvyn kommer i nästa version.', chat: 'Chatt', chatDesc: 'Starta en konversation med kundservice.', serviceRequestOption: 'Skapa serviceärende', serviceRequestOptionDesc: 'Skapa ett skriftligt serviceärende.', otherWays: 'Andra sätt', otherWaysDesc: 'Se andra kontaktuppgifter på Telias webbplats.', chatDemoTitle: 'Chatt', chatDemoText: 'Chatten skulle normalt öppnas här. I demon visas endast kontaktflödets struktur.', reportIncident: 'Rapportera fel', reportIncidentDesc: 'Öppna en ny felanmälan för en tjänst.', modalCompany: 'Företag', modalServiceType: 'Tjänst', modalRequestType: 'Ärendetyp', modalAffectedService: 'Berörd tjänst', modalDescription: 'Beskrivning', modalCancel: 'Avbryt', modalSubmit: 'Skicka', modalContinue: 'Skapa demoärende', mobileSubscription: 'Mobilabonnemang', businessInternet: 'Företagsinternet', license: 'Licens', securityService: 'Säkerhetstjänst', requestUserChange: 'Användarändring', requestBilling: 'Faktureringsärende', requestServiceChange: 'Tjänsteändring', incidentMobileData: 'Mobildata fungerar inte', incidentInternet: 'Företagsinternet fungerar inte', incidentDevice: 'Enhetsproblem', demoUser: 'Demoanvändare', currentUser: 'Vald användare', switchUser: 'Byt till användare', userManagement: 'Användarhantering', userManagementDesc: 'Välj en demoanvändare och visa hur rollen begränsar företag, flikar och data.', role: 'Roll', visibleCompanies: 'Synliga företag', visibleData: 'Synliga data', adminRole: 'Huvudadministratör', limitedRole: 'Begränsad användare', endUserRole: 'Slutanvändare', adminRoleDesc: 'Ser alla företag, all data och användarhantering.', limitedRoleDesc: 'Ser endast valda företag och deras data.', endUserRoleDesc: 'Ser endast egna abonnemang och tjänster där personen är användare.', allData: 'Alla företag och alla vyer', selectedCompaniesOnly: 'Endast valda företag', ownAssetsOnly: 'Endast egna abonnemang och tjänster', addUser: 'Lägg till användare', editPermissions: 'Redigera rättigheter', removeAccess: 'Ta bort behörighet', permissionDemoTitle: 'Behörigheter', permissionDemoText: 'Demo: i denna vy skulle huvudadministratören välja synliga företag och behörigheter.', activeUserChanged: 'Demoanvändare bytt', noAccessToTab: 'Den här vyn ingår inte i den valda användarens behörigheter.', sidebarSituation: 'Status', sidebarViews: 'Vyer', vnextSubtitle: 'Sidomeny, roller och åtgärdsstyrd navigation.', contextActionAssets: '🛒 Beställ abonnemang eller enhet', contextActionOrders: '📄 Skriv ut rapport', contextActionInvoices: '✏️ Uppdatera faktureringsuppgifter', contextActionRequests: '🛠️ Skapa serviceärende', contextActionIncidents: '⚠️ Rapportera fel', mobileSearchFilters: '🔍 Sök och filter', allViews: 'Alla vyer'
       }
     };
 
     const state = {
-      activeTab: 'assets', searchMode: 'customer', assetView: 'list', statusFilter: null,
+      activeTab: 'assets', searchMode: 'customer', assetView: 'list', statusFilter: null, searchScope: 'assets',
       language: localStorage.getItem('mtyLanguage') || 'fi',
       currentUserId: localStorage.getItem('mtyCurrentUserId') || 'admin-anna',
       selectedCompanyId: '', selectedItem: null, activeActionType: null, data: {}
@@ -1416,7 +1467,14 @@
       });
 
       document.getElementById('searchInput').addEventListener('input', renderAll);
-      document.getElementById('typeSelect').addEventListener('change', renderList);
+      document.getElementById('typeSelect').addEventListener('change', e => {
+        state.searchScope = e.target.value || 'assets';
+        state.statusFilter = null;
+        state.selectedItem = null;
+        if (state.searchScope !== 'allViews') state.activeTab = state.searchScope;
+        closeMobileSearchPanel();
+        renderAll();
+      });
       document.querySelectorAll('input[name="searchMode"]').forEach(input => {
         input.addEventListener('change', e => {
           state.searchMode = e.target.value;
@@ -1472,10 +1530,15 @@
       renderCompanySelectOptions();
 
       const typeSelect = document.getElementById('typeSelect');
-      const oldValue = typeSelect.value || 'all';
-      const assetTypes = [...new Set(state.data.assets.map(a => a.type).filter(Boolean))].sort();
-      typeSelect.innerHTML = `<option value="all">${t('all')}</option>` + assetTypes.map(type => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`).join('');
-      typeSelect.value = oldValue;
+      const oldValue = state.searchScope || typeSelect.value || 'assets';
+      const counts = state.searchMode === 'customer' ? countsByTab() : {};
+      const query = searchQuery();
+      const showCounts = Boolean(query) || oldValue === 'allViews';
+      const totalCount = totalSearchCount(counts);
+      const viewOptions = [{ id: 'allViews', label: showCounts ? `${t('allViews')} (${totalCount})` : t('allViews') }, ...availableTabs().map(tab => ({ id: tab.id, label: showCounts ? `${t(tab.labelKey)} (${counts[tab.id] || 0})` : t(tab.labelKey) }))];
+      typeSelect.innerHTML = viewOptions.map(option => `<option value="${escapeHtml(option.id)}">${escapeHtml(option.label)}</option>`).join('');
+      typeSelect.value = viewOptions.some(option => option.id === oldValue) ? oldValue : 'assets';
+      state.searchScope = typeSelect.value;
     }
 
     function renderAll() {
@@ -1500,7 +1563,7 @@
       updateAssetViewToggleVisibility();
     }
 
-    function renderCustomerSearch() { renderNews(); closeMobileSearchPanel(); renderKpis(); renderTabs(); renderList(); updateContextActionButton(); }
+    function renderCustomerSearch() { renderNews(); renderKpis(); renderTabs(); renderList(); updateContextActionButton(); }
 
     function updateContextActionButton() {  
       const btn = document.getElementById("contextActionBtn");  
@@ -1515,7 +1578,7 @@
       const item = cfg[state.activeTab] || cfg.assets;  
       btn.textContent = item[0];  
       btn.onclick = item[1];  
-      btn.hidden = state.searchMode === 'content';  
+      btn.hidden = state.searchMode === 'content' || currentSearchScope() === 'allViews';  
     }
 
     function companyItems(key) {
@@ -1852,6 +1915,58 @@
       renderAll();
     }
 
+
+    function searchQuery() {
+      return (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+    }
+    function currentSearchScope() {
+      const value = document.getElementById('typeSelect')?.value || state.searchScope || 'assets';
+      state.searchScope = value;
+      return value;
+    }
+    function itemMatchesQuery(item, query) {
+      if (!query) return true;
+      return JSON.stringify(item || {}).toLowerCase().includes(query);
+    }
+    function itemsForTab(tabId, options = {}) {
+      const query = options.query ?? searchQuery();
+      let items = companyItems(tabId);
+      if (state.statusFilter === 'openInvoices' && tabId === 'invoices') items = items.filter(item => item.status === 'Avoinna');
+      if (state.statusFilter === 'openRequests' && tabId === 'requests') items = items.filter(item => item.status !== 'Valmis');
+      if (state.statusFilter === 'openIncidents' && tabId === 'incidents') items = items.filter(item => item.status !== 'Ratkaistu');
+      if (query) items = items.filter(item => itemMatchesQuery(item, query));
+      return items;
+    }
+    function countsByTab() {
+      const query = searchQuery();
+      return Object.fromEntries(availableTabs().map(tab => [tab.id, itemsForTab(tab.id, { query }).length]));
+    }
+    function totalSearchCount(counts) {
+      return Object.values(counts || countsByTab()).reduce((sum, value) => sum + value, 0);
+    }
+    function showSearchCountsInNav() {
+      const query = searchQuery();
+      return Boolean(query) || currentSearchScope() === 'allViews';
+    }
+    function switchSearchScope(tabId) {
+      state.searchScope = tabId;
+      state.activeTab = tabId;
+      state.statusFilter = null;
+      const typeSelect = document.getElementById('typeSelect');
+      if (typeSelect) typeSelect.value = tabId;
+      closeMobileSearchPanel();
+      renderAll();
+    }
+    function globalResultGroup(tab, items) {
+      if (!items.length) return '';
+      return `<section class="global-result-group">
+        <div class="global-result-group-header">
+          <span>${navIconForTab(tab.id)} ${escapeHtml(t(tab.labelKey))}</span>
+          <button type="button" onclick="switchSearchScope('${escapeHtml(tab.id)}')">${items.length} ${escapeHtml(t('rows'))} ›</button>
+        </div>
+        ${items.map(item => rowTemplate(item, tab.id)).join('')}
+      </section>`;
+    }
     function renderKpis() {
       const invoices = companyItems('invoices'), requests = companyItems('requests'), incidents = companyItems('incidents');
       const openInvoices = invoices.filter(i => i.status === 'Avoinna');
@@ -1876,21 +1991,29 @@
       }).join('');
       document.querySelectorAll('.kpi').forEach(card => card.addEventListener('click', () => {
         state.activeTab = card.dataset.tab;
+        state.searchScope = card.dataset.tab;
+        const typeSelect = document.getElementById('typeSelect');
+        if (typeSelect) typeSelect.value = state.searchScope;
         state.statusFilter = card.dataset.filter || null;
         state.selectedItem = null;
-        renderKpis(); renderTabs(); renderList(); updateContextActionButton();
+        closeMobileSearchPanel(); renderKpis(); renderTabs(); renderList(); updateContextActionButton();
       }));
     }
 
     function navIconForTab(tabId) {
       return { assets: '📱', orders: '📦', invoices: '🧾', requests: '🛠️', incidents: '⚠️' }[tabId] || '•';
     }
-    function renderTabs() {
-      const nav = document.getElementById('appNav');
-      if (!nav) return;
-      nav.innerHTML = availableTabs().map(tab => `<button class="side-nav-button ${state.activeTab === tab.id ? 'active' : ''}" type="button" data-tab="${tab.id}"><span class="side-nav-left"><span>${navIconForTab(tab.id)}</span><span>${t(tab.labelKey)}</span></span><span>›</span></button>`).join('');
-      nav.querySelectorAll('.side-nav-button').forEach(btn => btn.addEventListener('click', () => { state.activeTab = btn.dataset.tab; state.statusFilter = null; state.selectedItem = null; closeMobileSearchPanel(); renderAll(); updateContextActionButton(); }));
-      updateAssetViewToggleVisibility();
+    function renderTabs() {  
+      const nav = document.getElementById('appNav');  
+      if (!nav) return;  
+      const counts = countsByTab();
+      const showCounts = showSearchCountsInNav();
+      nav.innerHTML = availableTabs().map(tab => {
+        const countHtml = showCounts ? `<span class="nav-count-badge">${counts[tab.id] || 0}</span>` : '<span>›</span>';
+        return `<button class="side-nav-button ${state.activeTab === tab.id ? 'active' : ''}" type="button" data-tab="${tab.id}"><span class="side-nav-left"><span>${navIconForTab(tab.id)}</span><span>${t(tab.labelKey)}</span></span>${countHtml}</button>`;
+      }).join('');  
+      nav.querySelectorAll('.side-nav-button').forEach(btn => btn.addEventListener('click', () => { state.activeTab = btn.dataset.tab; state.searchScope = btn.dataset.tab; state.statusFilter = null; state.selectedItem = null; const typeSelect = document.getElementById('typeSelect'); if (typeSelect) typeSelect.value = state.searchScope; closeMobileSearchPanel(); renderAll(); updateContextActionButton(); }));  
+      updateAssetViewToggleVisibility();  
     }
 
     function updateAssetViewButtons() {
@@ -1901,7 +2024,7 @@
     function updateAssetViewToggleVisibility() {
       const toggle = document.getElementById('assetViewToggle');
       if (!toggle) return;
-      toggle.style.display = state.activeTab === 'assets' && state.searchMode === 'customer' ? 'flex' : 'none';
+      toggle.style.display = state.activeTab === 'assets' && state.searchMode === 'customer' && currentSearchScope() !== 'allViews' ? 'flex' : 'none';
       updateAssetViewButtons();
     }
 
@@ -1914,40 +2037,50 @@
 
     function renderList() {
       updateContextActionButton();
+      const scope = currentSearchScope();
+      const counts = countsByTab();
+      const total = totalSearchCount(counts);
       const activeTab = tabs.find(tab => tab.id === state.activeTab);
-      document.getElementById('customerPanelTitle').textContent = activeTab ? t(activeTab.labelKey) : t('customerInfo');
       const list = document.getElementById('listArea');
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const typeFilter = document.getElementById('typeSelect').value;
-      let items = companyItems(state.activeTab);
+      const filterPrefix = activeFilterLabel() ? `<div class="filter-banner">${activeFilterLabel()}</div>` : '';
 
-      if (state.statusFilter === 'openInvoices') items = items.filter(item => item.status === 'Avoinna');
-      if (state.statusFilter === 'openRequests') items = items.filter(item => item.status !== 'Valmis');
-      if (state.statusFilter === 'openIncidents') items = items.filter(item => item.status !== 'Ratkaistu');
-
-      if (state.activeTab === 'assets') {
-        if (typeFilter !== 'all') items = items.filter(a => a.type === typeFilter);
-        if (q) items = items.filter(a => [a.type, a.name, a.user, a.subscriptionTypeOrSpeed, a.category].join(' ').toLowerCase().includes(q));
-      } else if (q) {
-        items = items.filter(item => JSON.stringify(item).toLowerCase().includes(q));
+      if (scope === 'allViews') {
+        document.getElementById('customerPanelTitle').textContent = t('allViews');
+        document.getElementById('resultCount').textContent = `${total} ${t('rows')}`;
+        const groups = availableTabs()
+          .map(tab => globalResultGroup(tab, itemsForTab(tab.id)))
+          .filter(Boolean)
+          .join('');
+        const btn = document.getElementById('contextActionBtn');
+        if (btn) btn.hidden = true;
+        updateAssetViewToggleVisibility();
+        list.innerHTML = groups || `<div class="empty">${t('noResults')}</div>`;
+        list.querySelectorAll('.row').forEach(row => row.addEventListener('click', () => {
+          const parentGroup = row.closest('.global-result-group');
+          const tabHeader = parentGroup?.querySelector('.global-result-group-header span')?.textContent || '';
+          if (tabHeader.includes(navIconForTab('assets'))) window.location.href = `asset-detail.html?id=${row.dataset.id}`;
+        }));
+        return;
       }
 
+      if (scope !== state.activeTab) state.activeTab = scope;
+      const tab = tabs.find(item => item.id === state.activeTab) || activeTab;
+      document.getElementById('customerPanelTitle').textContent = tab ? t(tab.labelKey) : t('customerInfo');
+      let items = itemsForTab(state.activeTab);
       document.getElementById('resultCount').textContent = `${items.length} ${t('rows')}`;
-      if (!items.length) { list.innerHTML = `<div class="empty">${t('noResults')}</div>`; return; }
-
-      const filterPrefix = activeFilterLabel() ? `<div class="filter-banner">${activeFilterLabel()}</div>` : '';
+      updateContextActionButton();
+      updateAssetViewToggleVisibility();
+      if (!items.length) { list.innerHTML = `${filterPrefix}<div class="empty">${t('noResults')}</div>`; return; }
       if (state.activeTab === 'assets' && state.assetView === 'tile') {
         list.innerHTML = `${filterPrefix}<div class="tile-grid">${items.map(tileTemplate).join('')}</div>`;
         list.querySelectorAll('.asset-tile').forEach(tile => tile.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${tile.dataset.id}`; }));
         return;
       }
-
       list.innerHTML = filterPrefix + items.map(item => rowTemplate(item, state.activeTab)).join('');
       list.querySelectorAll('.row').forEach(row => row.addEventListener('click', () => {
         if (state.activeTab === 'assets') window.location.href = `asset-detail.html?id=${row.dataset.id}`;
       }));
     }
-
     function renderContentSearch() {
       const area = document.getElementById('aiAnswerArea');
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
