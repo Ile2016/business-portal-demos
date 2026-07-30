@@ -1133,7 +1133,7 @@
     .end-user-action-button.primary{background:var(--cta-orange);color:#fff;box-shadow:0 10px 24px rgba(255,106,0,.28);}
     .end-user-action-button.secondary{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);}
     .end-user-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;}
-    .end-user-card{border:1px solid var(--border);background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:16px;display:grid;gap:6px;}
+    .end-user-card{border:1px solid var(--border);background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:16px;display:grid;gap:6px;cursor:pointer;transition:all .15s ease;} .end-user-card:hover{transform:translateY(-2px);border-color:#ead7ff;}
     .end-user-card-icon{font-size:24px;}.end-user-card-value{font-size:24px;font-weight:950;color:var(--telia);}.end-user-card-label{color:var(--muted);font-size:13px;font-weight:800;}
     .end-user-notice{margin-top:14px;border:1px solid #fed7aa;background:#fff7ed;color:#9a3412;border-radius:18px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:14px;box-shadow:0 8px 20px rgba(255,106,0,.08);}
     .end-user-notice strong{display:block;margin-bottom:4px;}.end-user-notice button{border:0;border-radius:999px;background:var(--cta-orange);color:#fff;padding:9px 14px;cursor:pointer;font:inherit;font-weight:900;white-space:nowrap;}
@@ -1619,7 +1619,7 @@
       const btn = document.getElementById("contextActionBtn");  
       if (!btn) return;  
       const cfg = {  
-        assets: [t('contextActionAssets'), () => openActionModal("order")],  
+        assets: [t('contextActionAssets'), () => window.open('https://kauppa.telia.fi/yksityisille/tuotteet/puhelinliittymat.aspx','_blank')],  
         orders: [t('contextActionOrders'), () => alert("Demo: raportti tulostettaisiin tästä")],  
         invoices: [t('contextActionInvoices'), () => openActionModal("contact")],  
         requests: [t('contextActionRequests'), () => openActionModal("request")],  
@@ -2042,10 +2042,10 @@
           </div>
         </section>
         <section class="end-user-card-grid" aria-label="${escapeHtml(t('endUserSummaryTitle'))}">
-          <div class="end-user-card"><span class="end-user-card-icon">📱</span><span class="end-user-card-value">${subscriptions.length}</span><span class="end-user-card-label">${escapeHtml(t('ownSubscriptions'))}</span></div>
-          <div class="end-user-card"><span class="end-user-card-icon">💻</span><span class="end-user-card-value">${devices.length}</span><span class="end-user-card-label">${escapeHtml(t('ownDevices'))}</span></div>
-          <div class="end-user-card"><span class="end-user-card-icon">📦</span><span class="end-user-card-value">${orders.length}</span><span class="end-user-card-label">${escapeHtml(t('ownOrders'))}</span></div>
-          <div class="end-user-card"><span class="end-user-card-icon">🛠️</span><span class="end-user-card-value">${openRequests.length}</span><span class="end-user-card-label">${escapeHtml(t('ownRequests'))}</span></div>
+          <div class="end-user-card" onclick="switchSearchScope('assets')"><span class="end-user-card-icon">📱</span><span class="end-user-card-value">${subscriptions.length}</span><span class="end-user-card-label">${escapeHtml(t('ownSubscriptions'))}</span></div>
+          <div class="end-user-card" onclick="switchSearchScope('devices')"><span class="end-user-card-icon">💻</span><span class="end-user-card-value">${devices.length}</span><span class="end-user-card-label">${escapeHtml(t('ownDevices'))}</span></div>
+          <div class="end-user-card" onclick="switchSearchScope('orders')"><span class="end-user-card-icon">📦</span><span class="end-user-card-value">${orders.length}</span><span class="end-user-card-label">${escapeHtml(t('ownOrders'))}</span></div>
+          <div class="end-user-card" onclick="switchSearchScope('requests')"><span class="end-user-card-icon">🛠️</span><span class="end-user-card-value">${openRequests.length}</span><span class="end-user-card-label">${escapeHtml(t('ownRequests'))}</span></div>
         </section>
         <section class="end-user-notice">
           <div><strong>🟠 ${escapeHtml(t('endUserNoticeTitle'))}</strong><span>${escapeHtml(noticeAsset?.fixedTermEndDate ? `${t('fixedTerm')}: ${noticeAsset.fixedTermEndDate}` : t('endUserNoticeText'))}</span></div>
