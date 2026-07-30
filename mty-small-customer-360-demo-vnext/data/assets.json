@@ -1,5 +1,38 @@
 [
   {
+    "id": "AST-MATTI-SUB-001",
+    "companyId": "6665014-5",
+    "companyName": "Testi Ilkka Koivunen Oy",
+    "type": "Matkapuhelin liittymä",
+    "name": "0401234567",
+    "user": "Matti Meikäläinen",
+    "subscriptionTypeOrSpeed": "Rajaton 5G",
+    "fixedTermEndDate": "2027-05-31",
+    "category": "Target"
+  },
+  {
+    "id": "AST-MATTI-DEV-001",
+    "companyId": "6665014-5",
+    "companyName": "Testi Ilkka Koivunen Oy",
+    "type": "Laite",
+    "name": "iPhone 16",
+    "user": "Matti Meikäläinen",
+    "subscriptionTypeOrSpeed": "",
+    "fixedTermEndDate": "",
+    "category": "Target"
+  },
+  {
+    "id": "AST-TIINA-SUB-001",
+    "companyId": "6665014-5",
+    "companyName": "Testi Ilkka Koivunen Oy",
+    "type": "Matkapuhelin liittymä",
+    "name": "0507654321",
+    "user": "Tiina Testaaja",
+    "subscriptionTypeOrSpeed": "Rajaton 5G",
+    "fixedTermEndDate": "2026-11-30",
+    "category": "Target"
+  },
+  {
     "id": "AST0001",
     "companyId": "4156651-0",
     "companyName": "Arctic Tekniikka Oy",
