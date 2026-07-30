@@ -1160,6 +1160,198 @@
         gap:12px;
       }
     }
+
+    /* MTY end-user mobile refinement: app-like home */
+    .end-user-mobile-tabs,
+    .end-user-sticky-actions{
+      display:none;
+    }
+    .end-user-card.subscriptions{
+      background:linear-gradient(180deg,#eff6ff,#ffffff);
+      border-color:#bfdbfe;
+    }
+    .end-user-card.devices{
+      background:linear-gradient(180deg,#faf5ff,#ffffff);
+      border-color:#e9d5ff;
+    }
+    .end-user-card.orders{
+      background:linear-gradient(180deg,#fff7ed,#ffffff);
+      border-color:#fed7aa;
+    }
+    .end-user-card.requests{
+      background:linear-gradient(180deg,#ecfdf3,#ffffff);
+      border-color:#bbf7d0;
+    }
+    .end-user-service-summary{
+      display:inline-flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+      font-weight:900;
+      color:#fff;
+      opacity:.98;
+    }
+    .end-user-service-summary span{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:6px 9px;
+      border-radius:999px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.25);
+      font-size:13px;
+    }
+    @media (max-width:700px){
+      body.end-user-mode main{
+        padding:14px 12px 88px;
+      }
+      body.end-user-mode header{
+        padding:14px 16px;
+      }
+      body.end-user-mode .header-content{
+        padding-top:42px;
+      }
+      body.end-user-mode .app-shell{
+        display:block;
+      }
+      body.end-user-mode .sidebar{
+        display:none !important;
+      }
+      body.end-user-mode .workspace{
+        width:100%;
+      }
+      body.end-user-mode .end-user-home{
+        margin-bottom:12px;
+      }
+      body.end-user-mode .end-user-hero{
+        padding:16px;
+        border-radius:18px;
+        gap:12px;
+      }
+      body.end-user-mode .end-user-hero h2{
+        font-size:21px;
+      }
+      body.end-user-mode .end-user-hero p{
+        font-size:13px;
+        line-height:1.35;
+      }
+      body.end-user-mode .end-user-action-row{
+        display:none;
+      }
+      body.end-user-mode .end-user-notice{
+        margin-top:10px;
+        padding:13px;
+        border-radius:16px;
+        gap:10px;
+      }
+      body.end-user-mode .end-user-notice button{
+        width:auto;
+        padding:8px 12px;
+      }
+      body.end-user-mode .end-user-card-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:10px;
+        margin-top:10px;
+      }
+      body.end-user-mode .end-user-card{
+        min-height:112px;
+        padding:13px;
+        border-radius:16px;
+      }
+      body.end-user-mode .end-user-card-value{
+        font-size:25px;
+      }
+      body.end-user-mode .end-user-card-label{
+        font-size:12px;
+        line-height:1.25;
+      }
+      body.end-user-mode .end-user-card::after{
+        top:10px;
+        right:12px;
+      }
+      body.end-user-mode .end-user-mobile-tabs{
+        display:flex;
+        gap:8px;
+        overflow-x:auto;
+        padding:2px 0 10px;
+        margin:10px 0 2px;
+        -webkit-overflow-scrolling:touch;
+      }
+      body.end-user-mode .end-user-mobile-tab{
+        flex:0 0 auto;
+        border:1px solid #ead7ff;
+        background:#fff;
+        color:#55208a;
+        border-radius:999px;
+        padding:9px 12px;
+        font:inherit;
+        font-size:13px;
+        font-weight:900;
+        cursor:pointer;
+        box-shadow:0 4px 14px rgba(15,23,42,.05);
+      }
+      body.end-user-mode .end-user-mobile-tab.active{
+        background:var(--telia);
+        color:#fff;
+        border-color:var(--telia);
+      }
+      body.end-user-mode .panel{
+        border-radius:18px;
+      }
+      body.end-user-mode .customer-list-header{
+        padding:14px;
+      }
+      body.end-user-mode .list{
+        padding:6px;
+      }
+      body.end-user-mode .row{
+        grid-template-columns:38px minmax(0,1fr);
+        align-items:flex-start;
+      }
+      body.end-user-mode .row > .badge{
+        grid-column:2;
+        justify-self:flex-start;
+        margin-top:4px;
+      }
+      body.end-user-mode .icon{
+        width:38px;
+        height:38px;
+        font-size:18px;
+      }
+      body.end-user-mode .end-user-sticky-actions{
+        position:fixed;
+        left:12px;
+        right:12px;
+        bottom:12px;
+        z-index:1200;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+        padding:8px;
+        border:1px solid rgba(229,231,235,.95);
+        border-radius:20px;
+        background:rgba(255,255,255,.94);
+        box-shadow:0 18px 48px rgba(15,23,42,.22);
+        backdrop-filter:blur(12px);
+      }
+      body.end-user-mode .end-user-sticky-actions button{
+        border:0;
+        border-radius:999px;
+        padding:11px 10px;
+        font:inherit;
+        font-weight:950;
+        cursor:pointer;
+      }
+      body.end-user-mode .end-user-sticky-actions .contact{
+        background:var(--telia);
+        color:#fff;
+      }
+      body.end-user-mode .end-user-sticky-actions .incident{
+        background:var(--cta-orange);
+        color:#fff;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -2048,25 +2240,44 @@
       const requests = companyItems('requests');
       const openRequests = requests.filter(item => String(item.status || '').toLowerCase() !== 'valmis');
       const noticeAsset = [...subscriptions, ...devices].find(asset => asset.fixedTermEndDate);
+      const active = state.activeTab;
+      const mobileTab = (tabId, icon, label) => `<button class="end-user-mobile-tab ${active === tabId ? 'active' : ''}" type="button" onclick="switchSearchScope('${tabId}')">${icon} ${escapeHtml(label)}</button>`;
       area.style.display = 'block';
       area.innerHTML = `
         <section class="end-user-hero">
-          <div><h2>${escapeHtml(t('endUserGreeting'))} ${escapeHtml(firstName)} 👋</h2><p>${escapeHtml(t('endUserIntro'))}</p></div>
+          <div>
+            <h2>${escapeHtml(t('endUserGreeting'))} ${escapeHtml(firstName)} 👋</h2>
+            <p>${escapeHtml(t('endUserIntro'))}</p>
+            <div class="end-user-service-summary">
+              <span>📱 ${subscriptions.length} ${escapeHtml(t('ownSubscriptions').toLowerCase())}</span>
+              <span>💻 ${devices.length} ${escapeHtml(t('ownDevices').toLowerCase())}</span>
+            </div>
+          </div>
           <div class="end-user-action-row">
             <button class="end-user-action-button primary" type="button" onclick="openActionModal('contact')">💬 ${escapeHtml(t('contactUs'))}</button>
             <button class="end-user-action-button secondary" type="button" onclick="openActionModal('incident')">⚠️ ${escapeHtml(t('reportIncident'))}</button>
           </div>
         </section>
-        <section class="end-user-card-grid" aria-label="${escapeHtml(t('endUserSummaryTitle'))}">
-          <div class="end-user-card" onclick="switchSearchScope('assets')"><span class="end-user-card-icon">📱</span><span class="end-user-card-value">${subscriptions.length}</span><span class="end-user-card-label">${escapeHtml(t('ownSubscriptions'))}</span></div>
-          <div class="end-user-card" onclick="switchSearchScope('devices')"><span class="end-user-card-icon">💻</span><span class="end-user-card-value">${devices.length}</span><span class="end-user-card-label">${escapeHtml(t('ownDevices'))}</span></div>
-          <div class="end-user-card" onclick="switchSearchScope('orders')"><span class="end-user-card-icon">📦</span><span class="end-user-card-value">${orders.length}</span><span class="end-user-card-label">${escapeHtml(t('ownOrders'))}</span></div>
-          <div class="end-user-card" onclick="switchSearchScope('requests')"><span class="end-user-card-icon">🛠️</span><span class="end-user-card-value">${openRequests.length}</span><span class="end-user-card-label">${escapeHtml(t('ownRequests'))}</span></div>
-        </section>
         <section class="end-user-notice">
           <div><strong>🟠 ${escapeHtml(t('endUserNoticeTitle'))}</strong><span>${escapeHtml(noticeAsset?.fixedTermEndDate ? `${t('fixedTerm')}: ${noticeAsset.fixedTermEndDate}` : t('endUserNoticeText'))}</span></div>
           <button type="button" onclick="switchSearchScope('assets')">${escapeHtml(t('showDetails'))}</button>
-        </section>`;
+        </section>
+        <nav class="end-user-mobile-tabs" aria-label="${escapeHtml(t('ownServices'))}">
+          ${mobileTab('assets', '📱', t('ownSubscriptions'))}
+          ${mobileTab('devices', '💻', t('ownDevices'))}
+          ${mobileTab('orders', '📦', t('ownOrders'))}
+          ${mobileTab('requests', '🛠️', t('ownRequests'))}
+        </nav>
+        <section class="end-user-card-grid" aria-label="${escapeHtml(t('endUserSummaryTitle'))}">
+          <div class="end-user-card subscriptions" onclick="switchSearchScope('assets')"><span class="end-user-card-icon">📱</span><span class="end-user-card-value">${subscriptions.length}</span><span class="end-user-card-label">${escapeHtml(t('ownSubscriptions'))}</span></div>
+          <div class="end-user-card devices" onclick="switchSearchScope('devices')"><span class="end-user-card-icon">💻</span><span class="end-user-card-value">${devices.length}</span><span class="end-user-card-label">${escapeHtml(t('ownDevices'))}</span></div>
+          <div class="end-user-card orders" onclick="switchSearchScope('orders')"><span class="end-user-card-icon">📦</span><span class="end-user-card-value">${orders.length}</span><span class="end-user-card-label">${escapeHtml(t('ownOrders'))}</span></div>
+          <div class="end-user-card requests" onclick="switchSearchScope('requests')"><span class="end-user-card-icon">🛠️</span><span class="end-user-card-value">${openRequests.length}</span><span class="end-user-card-label">${escapeHtml(t('ownRequests'))}</span></div>
+        </section>
+        <div class="end-user-sticky-actions" aria-label="${escapeHtml(t('contactUs'))}">
+          <button class="contact" type="button" onclick="openActionModal('contact')">💬 ${escapeHtml(t('contactUs'))}</button>
+          <button class="incident" type="button" onclick="openActionModal('incident')">⚠️ ${escapeHtml(t('reportIncident'))}</button>
+        </div>`;
     }
     function renderKpis() {
       const invoices = companyItems('invoices'), requests = companyItems('requests'), incidents = companyItems('incidents');
