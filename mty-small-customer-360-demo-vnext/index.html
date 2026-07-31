@@ -1526,6 +1526,146 @@
 .data-table.invoices-table th:first-child,.data-table.invoices-table td:first-child{width:120px;max-width:120px;}
 .data-table.invoices-table th:last-child,.data-table.invoices-table td:last-child{width:170px;}
 
+
+    /* MTY content-specific tile views for all Views section tabs */
+    .content-tile {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 218px;
+      overflow: hidden;
+    }
+    .content-tile::after {
+      content: '›';
+      position: absolute;
+      right: 16px;
+      top: 14px;
+      color: var(--telia);
+      font-size: 24px;
+      font-weight: 950;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity .15s ease, transform .15s ease;
+      pointer-events: none;
+    }
+    .content-tile:hover::after {
+      opacity: .85;
+      transform: translateX(0);
+    }
+    .content-tile-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      padding-right: 22px;
+    }
+    .content-tile-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .content-tile-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #f3e8ff;
+      color: var(--telia);
+      font-size: 21px;
+    }
+    .content-tile-title {
+      font-size: 16px;
+      font-weight: 950;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    .content-tile-subtitle {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.35;
+    }
+    .content-tile-highlight {
+      border-radius: 16px;
+      padding: 12px;
+      background: #fbfcfe;
+      border: 1px solid #eef2f7;
+      display: grid;
+      gap: 4px;
+    }
+    .content-tile-highlight-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .content-tile-highlight-value {
+      font-size: 19px;
+      font-weight: 950;
+      color: var(--text);
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+    .content-tile-meta {
+      display: grid;
+      gap: 7px;
+      margin-top: auto;
+    }
+    .content-tile-meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .content-tile-meta-row strong {
+      color: var(--text);
+      font-weight: 850;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+    .content-tile-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .content-tile.invoice-tile {
+      background: linear-gradient(180deg, #fff7ed, #ffffff);
+      border-color: #fed7aa;
+    }
+    .content-tile.order-tile {
+      background: linear-gradient(180deg, #eff6ff, #ffffff);
+      border-color: #bfdbfe;
+    }
+    .content-tile.request-tile {
+      background: linear-gradient(180deg, #ecfdf3, #ffffff);
+      border-color: #bbf7d0;
+    }
+    .content-tile.incident-tile {
+      background: linear-gradient(180deg, #fef2f2, #ffffff);
+      border-color: #fecaca;
+    }
+    .content-tile.device-tile {
+      background: linear-gradient(180deg, #faf5ff, #ffffff);
+      border-color: #e9d5ff;
+    }
+    @media (max-width: 700px) {
+      .content-tile {
+        min-height: auto;
+      }
+      .content-tile-highlight-value {
+        font-size: 17px;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -2567,10 +2707,11 @@ function isMobileView(){ return window.innerWidth <= 700; }
         list.querySelectorAll('.generic-tile').forEach(tile => tile.addEventListener('click', event => openListRowFromClick(event, tile, tile.dataset.tab)));
         return;
       }
-      if (state.activeTab === 'assets' && state.assetView === 'tile') {
-        list.innerHTML = `${filterPrefix}<div class="tile-grid">${items.map(tileTemplate).join('')}</div>`;
-        list.querySelectorAll('.asset-tile').forEach(tile => tile.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${tile.dataset.id}`; }));
-        return;
+      if (state.assetView === 'tile') {  
+        list.innerHTML = `${filterPrefix}<div class="tile-grid">${items.map(item => state.activeTab === 'assets' ? tileTemplate(item) : genericTileTemplate(item, state.activeTab)).join('')}</div>`;  
+        list.querySelectorAll('.asset-tile, .generic-tile').forEach(tile => tile.addEventListener('click', event => openListRowFromClick(event, tile, tile.dataset.tab || state.activeTab)));  
+        list.querySelectorAll('.asset-tile, .generic-tile').forEach(tile => tile.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openListRowFromClick(event, tile, tile.dataset.tab || state.activeTab); } }));  
+        return;  
       }
       list.innerHTML = filterPrefix + dataTableTemplate(items, state.activeTab);
       bindClickableTableRows(list, state.activeTab);
@@ -2955,19 +3096,100 @@ function isMobileView(){ return window.innerWidth <= 700; }
     }
 
     
-function genericTileTemplate(item, tabId){
- const type=dataKeyForTab(tabId);
- const title=item.name||item.item||item.invoiceNumber||item.requestType||item.category||'-';
- const sub=item.companyName||item.user||'';
- const badge=item.status||item.category||'';
- return `<div class="asset-tile generic-tile" data-id="${escapeHtml(item.id)}" data-tab="${escapeHtml(tabId)}">
- <div class="asset-tile-title">${iconFor(type,item)} ${escapeHtml(title)}</div>
- <div class="asset-tile-sub">${escapeHtml(sub)}</div>
- <div class="asset-tile-sub">${escapeHtml(item.description||item.productType||item.invoiceType||'')}</div>
- <div style="margin-top:10px"><span class="badge ${badgeClass(badge)}">${escapeHtml(translateStatus(translateCategory(badge)))}</span></div>
- </div>`;
-}
-
+function tileMetaRow(label, value) {
+      if (value === undefined || value === null || String(value).trim() === '') return '';
+      return `<div class="content-tile-meta-row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
+    }
+    function tileActionsHtml(item, type) {
+      const id = escapeHtml(item.id || '');
+      if (type === 'orders') return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
+      if (type === 'invoices') return `<div class="content-tile-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
+      if (type === 'requests') return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      if (type === 'incidents') return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      return '';
+    }
+    function contentTileTemplate(item, tabId) {
+      const type = dataKeyForTab(tabId);
+      const icon = iconFor(type, item);
+      const status = item.status || item.category || '';
+      const badge = status ? `<span class="badge ${badgeClass(status)}">${escapeHtml(translateStatus(translateCategory(status)))}</span>` : '';
+      let tileClass = 'content-tile';
+      let title = item.name || item.item || item.invoiceNumber || item.requestType || item.category || '-';
+      let subtitle = item.companyName || item.user || '';
+      let highlightLabel = t('status');
+      let highlightValue = translateStatus(status || '-');
+      let meta = '';
+      if (type === 'assets') {
+        tileClass += tabId === 'devices' ? ' device-tile' : '';
+        title = item.name || '-';
+        subtitle = [item.type, item.companyName].filter(Boolean).join(' · ');
+        highlightLabel = t('user');
+        highlightValue = item.user || '-';
+        meta = [
+          tileMetaRow(t('productSpeed'), item.subscriptionTypeOrSpeed),
+          tileMetaRow(t('fixedTerm'), item.fixedTermEndDate),
+          tileMetaRow(t('category'), translateCategory(item.category))
+        ].join('');
+      } else if (type === 'orders') {
+        tileClass += ' order-tile';
+        title = item.item || item.productType || '-';
+        subtitle = [item.companyName, item.user].filter(Boolean).join(' · ');
+        highlightLabel = t('orderDate');
+        highlightValue = item.orderDate || '-';
+        meta = [
+          tileMetaRow(t('productType'), item.productType),
+          tileMetaRow(t('billingAccount'), item.billingAccount),
+          tileMetaRow(t('status'), translateStatus(item.status))
+        ].join('');
+      } else if (type === 'invoices') {
+        tileClass += ' invoice-tile';
+        title = item.invoiceNumber || item.invoiceType || '-';
+        subtitle = [item.companyName, item.invoiceType].filter(Boolean).join(' · ');
+        highlightLabel = t('amount');
+        highlightValue = formatCurrency(item.amount);
+        meta = [
+          tileMetaRow(t('invoiceDate'), item.invoiceDate),
+          tileMetaRow(t('billingAccount'), item.billingAccount),
+          tileMetaRow(t('status'), translateStatus(item.status))
+        ].join('');
+      } else if (type === 'requests') {
+        tileClass += ' request-tile';
+        title = item.requestType || '-';
+        subtitle = item.companyName || '';
+        highlightLabel = t('description');
+        highlightValue = item.description || '-';
+        meta = [
+          tileMetaRow(t('requestDate'), item.requestDate),
+          tileMetaRow(t('createdBy'), item.createdBy),
+          tileMetaRow(t('status'), translateStatus(item.status))
+        ].join('');
+      } else if (type === 'incidents') {
+        tileClass += ' incident-tile';
+        title = item.category || '-';
+        subtitle = item.companyName || '';
+        highlightLabel = t('description');
+        highlightValue = item.description || '-';
+        meta = [
+          tileMetaRow(t('startDate'), item.startDate),
+          tileMetaRow(t('status'), translateStatus(item.status))
+        ].join('');
+      }
+      return `<div class="asset-tile generic-tile ${tileClass}" data-id="${escapeHtml(item.id)}" data-tab="${escapeHtml(tabId)}" tabindex="0">
+        <div class="content-tile-header">
+          <div class="content-tile-title-row">
+            <span class="content-tile-icon">${icon}</span>
+            <div><div class="content-tile-title">${escapeHtml(title)}</div><div class="content-tile-subtitle">${escapeHtml(subtitle || '-')}</div></div>
+          </div>
+          ${badge}
+        </div>
+        <div class="content-tile-highlight"><div class="content-tile-highlight-label">${escapeHtml(highlightLabel)}</div><div class="content-tile-highlight-value">${escapeHtml(highlightValue || '-')}</div></div>
+        <div class="content-tile-meta">${meta}</div>
+        ${tileActionsHtml(item, type)}
+      </div>`;
+    }
+    function genericTileTemplate(item, tabId){
+      return contentTileTemplate(item, tabId);
+    }
 function tileTemplate(item) {
       const icon = iconFor('assets', item);
       return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('companyName')}: ${escapeHtml(item.companyName || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div class="asset-tile-sub">${t('fixedTerm')}: ${escapeHtml(item.fixedTermEndDate || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
