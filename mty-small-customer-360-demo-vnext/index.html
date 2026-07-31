@@ -1132,7 +1132,7 @@
     .end-user-action-button{border:0;border-radius:999px;padding:11px 16px;cursor:pointer;font:inherit;font-weight:900;display:inline-flex;align-items:center;gap:8px;}
     .end-user-action-button.primary{background:var(--cta-orange);color:#fff;box-shadow:0 10px 24px rgba(255,106,0,.28);}
     .end-user-action-button.secondary{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);}
-    .end-user-card-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px;}
+    .end-user-card-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:14px;}
     .end-user-card{border:1px solid var(--border);background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:16px;display:grid;gap:6px;cursor:pointer;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;position:relative;overflow:hidden;}
     .end-user-card::after{content:'›';position:absolute;right:16px;top:14px;color:var(--telia);font-size:22px;font-weight:950;opacity:0;transform:translateX(-4px);transition:opacity .18s ease, transform .18s ease;}
     .end-user-card:hover{transform:translateY(-3px);border-color:#ead7ff;background:linear-gradient(180deg,#ffffff,#fbf5ff);box-shadow:0 18px 38px rgba(153,10,227,.16);}
@@ -1148,7 +1148,7 @@
     .end-user-nav-action:hover{background:#f8f5ff;box-shadow:var(--shadow);}
     .end-user-mode .sidebar-brand{background:linear-gradient(135deg,#1f2937,#55208a);}
     .end-user-mode .sidebar-settings,.end-user-mode .sidebar-kpi-section,.end-user-mode .vnext-toolbar,.end-user-mode #mobileSearchToggle,.end-user-mode #newsArea,.end-user-mode #assetViewToggle{display:none !important;}
-    @media (max-width:900px){.end-user-card-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.end-user-notice{align-items:flex-start;flex-direction:column;}}
+    @media (max-width:900px){.end-user-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.end-user-notice{align-items:flex-start;flex-direction:column;}}
     @media (max-width:700px){.end-user-card-grid{grid-template-columns:1fr;}.end-user-hero{padding:18px;}.end-user-hero h2{font-size:22px;}.end-user-action-button{width:auto;}}
 
     /* Hide Views section in end-user mobile view: cards become the primary navigation */
@@ -1837,6 +1837,12 @@
       box-shadow: none !important;
       transform: none !important;
     }
+
+
+.end-user-card.incidents{
+  background:#fff7ed;
+  border:1px solid #fdba74;
+}
 
 </style>
 </head>
@@ -2819,8 +2825,6 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const orders = companyItems('orders');
       const requests = companyItems('requests');
       const openRequests = requests.filter(item => String(item.status || '').toLowerCase() !== 'valmis');
-      const incidents = companyItems('incidents');
-      const openIncidents = incidents.filter(item => String(item.status || '').toLowerCase() !== 'ratkaistu');
       const noticeAsset = [...subscriptions, ...devices].find(asset => asset.fixedTermEndDate);
       const active = state.activeTab;
       const mobileTab = (tabId, icon, label) => `<button class="end-user-mobile-tab ${active === tabId ? 'active' : ''}" type="button" onclick="switchSearchScope('${tabId}')">${icon} ${escapeHtml(label)}</button>`;
