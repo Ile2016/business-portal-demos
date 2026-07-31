@@ -1844,6 +1844,16 @@
   border:1px solid #fdba74;
 }
 
+
+    /* MTY end-user incidents KPI fix */
+    .end-user-card.incidents {
+      background: linear-gradient(180deg,#fff7ed,#ffffff);
+      border-color: #fdba74;
+    }
+    @media (min-width: 901px) {
+      .end-user-card-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+
 </style>
 </head>
 <body>
@@ -2066,7 +2076,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
     function userCanSeeTab(tabId) {
       const role = currentDemoUser().role;
       if (role === 'admin' || role === 'limited') return tabId !== 'devices';
-      return ['assets','devices','orders','requests'].includes(tabId);
+      return ['assets','devices','orders','requests','incidents'].includes(tabId);
     }
     function availableTabs() {
       return tabs.filter(tab => userCanSeeTab(tab.id));
@@ -2075,7 +2085,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const allowedTabs = availableTabs();
       if (!allowedTabs.some(tab => tab.id === state.activeTab)) state.activeTab = allowedTabs[0]?.id || 'assets';
       if (isEndUserMode()) {
-        if (!['assets','devices','orders','requests'].includes(state.searchScope)) state.searchScope = state.activeTab || 'assets';
+        if (!['assets','devices','orders','requests','incidents'].includes(state.searchScope)) state.searchScope = state.activeTab || 'assets';
         state.searchMode = 'customer';
       }
       const allowedCompanies = accessibleCompanyIds();
@@ -2095,6 +2105,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
         else if (key === 'devices') filtered = filtered.filter(item => item.user === user.assetUser && isDeviceAsset(item));
         else if (key === 'orders') filtered = filtered.filter(item => item.user === user.assetUser || ownAssetNames.includes(item.item));
         else if (key === 'requests') filtered = filtered.filter(item => String(item.createdBy || '').includes(user.name) || JSON.stringify(item).toLowerCase().includes(String(user.assetUser || '').toLowerCase()));
+        else if (key === 'incidents') filtered = filtered.filter(item => JSON.stringify(item).toLowerCase().includes(String(user.assetUser || '').toLowerCase()) || ownAssetNames.some(name => JSON.stringify(item).toLowerCase().includes(String(name || '').toLowerCase())));
         else filtered = [];
       }
       return filtered;
@@ -2855,12 +2866,15 @@ function isMobileView(){ return window.innerWidth <= 700; }
           ${mobileTab('devices', '💻', t('ownDevices'))}
           ${mobileTab('orders', '📦', t('ownOrders'))}
           ${mobileTab('requests', '🛠️', t('ownRequests'))}
+          ${mobileTab('incidents', '⚠️', t('incidents'))}
         </nav>
         <section class="end-user-card-grid" aria-label="${escapeHtml(t('endUserSummaryTitle'))}">
           <div class="end-user-card subscriptions" onclick="switchSearchScope('assets')"><span class="end-user-card-icon">📱</span><span class="end-user-card-value">${subscriptions.length}</span><span class="end-user-card-label">${escapeHtml(t('ownSubscriptions'))}</span></div>
           <div class="end-user-card devices" onclick="switchSearchScope('devices')"><span class="end-user-card-icon">💻</span><span class="end-user-card-value">${devices.length}</span><span class="end-user-card-label">${escapeHtml(t('ownDevices'))}</span></div>
           <div class="end-user-card orders" onclick="switchSearchScope('orders')"><span class="end-user-card-icon">📦</span><span class="end-user-card-value">${orders.length}</span><span class="end-user-card-label">${escapeHtml(t('ownOrders'))}</span></div>
           <div class="end-user-card requests" onclick="switchSearchScope('requests')"><span class="end-user-card-icon">🛠️</span><span class="end-user-card-value">${openRequests.length}</span><span class="end-user-card-label">${escapeHtml(t('ownRequests'))}</span></div>
+        
+          <div class=\"end-user-card incidents\" onclick=\"switchSearchScope('incidents')\"><span class=\"end-user-card-icon\">⚠️</span><span class=\"end-user-card-value\">${openIncidents.length}</span><span class=\"end-user-card-label\">${escapeHtml(t('incidents'))}</span></div>  
         </section>
         <div class="end-user-sticky-actions" aria-label="${escapeHtml(t('contactUs'))}">
           <button class="contact" type="button" onclick="openActionModal('contact')">💬 ${escapeHtml(t('contactUs'))}</button>
