@@ -1666,6 +1666,160 @@
       }
     }
 
+
+    /* MTY compact All views dashboard: overview tiles with short previews */
+    .all-views-dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 16px;
+    }
+    .all-views-card {
+      position: relative;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .all-views-card:hover {
+      transform: translateY(-2px);
+      border-color: #ead7ff;
+      box-shadow: 0 16px 34px rgba(153, 10, 227, .12);
+    }
+    .all-views-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 16px 12px;
+      background: linear-gradient(135deg, #fbf5ff, #ffffff);
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .all-views-card-title {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      min-width: 0;
+    }
+    .all-views-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      background: #f3e8ff;
+      color: var(--telia);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex: 0 0 auto;
+    }
+    .all-views-card-name {
+      font-size: 16px;
+      font-weight: 950;
+      line-height: 1.25;
+    }
+    .all-views-card-insight {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+    .all-views-card-count {
+      min-width: 52px;
+      text-align: center;
+      border-radius: 15px;
+      padding: 8px 10px;
+      background: var(--telia);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(153, 10, 227, .16);
+    }
+    .all-views-card-count strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+    }
+    .all-views-card-count span {
+      display: block;
+      font-size: 10px;
+      font-weight: 900;
+      opacity: .9;
+      margin-top: 3px;
+    }
+    .all-views-preview-list {
+      display: grid;
+      padding: 8px;
+      gap: 6px;
+    }
+    .all-views-preview-item {
+      border: 1px solid transparent;
+      border-radius: 13px;
+      padding: 10px 10px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .all-views-preview-item:hover {
+      background: #f8f5ff;
+      border-color: #ead7ff;
+    }
+    .all-views-preview-main {
+      min-width: 0;
+    }
+    .all-views-preview-title {
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 1.25;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .all-views-preview-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .all-views-card-footer {
+      padding: 12px 14px 14px;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: flex-end;
+      background: #fbfcfe;
+    }
+    .all-views-show-all {
+      border: 0;
+      background: transparent;
+      color: var(--blue);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 950;
+      padding: 0;
+    }
+    .all-views-show-all:hover {
+      text-decoration: underline;
+    }
+    @media (max-width:700px) {
+      .all-views-dashboard {
+        grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 10px;
+      }
+      .all-views-card-header {
+        padding: 14px;
+      }
+      .all-views-card-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -2545,6 +2699,96 @@ function isMobileView(){ return window.innerWidth <= 700; }
       </section>`;
     }
 
+
+    function allViewsText(key) {
+      const labels = {
+        fi: { showAll: 'Näytä kaikki', latest: 'Uusimmat', rows: 'riviä', openInvoices: 'avointa laskua', openRequests: 'avointa pyyntöä', openIncidents: 'avointa vikaa', fixedTerms: 'määräaikaisia', ordered: 'tilauksessa' },
+        en: { showAll: 'Show all', latest: 'Latest', rows: 'rows', openInvoices: 'open invoices', openRequests: 'open requests', openIncidents: 'open incidents', fixedTerms: 'fixed-term', ordered: 'ordered' },
+        sv: { showAll: 'Visa alla', latest: 'Senaste', rows: 'rader', openInvoices: 'öppna fakturor', openRequests: 'öppna ärenden', openIncidents: 'öppna fel', fixedTerms: 'bundna', ordered: 'beställda' }
+      };
+      return labels[state.language]?.[key] || labels.fi[key] || key;
+    }
+    function allViewsInsight(tabId, items) {
+      if (tabId === 'assets') {
+        const fixed = items.filter(item => item.fixedTermEndDate).length;
+        return fixed ? `${fixed} ${allViewsText('fixedTerms')}` : allViewsText('latest');
+      }
+      if (tabId === 'devices') return allViewsText('latest');
+      if (tabId === 'orders') {
+        const ordered = items.filter(item => String(item.status || '').toLowerCase().includes('tilauksessa')).length;
+        return ordered ? `${ordered} ${allViewsText('ordered')}` : allViewsText('latest');
+      }
+      if (tabId === 'invoices') {
+        const open = items.filter(item => String(item.status || '').toLowerCase() === 'avoinna').length;
+        return open ? `${open} ${allViewsText('openInvoices')}` : allViewsText('latest');
+      }
+      if (tabId === 'requests') {
+        const open = items.filter(item => String(item.status || '').toLowerCase() !== 'valmis').length;
+        return open ? `${open} ${allViewsText('openRequests')}` : allViewsText('latest');
+      }
+      if (tabId === 'incidents') {
+        const open = items.filter(item => String(item.status || '').toLowerCase() !== 'ratkaistu').length;
+        return open ? `${open} ${allViewsText('openIncidents')}` : allViewsText('latest');
+      }
+      return allViewsText('latest');
+    }
+    function allViewsPreviewTitle(item, tabId) {
+      const type = dataKeyForTab(tabId);
+      if (type === 'assets') return item.name || item.type || '-';
+      if (type === 'orders') return item.item || item.productType || '-';
+      if (type === 'invoices') return item.invoiceNumber || item.invoiceType || '-';
+      if (type === 'requests') return item.requestType || '-';
+      if (type === 'incidents') return item.category || '-';
+      return item.name || item.id || '-';
+    }
+    function allViewsPreviewMeta(item, tabId) {
+      const type = dataKeyForTab(tabId);
+      if (type === 'assets') return [item.user, item.subscriptionTypeOrSpeed, item.companyName].filter(Boolean).join(' · ');
+      if (type === 'orders') return [item.companyName, item.orderDate, translateStatus(item.status)].filter(Boolean).join(' · ');
+      if (type === 'invoices') return [formatCurrency(item.amount), item.companyName, translateStatus(item.status)].filter(Boolean).join(' · ');
+      if (type === 'requests') return [item.companyName, item.requestDate, translateStatus(item.status)].filter(Boolean).join(' · ');
+      if (type === 'incidents') return [item.companyName, item.startDate, translateStatus(item.status)].filter(Boolean).join(' · ');
+      return item.companyName || '';
+    }
+    function allViewsPreviewBadge(item, tabId) {
+      const type = dataKeyForTab(tabId);
+      const value = type === 'assets' ? item.category : item.status;
+      return value ? `<span class="badge ${badgeClass(value)}">${escapeHtml(translateStatus(translateCategory(value)))}</span>` : '';
+    }
+    function allViewsPreviewItem(item, tabId) {
+      return `<div class="all-views-preview-item" data-id="${escapeHtml(item.id)}" data-tab="${escapeHtml(tabId)}" tabindex="0">
+        <div class="all-views-preview-main"><div class="all-views-preview-title">${escapeHtml(allViewsPreviewTitle(item, tabId))}</div><div class="all-views-preview-meta">${escapeHtml(allViewsPreviewMeta(item, tabId) || '-')}</div></div>
+        ${allViewsPreviewBadge(item, tabId)}
+      </div>`;
+    }
+    function allViewsCard(tab, items) {
+      const visibleItems = items.slice(0, 3);
+      if (!items.length) return '';
+      return `<section class="all-views-card" aria-label="${escapeHtml(t(tabLabelKey(tab)))}">
+        <div class="all-views-card-header">
+          <div class="all-views-card-title"><span class="all-views-card-icon">${navIconForTab(tab.id)}</span><div><div class="all-views-card-name">${escapeHtml(t(tabLabelKey(tab)))}</div><div class="all-views-card-insight">${escapeHtml(allViewsInsight(tab.id, items))}</div></div></div>
+          <div class="all-views-card-count"><strong>${items.length}</strong><span>${escapeHtml(allViewsText('rows'))}</span></div>
+        </div>
+        <div class="all-views-preview-list">${visibleItems.map(item => allViewsPreviewItem(item, tab.id)).join('')}</div>
+        <div class="all-views-card-footer"><button class="all-views-show-all" type="button" onclick="switchSearchScope('${escapeHtml(tab.id)}')">${escapeHtml(allViewsText('showAll'))} ›</button></div>
+      </section>`;
+    }
+    function allViewsDashboard() {
+      const cards = availableTabs().map(tab => allViewsCard(tab, itemsForTab(tab.id))).filter(Boolean).join('');
+      return cards ? `<div class="all-views-dashboard">${cards}</div>` : `<div class="empty">${t('noResults')}</div>`;
+    }
+    function bindAllViewsDashboard(container) {
+      container.querySelectorAll('.all-views-preview-item').forEach(item => {
+        item.addEventListener('click', event => openListRowFromClick(event, item, item.dataset.tab));
+        item.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openListRowFromClick(event, item, item.dataset.tab);
+          }
+        });
+      });
+    }
+
     function renderEndUserHome() {
       const area = document.getElementById('endUserHome');
       if (!area) return;
@@ -2639,7 +2883,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const showCounts = showSearchCountsInNav();
       const navItems = availableTabs().map(tab => {
         const countHtml = showCounts ? `<span class="nav-count-badge">${counts[tab.id] || 0}</span>` : '<span>›</span>';
-        return `<button class="side-nav-button ${state.activeTab === tab.id ? 'active' : ''}" type="button" data-tab="${tab.id}"><span class="side-nav-left"><span>${navIconForTab(tab.id)}</span><span>${t(tabLabelKey(tab))}</span></span>${countHtml}</button>`;
+        return `<button class="side-nav-button ${currentSearchScope() !== 'allViews' && state.activeTab === tab.id ? 'active' : ''}" type="button" data-tab="${tab.id}"><span class="side-nav-left"><span>${navIconForTab(tab.id)}</span><span>${t(tabLabelKey(tab))}</span></span>${countHtml}</button>`;
       }).join('');
       const endUserActions = isEndUserMode() ? `<div class="end-user-nav-separator"></div><button class="end-user-nav-action" type="button" onclick="openActionModal('contact')">💬 ${escapeHtml(t('contactUs'))}</button><button class="end-user-nav-action" type="button" onclick="openActionModal('incident')">⚠️ ${escapeHtml(t('reportIncident'))}</button>` : '';
       nav.innerHTML = navItems + endUserActions;  
@@ -2675,23 +2919,15 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const list = document.getElementById('listArea');
       const filterPrefix = activeFilterLabel() ? `<div class="filter-banner">${activeFilterLabel()}</div>` : '';
 
-      if (scope === 'allViews') {
-        document.getElementById('customerPanelTitle').textContent = isEndUserMode() ? t('ownServices') : t('allViews');
-        document.getElementById('resultCount').textContent = `${total} ${t('rows')}`;
-        const groups = availableTabs()
-          .map(tab => globalResultGroup(tab, itemsForTab(tab.id)))
-          .filter(Boolean)
-          .join('');
-        const btn = document.getElementById('contextActionBtn');
-        if (btn) btn.hidden = true;
-        updateAssetViewToggleVisibility();
-        list.innerHTML = groups || `<div class="empty">${t('noResults')}</div>`;
-        list.querySelectorAll('.row').forEach(row => row.addEventListener('click', () => {
-          const parentGroup = row.closest('.global-result-group');
-          const tabHeader = parentGroup?.querySelector('.global-result-group-header span')?.textContent || '';
-          if (tabHeader.includes(navIconForTab('assets')) || tabHeader.includes(navIconForTab('devices'))) window.location.href = `asset-detail.html?id=${row.dataset.id}`;
-        }));
-        return;
+      if (scope === 'allViews') {  
+        document.getElementById('customerPanelTitle').textContent = isEndUserMode() ? t('ownServices') : t('allViews');  
+        document.getElementById('resultCount').textContent = `${total} ${t('rows')}`;  
+        const btn = document.getElementById('contextActionBtn');  
+        if (btn) btn.hidden = true;  
+        updateAssetViewToggleVisibility();  
+        list.innerHTML = filterPrefix + allViewsDashboard();  
+        bindAllViewsDashboard(list);  
+        return;  
       }
 
       if (scope !== state.activeTab) state.activeTab = scope;
