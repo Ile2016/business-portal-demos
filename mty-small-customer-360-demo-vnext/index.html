@@ -1882,6 +1882,53 @@
     @media (max-width:820px){ .design-preview-switcher span{display:none;} .design-preview-switcher select{min-width:116px;} }
     @media (max-width:700px){ .language-switcher{flex-wrap:wrap; max-width:calc(100vw - 64px);} .design-preview-switcher{order:5; width:100%; justify-content:space-between;} .design-preview-switcher span{display:inline;} .design-preview-switcher select{flex:1; min-width:0;} }
 
+
+
+    /* MTY mobile fix: keep the design selector in normal header flow so it does not overlap the demo intro */
+    @media (max-width: 700px) {
+      header {
+        padding: 14px 16px 16px;
+      }
+      .language-switcher {
+        position: static !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 14px;
+      }
+      .header-content,
+      body.end-user-mode .header-content {
+        padding: 0 !important;
+      }
+      .design-preview-switcher {
+        order: 5;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2px;
+        padding: 6px 7px 6px 11px;
+      }
+      .design-preview-switcher span {
+        display: inline;
+      }
+      .design-preview-switcher select {
+        flex: 1;
+        min-width: 0;
+        max-width: 190px;
+        padding: 8px 28px 8px 10px;
+      }
+      body.end-user-mode header {
+        padding: 14px 16px 16px;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -1895,7 +1942,7 @@
         <span id="designThemeLabel">Ulkoasu</span>
         <select id="designThemeSelect" aria-label="Ulkoasu">
           <option value="default">Nykyinen</option>
-          <option value="telia">Telia Design Preview</option>
+          <option value="telia">Telia preview</option>
         </select>
       </label>
       <button type="button" class="settings-button" onclick="openSettingsModal()" aria-label="Settings">⚙️</button>
@@ -2052,9 +2099,9 @@
 
     function designThemeText(key) {
       const labels = {
-        fi: { label: 'Ulkoasu', current: 'Nykyinen', telia: 'Telia Design Preview' },
-        en: { label: 'Design', current: 'Current', telia: 'Telia Design Preview' },
-        sv: { label: 'Utseende', current: 'Nuvarande', telia: 'Telia Design Preview' }
+        fi: { label: 'Ulkoasu', current: 'Nykyinen', telia: 'Telia preview' },
+        en: { label: 'Design', current: 'Current', telia: 'Telia preview' },
+        sv: { label: 'Utseende', current: 'Nuvarande', telia: 'Telia preview' }
       };
       return labels[state.language]?.[key] || labels.fi[key] || key;
     }
