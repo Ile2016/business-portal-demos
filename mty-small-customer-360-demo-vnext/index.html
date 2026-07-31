@@ -1365,7 +1365,7 @@
     }
     .data-table {
       width: 100%;
-      min-width: 980px;
+      min-width: 820px;
       border-collapse: separate;
       border-spacing: 0;
       font-size: 13px;
@@ -1432,7 +1432,7 @@
         border-radius: 12px;
       }
       .data-table {
-        min-width: 860px;
+        min-width: 720px;
         font-size: 12px;
       }
       .data-table thead th,
@@ -1473,6 +1473,43 @@
     .row-actions.compact-actions .row-action-button {
       padding: 5px 9px;
       font-size: 11px;
+    }
+
+
+    /* MTY universal table list view: sticky headers for all Views section lists */
+    .data-table-row td:first-child {
+      position: relative;
+    }
+    .data-table-row td:first-child::after {
+      content: '›';
+      color: var(--telia);
+      font-size: 20px;
+      font-weight: 950;
+      margin-left: 8px;
+      opacity: .72;
+      vertical-align: middle;
+    }
+    .data-table-row:hover td:first-child::after {
+      opacity: 1;
+    }
+    .data-table-row:focus-visible {
+      outline: 3px solid rgba(153,10,227,.24);
+      outline-offset: -3px;
+    }
+    .data-table-actions {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .data-table-actions .row-action-button {
+      padding: 5px 9px;
+      font-size: 11px;
+    }
+    @media (max-width: 700px) {
+      .data-table-actions {
+        flex-wrap: wrap;
+      }
     }
 
 </style>
@@ -2513,13 +2550,9 @@
         list.querySelectorAll('.asset-tile').forEach(tile => tile.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${tile.dataset.id}`; }));
         return;
       }
-      if (state.activeTab === 'assets' && state.assetView === 'list') {  
-        list.innerHTML = filterPrefix + assetTableTemplate(items);  
-        list.querySelectorAll('.data-table-row').forEach(row => row.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${row.dataset.id}`; }));  
-        return;  
-      }  
-      list.innerHTML = filterPrefix + items.map(item => rowTemplate(item, dataKeyForTab(state.activeTab))).join('');
-      bindClickableRows(list, state.activeTab);
+      list.innerHTML = filterPrefix + dataTableTemplate(items, state.activeTab);    
+      bindClickableTableRows(list, state.activeTab);    
+      return;
     }
     function renderContentSearch() {
       const area = document.getElementById('aiAnswerArea');
@@ -2574,7 +2607,17 @@
         });
       });
     }
-
+    function bindClickableTableRows(container, tabId) {
+      container.querySelectorAll('.data-table-row').forEach(row => {
+        row.addEventListener('click', event => openListRowFromClick(event, row, tabId));
+        row.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openListRowFromClick(event, row, tabId);
+          }
+        });
+      });
+    }
     function rowTemplate(item, type) {
       const icon = iconFor(type, item);
       let primary = '', secondary = '', badge = '', details = [];
@@ -2810,29 +2853,78 @@
     }
 
 
-    function assetTableTemplate(items) {
-      const headers = [
-        t('item'),
-        t('productType'),
-        t('user'),
-        t('companyName'),
-        t('productSpeed'),
-        t('category'),
-        t('fixedTerm'),
-        t('actions')
+    function tableActionsHtml(item, type) {
+      const id = escapeHtml(item.id || '');
+      if (type === 'orders') return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
+      if (type === 'invoices') return `<div class="data-table-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
+      if (type === 'requests') return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      if (type === 'incidents') return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      return '';
+    }
+    function tableHeadersForTab(tabId) {
+      const type = dataKeyForTab(tabId);
+      if (type === 'assets') return [t('item'), t('productType'), t('user'), t('companyName'), t('productSpeed'), t('category'), t('fixedTerm')];
+      if (type === 'orders') return [t('item'), t('productType'), t('user'), t('companyName'), t('billingAccount'), t('orderDate'), t('status'), t('actions')];
+      if (type === 'invoices') return [t('invoiceNumber'), t('invoiceType'), t('companyName'), t('invoiceDate'), t('billingAccount'), t('amount'), t('status'), t('actions')];
+      if (type === 'requests') return [t('requestType'), t('companyName'), t('description'), t('requestDate'), t('createdBy'), t('status'), t('actions')];
+      if (type === 'incidents') return [t('requestType'), t('companyName'), t('description'), t('startDate'), t('status'), t('actions')];
+      return [t('item'), t('companyName'), t('status')];
+    }
+    function tableCellsForItem(item, tabId) {
+      const type = dataKeyForTab(tabId);
+      const primaryCell = value => `<td><div class="data-table-primary"><span class="data-table-icon">${iconFor(type, item)}</span><span>${escapeHtml(value || '-')}</span></div></td>`;
+      if (type === 'assets') return [
+        primaryCell(item.name),
+        `<td>${escapeHtml(item.type || '-')}</td>`,
+        `<td>${escapeHtml(item.user || '-')}</td>`,
+        `<td>${escapeHtml(item.companyName || '-')}</td>`,
+        `<td><span class="data-table-muted">${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</span></td>`,
+        `<td><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || '-'))}</span></td>`,
+        `<td>${escapeHtml(item.fixedTermEndDate || '-')}</td>`
       ];
-      const rows = items.map(item => `
-        <tr class="data-table-row" data-id="${escapeHtml(item.id)}">
-          <td><div class="data-table-primary"><span class="data-table-icon">${iconFor('assets', item)}</span><span>${escapeHtml(item.name || '-')}</span></div></td>
-          <td>${escapeHtml(item.type || '-')}</td>
-          <td>${escapeHtml(item.user || '-')}</td>
-          <td>${escapeHtml(item.companyName || '-')}</td>
-          <td><span class="data-table-muted">${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</span></td>
-          <td><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || '-'))}</span></td>
-          <td>${escapeHtml(item.fixedTermEndDate || '-')}</td>
-          <td><div class="data-table-actions"><a class="row-action-button primary" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div></td>
-        </tr>`).join('');
-      return `<div class="data-table-wrap" role="region" aria-label="${escapeHtml(t('assets'))}" tabindex="0">
+      if (type === 'orders') return [
+        primaryCell(item.item || item.productType),
+        `<td>${escapeHtml(item.productType || '-')}</td>`,
+        `<td>${escapeHtml(item.user || '-')}</td>`,
+        `<td>${escapeHtml(item.companyName || '-')}</td>`,
+        `<td>${escapeHtml(item.billingAccount || '-')}</td>`,
+        `<td>${escapeHtml(item.orderDate || '-')}</td>`,
+        `<td><span class="badge ${badgeClass(item.status)}">${escapeHtml(translateStatus(item.status || '-'))}</span></td>`,
+        `<td>${tableActionsHtml(item, type)}</td>`
+      ];
+      if (type === 'invoices') return [
+        primaryCell(item.invoiceNumber || item.invoiceType),
+        `<td>${escapeHtml(item.invoiceType || '-')}</td>`,
+        `<td>${escapeHtml(item.companyName || '-')}</td>`,
+        `<td>${escapeHtml(item.invoiceDate || '-')}</td>`,
+        `<td>${escapeHtml(item.billingAccount || '-')}</td>`,
+        `<td><strong>${escapeHtml(formatCurrency(item.amount))}</strong></td>`,
+        `<td><span class="badge ${badgeClass(item.status)}">${escapeHtml(translateStatus(item.status || '-'))}</span></td>`,
+        `<td>${tableActionsHtml(item, type)}</td>`
+      ];
+      if (type === 'requests') return [
+        primaryCell(item.requestType),
+        `<td>${escapeHtml(item.companyName || '-')}</td>`,
+        `<td><span class="data-table-muted">${escapeHtml(item.description || '-')}</span></td>`,
+        `<td>${escapeHtml(item.requestDate || '-')}</td>`,
+        `<td>${escapeHtml(item.createdBy || '-')}</td>`,
+        `<td><span class="badge ${badgeClass(item.status)}">${escapeHtml(translateStatus(item.status || '-'))}</span></td>`,
+        `<td>${tableActionsHtml(item, type)}</td>`
+      ];
+      if (type === 'incidents') return [
+        primaryCell(item.category),
+        `<td>${escapeHtml(item.companyName || '-')}</td>`,
+        `<td><span class="data-table-muted">${escapeHtml(item.description || '-')}</span></td>`,
+        `<td>${escapeHtml(item.startDate || '-')}</td>`,
+        `<td><span class="badge ${badgeClass(item.status)}">${escapeHtml(translateStatus(item.status || '-'))}</span></td>`,
+        `<td>${tableActionsHtml(item, type)}</td>`
+      ];
+      return [primaryCell(item.name || item.item || item.id), `<td>${escapeHtml(item.companyName || '-')}</td>`, `<td>${escapeHtml(item.status || '-')}</td>`];
+    }
+    function dataTableTemplate(items, tabId) {
+      const headers = tableHeadersForTab(tabId);
+      const rows = items.map(item => `<tr class="data-table-row" data-id="${escapeHtml(item.id)}" tabindex="0" aria-label="${escapeHtml((item.name || item.item || item.invoiceNumber || item.requestType || item.category || item.id || '-') + ' - ' + t('showDetails'))}">${tableCellsForItem(item, tabId).join('')}</tr>`).join('');
+      return `<div class="data-table-wrap" role="region" aria-label="${escapeHtml(t(tabLabelKey(tabs.find(tab => tab.id === tabId) || { id: tabId, labelKey: tabId })))}" tabindex="0">
         <table class="data-table">
           <thead><tr>${headers.map(header => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
           <tbody>${rows}</tbody>
