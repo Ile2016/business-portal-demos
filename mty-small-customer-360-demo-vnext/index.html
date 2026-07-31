@@ -1365,7 +1365,7 @@
     }
     .data-table {
       width: 100%;
-      min-width: 980px;
+      min-width: 840px;
       border-collapse: separate;
       border-spacing: 0;
       font-size: 13px;
@@ -1432,13 +1432,34 @@
         border-radius: 12px;
       }
       .data-table {
-        min-width: 860px;
+        min-width: 760px;
         font-size: 12px;
       }
       .data-table thead th,
       .data-table tbody td {
         padding: 10px 11px;
       }
+    }
+
+
+    .data-table-row td:first-child {
+      position: relative;
+    }
+    .data-table-row td:first-child::after {
+      content: '›';
+      color: var(--telia);
+      font-size: 20px;
+      font-weight: 950;
+      margin-left: 8px;
+      opacity: .7;
+      vertical-align: middle;
+    }
+    .data-table-row:hover td:first-child::after {
+      opacity: 1;
+    }
+    .data-table-row:focus-visible {
+      outline: 3px solid rgba(153,10,227,.22);
+      outline-offset: -3px;
     }
 
 </style>
@@ -2481,7 +2502,7 @@
       }
       if (state.activeTab === 'assets' && state.assetView === 'list') {  
         list.innerHTML = filterPrefix + assetTableTemplate(items);  
-        list.querySelectorAll('.data-table-row').forEach(row => row.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${row.dataset.id}`; }));  
+        list.querySelectorAll('.data-table-row').forEach(row => { row.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${row.dataset.id}`; }); row.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.location.href = `asset-detail.html?id=${row.dataset.id}`; } }); });  
         return;  
       }  
       list.innerHTML = filterPrefix + items.map(item => rowTemplate(item, dataKeyForTab(state.activeTab))).join('');
@@ -2764,11 +2785,10 @@
         t('companyName'),
         t('productSpeed'),
         t('category'),
-        t('fixedTerm'),
-        t('actions')
+        t('fixedTerm')
       ];
       const rows = items.map(item => `
-        <tr class="data-table-row" data-id="${escapeHtml(item.id)}">
+        <tr class="data-table-row" data-id="${escapeHtml(item.id)}" tabindex="0" aria-label="${escapeHtml((item.name || '-') + ' - ' + t('showDetails'))}">
           <td><div class="data-table-primary"><span class="data-table-icon">${iconFor('assets', item)}</span><span>${escapeHtml(item.name || '-')}</span></div></td>
           <td>${escapeHtml(item.type || '-')}</td>
           <td>${escapeHtml(item.user || '-')}</td>
@@ -2776,7 +2796,6 @@
           <td><span class="data-table-muted">${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</span></td>
           <td><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || '-'))}</span></td>
           <td>${escapeHtml(item.fixedTermEndDate || '-')}</td>
-          <td><div class="data-table-actions"><a class="row-action-button primary" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div></td>
         </tr>`).join('');
       return `<div class="data-table-wrap" role="region" aria-label="${escapeHtml(t('assets'))}" tabindex="0">
         <table class="data-table">
