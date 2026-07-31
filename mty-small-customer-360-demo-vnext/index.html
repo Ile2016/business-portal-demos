@@ -1854,6 +1854,34 @@
       .end-user-card-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     }
 
+
+
+    /* MTY design preview switch: current visual style remains the default, Telia preview is CSS branding layer */
+    .design-preview-switcher { display:inline-flex; align-items:center; gap:7px; padding:4px 5px 4px 10px; border:1px solid rgba(255,255,255,.34); background:rgba(255,255,255,.12); border-radius:999px; color:#fff; font-size:12px; font-weight:900; backdrop-filter:blur(10px); }
+    .design-preview-switcher span { white-space:nowrap; }
+    .design-preview-switcher select { width:auto; min-width:138px; border:0; border-radius:999px; padding:7px 28px 7px 10px; background:rgba(255,255,255,.96); color:#3b0764; font-size:12px; font-weight:900; cursor:pointer; box-shadow:none; }
+    .design-preview-switcher select:focus-visible { outline:3px solid rgba(255,255,255,.45); outline-offset:2px; }
+    body[data-design-theme="telia"] { --bg:#f8f4fb; --card:#fff; --text:#17121f; --muted:#6f647a; --border:#e8deee; --telia:#5e0b85; --blue:#5e0b85; --cta-orange:#5e0b85; --cta-orange-hover:#4b096a; --shadow:0 16px 42px rgba(94,11,133,.10); font-family:"Inter","Avenir Next","Segoe UI",Arial,sans-serif; }
+    body[data-design-theme="telia"] header, body[data-design-theme="telia"] .sidebar-brand, body[data-design-theme="telia"] .end-user-hero { background:linear-gradient(135deg,#2b0441 0%,#5e0b85 54%,#7a1bb0 100%); }
+    body[data-design-theme="telia"] .sidebar { background:linear-gradient(180deg,#fff 0%,#fbf7ff 100%); border-color:#eadcf2; }
+    body[data-design-theme="telia"] .sidebar-eyebrow::before { content:"TELIA"; display:inline-flex; margin-right:8px; padding:3px 7px; border-radius:999px; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.28); letter-spacing:.11em; }
+    body[data-design-theme="telia"] .panel, body[data-design-theme="telia"] .quick-actions, body[data-design-theme="telia"] .vnext-toolbar, body[data-design-theme="telia"] .asset-tile, body[data-design-theme="telia"] .all-views-card, body[data-design-theme="telia"] .end-user-card { border-color:#eadcf2; box-shadow:var(--shadow); }
+    body[data-design-theme="telia"] .panel-header, body[data-design-theme="telia"] .all-views-card-header { background:linear-gradient(135deg,#fbf7ff,#fff); }
+    body[data-design-theme="telia"] .kpi, body[data-design-theme="telia"] .sidebar-kpis .kpi { background:#fbf7ff; border-color:#dec6ec; color:#5e0b85; }
+    body[data-design-theme="telia"] .kpi.active, body[data-design-theme="telia"] .side-nav-button.active, body[data-design-theme="telia"] .view-btn.active, body[data-design-theme="telia"] .tab.active, body[data-design-theme="telia"] .primary-button, body[data-design-theme="telia"] .news-modal-button, body[data-design-theme="telia"] .all-views-card-count { background:#5e0b85; border-color:#5e0b85; color:#fff; box-shadow:0 12px 26px rgba(94,11,133,.20); }
+    body[data-design-theme="telia"] .tab-action-btn, body[data-design-theme="telia"] .end-user-action-button.primary, body[data-design-theme="telia"] .end-user-notice button, body[data-design-theme="telia"] .end-user-sticky-actions .incident { background:#5e0b85; box-shadow:0 12px 26px rgba(94,11,133,.20); }
+    body[data-design-theme="telia"] .tab-action-btn:hover, body[data-design-theme="telia"] .end-user-notice button:hover { background:#4b096a; box-shadow:0 14px 30px rgba(94,11,133,.26); }
+    body[data-design-theme="telia"] .tab-action-btn:focus-visible { outline-color:rgba(94,11,133,.34); }
+    body[data-design-theme="telia"] .icon, body[data-design-theme="telia"] .quick-action-icon, body[data-design-theme="telia"] .content-tile-icon, body[data-design-theme="telia"] .all-views-card-icon, body[data-design-theme="telia"] .data-table-icon { background:#f2e3fb; color:#5e0b85; }
+    body[data-design-theme="telia"] .row:hover, body[data-design-theme="telia"] .all-views-preview-item:hover, body[data-design-theme="telia"] .quick-action-card:hover, body[data-design-theme="telia"] .contact-option:hover, body[data-design-theme="telia"] .side-nav-button:hover, body[data-design-theme="telia"] .asset-tile:hover { background:#fbf7ff; border-color:#dec6ec; }
+    body[data-design-theme="telia"] select, body[data-design-theme="telia"] input, body[data-design-theme="telia"] textarea, body[data-design-theme="telia"] .search-mode { border-color:#dec6ec; }
+    body[data-design-theme="telia"] input:focus, body[data-design-theme="telia"] select:focus, body[data-design-theme="telia"] textarea:focus { outline:3px solid rgba(94,11,133,.14); border-color:#5e0b85; }
+    body[data-design-theme="telia"] .vnext-toolbar { background:linear-gradient(135deg,#fff,#fbf7ff); }
+    body[data-design-theme="telia"] .data-table thead th { background:linear-gradient(180deg,#fbf7ff,#f2e3fb); color:#2b0441; }
+    body[data-design-theme="telia"] .badge.target, body[data-design-theme="telia"] .badge.open { background:#f2e3fb; color:#5e0b85; }
+    @media (max-width:820px){ .design-preview-switcher span{display:none;} .design-preview-switcher select{min-width:116px;} }
+    @media (max-width:700px){ .language-switcher{flex-wrap:wrap; max-width:calc(100vw - 64px);} .design-preview-switcher{order:5; width:100%; justify-content:space-between;} .design-preview-switcher span{display:inline;} .design-preview-switcher select{flex:1; min-width:0;} }
+
 </style>
 </head>
 <body>
@@ -1863,6 +1891,13 @@
       <button type="button" data-lang="fi" class="active">FI</button>
       <button type="button" data-lang="en">EN</button>
       <button type="button" data-lang="sv">SV</button>
+      <label class="design-preview-switcher" for="designThemeSelect">
+        <span id="designThemeLabel">Ulkoasu</span>
+        <select id="designThemeSelect" aria-label="Ulkoasu">
+          <option value="default">Nykyinen</option>
+          <option value="telia">Telia Design Preview</option>
+        </select>
+      </label>
       <button type="button" class="settings-button" onclick="openSettingsModal()" aria-label="Settings">⚙️</button>
     </div>
 
@@ -1987,6 +2022,7 @@
     const state = {
       activeTab: 'assets', searchMode: 'customer', assetView: (window.innerWidth <= 700 ? 'tile' : 'list'), statusFilter: null, searchScope: 'allViews',
       language: localStorage.getItem('mtyLanguage') || 'fi',
+      designTheme: localStorage.getItem('mtyDesignTheme') || 'default',
       currentUserId: localStorage.getItem('mtyCurrentUserId') || 'admin-anna',
       selectedCompanyId: '', selectedItem: null, activeActionType: null, data: {}
     };
@@ -2013,6 +2049,22 @@
     ];
 
     function t(key) { return i18n[state.language]?.[key] || i18n.fi[key] || key; }
+
+    function designThemeText(key) {
+      const labels = {
+        fi: { label: 'Ulkoasu', current: 'Nykyinen', telia: 'Telia Design Preview' },
+        en: { label: 'Design', current: 'Current', telia: 'Telia Design Preview' },
+        sv: { label: 'Utseende', current: 'Nuvarande', telia: 'Telia Design Preview' }
+      };
+      return labels[state.language]?.[key] || labels.fi[key] || key;
+    }
+    function applyDesignTheme() {
+      const theme = state.designTheme === 'telia' ? 'telia' : 'default';
+      document.body.dataset.designTheme = theme;
+      const select = document.getElementById('designThemeSelect');
+      if (select) select.value = theme;
+    }
+
 
 function isMobileView(){ return window.innerWidth <= 700; }
 
@@ -2216,6 +2268,15 @@ function isMobileView(){ return window.innerWidth <= 700; }
         });
       });
 
+      const designThemeSelect = document.getElementById('designThemeSelect');
+      if (designThemeSelect) {
+        designThemeSelect.value = state.designTheme;
+        designThemeSelect.addEventListener('change', event => {
+          state.designTheme = event.target.value === 'telia' ? 'telia' : 'default';
+          localStorage.setItem('mtyDesignTheme', state.designTheme);
+          applyDesignTheme();
+        });
+      }
       const companySelect = document.getElementById('companySelect');
       renderCompanySelectOptions();
       companySelect.value = state.selectedCompanyId;
@@ -2268,7 +2329,18 @@ function isMobileView(){ return window.innerWidth <= 700; }
     }
     function updateStaticTexts() {
       document.documentElement.lang = state.language;
+      applyDesignTheme();
       document.querySelectorAll('.language-switcher button[data-lang]').forEach(button => button.classList.toggle('active', button.dataset.lang === state.language));
+      const designThemeLabel = document.getElementById('designThemeLabel');
+      const designThemeSelect = document.getElementById('designThemeSelect');
+      if (designThemeLabel) designThemeLabel.textContent = designThemeText('label');
+      if (designThemeSelect) {
+        designThemeSelect.setAttribute('aria-label', designThemeText('label'));
+        const currentOption = designThemeSelect.querySelector('option[value="default"]');
+        const teliaOption = designThemeSelect.querySelector('option[value="telia"]');
+        if (currentOption) currentOption.textContent = designThemeText('current');
+        if (teliaOption) teliaOption.textContent = designThemeText('telia');
+      }
       document.getElementById('appTitle').textContent = t('appTitle');
       document.getElementById('appSubtitle').textContent = t('appSubtitle');
       document.getElementById('companyLabel').textContent = t('company');
