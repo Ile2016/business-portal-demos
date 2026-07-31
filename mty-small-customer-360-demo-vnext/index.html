@@ -2825,6 +2825,8 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const orders = companyItems('orders');
       const requests = companyItems('requests');
       const openRequests = requests.filter(item => String(item.status || '').toLowerCase() !== 'valmis');
+      const incidents = companyItems('incidents');
+      const openIncidents = incidents.filter(item => String(item.status || '').toLowerCase() !== 'ratkaistu');
       const noticeAsset = [...subscriptions, ...devices].find(asset => asset.fixedTermEndDate);
       const active = state.activeTab;
       const mobileTab = (tabId, icon, label) => `<button class="end-user-mobile-tab ${active === tabId ? 'active' : ''}" type="button" onclick="switchSearchScope('${tabId}')">${icon} ${escapeHtml(label)}</button>`;
