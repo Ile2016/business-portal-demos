@@ -1521,6 +1521,11 @@
   .data-table-wrap{display:none !important;}
 }
 
+
+.data-table.orders-table th:first-child,.data-table.orders-table td:first-child{width:180px;max-width:180px;}
+.data-table.invoices-table th:first-child,.data-table.invoices-table td:first-child{width:120px;max-width:120px;}
+.data-table.invoices-table th:last-child,.data-table.invoices-table td:last-child{width:170px;}
+
 </style>
 </head>
 <body>
@@ -2510,7 +2515,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
     function updateAssetViewToggleVisibility() {
       const toggle = document.getElementById('assetViewToggle');
       if (!toggle) return;
-      toggle.style.display = state.activeTab === 'assets' && state.searchMode === 'customer' && currentSearchScope() !== 'allViews' && !isEndUserMode() ? 'flex' : 'none';
+      toggle.style.display = state.searchMode === 'customer' && currentSearchScope() !== 'allViews' && !isEndUserMode() ? 'flex' : 'none';
       updateAssetViewButtons();
     }
 
@@ -2942,7 +2947,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const headers = tableHeadersForTab(tabId);
       const rows = items.map(item => `<tr class="data-table-row" data-id="${escapeHtml(item.id)}" tabindex="0" aria-label="${escapeHtml((item.name || item.item || item.invoiceNumber || item.requestType || item.category || item.id || '-') + ' - ' + t('showDetails'))}">${tableCellsForItem(item, tabId).join('')}</tr>`).join('');
       return `<div class="data-table-wrap" role="region" aria-label="${escapeHtml(t(tabLabelKey(tabs.find(tab => tab.id === tabId) || { id: tabId, labelKey: tabId })))}" tabindex="0">
-        <table class="data-table">
+        <table class="data-table ${dataKeyForTab(tabId)}-table">
           <thead><tr>${headers.map(header => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
           <tbody>${rows}</tbody>
         </table>
