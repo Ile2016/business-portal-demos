@@ -1820,6 +1820,24 @@
       }
     }
 
+
+    /* MTY state-aware actions: disabled actions for completed / paid / delivered records */
+    .row-action-button:disabled,
+    .row-action-button.disabled {
+      background: #e5e7eb !important;
+      border-color: #e5e7eb !important;
+      color: #6b7280 !important;
+      cursor: not-allowed !important;
+      box-shadow: none !important;
+      transform: none !important;
+      opacity: .95;
+    }
+    .row-action-button:disabled:hover,
+    .row-action-button.disabled:hover {
+      box-shadow: none !important;
+      transform: none !important;
+    }
+
 </style>
 </head>
 <body>
@@ -2114,6 +2132,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       if (v.includes('käsittelyssä')) return t('inProgress');
       if (v.includes('selvityksessä')) return t('underInvestigation');
       if (v.includes('tilauksessa')) return t('ordered');
+      if (v.includes('toimitettu')) return state.language === 'en' ? 'Delivered' : state.language === 'sv' ? 'Levererad' : 'Toimitettu';
       return raw;
     }
 
@@ -2985,6 +3004,26 @@ function isMobileView(){ return window.innerWidth <= 700; }
     }
 
 
+    function normalizedStatus(value) {
+      return String(value || '').trim().toLowerCase();
+    }
+    function isPaidInvoice(item) {
+      return normalizedStatus(item?.status) === 'maksettu';
+    }
+    function isDeliveredOrder(item) {
+      return normalizedStatus(item?.status) === 'toimitettu';
+    }
+    function isCompletedRequest(item) {
+      return normalizedStatus(item?.status) === 'valmis';
+    }
+    function isResolvedIncident(item) {
+      return normalizedStatus(item?.status) === 'ratkaistu';
+    }
+    function canReplyToThread(type, item) {
+      if (type === 'requests') return !isCompletedRequest(item);
+      if (type === 'incidents') return !isResolvedIncident(item);
+      return true;
+    }
     function openListRowFromClick(event, row, tabId) {
       const id = row?.dataset?.id;
       if (!id) return;
@@ -2992,8 +3031,14 @@ function isMobileView(){ return window.innerWidth <= 700; }
       if (type === 'assets') window.location.href = `asset-detail.html?id=${id}`;
       else if (type === 'orders') openOrderDetail(event, id);
       else if (type === 'invoices') openInvoiceDetail(event, id);
-      else if (type === 'requests') openThreadModal(event, 'requests', id, true);
-      else if (type === 'incidents') openThreadModal(event, 'incidents', id, true);
+      else if (type === 'requests') {
+        const item = findRecord('requests', id);
+        openThreadModal(event, 'requests', id, canReplyToThread('requests', item));
+      }
+      else if (type === 'incidents') {
+        const item = findRecord('incidents', id);
+        openThreadModal(event, 'incidents', id, canReplyToThread('incidents', item));
+      }
     }
     function bindClickableRows(container, tabId) {
       container.querySelectorAll('.row').forEach(row => {
@@ -3062,10 +3107,22 @@ function isMobileView(){ return window.innerWidth <= 700; }
     function rowActions(item, type) {
       const id = escapeHtml(item.id || '');
       if (type === 'assets') return `<div class="row-actions"><a class="row-action-button primary" href="asset-detail.html?id=${id}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
-      if (type === 'orders') return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
-      if (type === 'invoices') return `<div class="row-actions compact-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
-      if (type === 'requests') return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
-      if (type === 'incidents') return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      if (type === 'orders') {
+        const disabled = isDeliveredOrder(item);
+        return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" ${disabled ? 'disabled aria-disabled="true"' : `onclick="askAboutOrder(event, '${id}')"`}>${t('askAboutOrder')}</button></div>`;
+      }
+      if (type === 'invoices') {
+        const disabled = isPaidInvoice(item);
+        return `<div class="row-actions compact-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" ${disabled ? 'disabled aria-disabled="true"' : `onclick="openPayInvoice(event, '${id}')"`}>${t('payInvoice')}</button></div>`;
+      }
+      if (type === 'requests') {
+        const canReply = canReplyToThread('requests', item);
+        return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', ${canReply})">${canReply ? `${t('openConversation')} / ${t('reply')}` : t('openConversation')}</button></div>`;
+      }
+      if (type === 'incidents') {
+        const canReply = canReplyToThread('incidents', item);
+        return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', ${canReply})">${canReply ? `${t('openConversation')} / ${t('reply')}` : t('openConversation')}</button></div>`;
+      }
       return '';
     }
     function detailChips(details) {
@@ -3166,7 +3223,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
     function askAboutOrder(event, id) {
       event?.stopPropagation?.();
       const order = findRecord('orders', id);
-      if (!order) return;
+      if (!order || isDeliveredOrder(order)) return;
       openActionModal('request');
       const requestType = document.getElementById('actionRequestType');
       const description = document.getElementById('actionDescription');
@@ -3193,7 +3250,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
     function openPayInvoice(event, id) {
       event?.stopPropagation?.();
       const invoice = findRecord('invoices', id);
-      if (!invoice) return;
+      if (!invoice || isPaidInvoice(invoice)) return;
       state.activeActionType = 'payInvoice';
       state.activeRecordId = id;
       setModalHeader('💳', t('paymentSummary'), invoice.invoiceNumber || '');
@@ -3210,6 +3267,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       event?.stopPropagation?.();
       const item = findRecord(type, id);
       if (!item) return;
+      replyMode = Boolean(replyMode) && canReplyToThread(type, item);
       state.activeActionType = replyMode ? `reply-${type}` : 'threadOnly';
       state.activeRecordType = type;
       state.activeRecordId = id;
@@ -3254,10 +3312,22 @@ function isMobileView(){ return window.innerWidth <= 700; }
 
     function tableActionsHtml(item, type) {
       const id = escapeHtml(item.id || '');
-      if (type === 'orders') return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
-      if (type === 'invoices') return `<div class="data-table-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
-      if (type === 'requests') return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
-      if (type === 'incidents') return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      if (type === 'orders') {
+        const disabled = isDeliveredOrder(item);
+        return `<div class="data-table-actions"><button class="row-action-button primary" type="button" ${disabled ? 'disabled aria-disabled="true"' : `onclick="askAboutOrder(event, '${id}')"`}>${t('askAboutOrder')}</button></div>`;
+      }
+      if (type === 'invoices') {
+        const disabled = isPaidInvoice(item);
+        return `<div class="data-table-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" ${disabled ? 'disabled aria-disabled="true"' : `onclick="openPayInvoice(event, '${id}')"`}>${t('payInvoice')}</button></div>`;
+      }
+      if (type === 'requests') {
+        const canReply = canReplyToThread('requests', item);
+        return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', ${canReply})">${canReply ? `${t('openConversation')} / ${t('reply')}` : t('openConversation')}</button></div>`;
+      }
+      if (type === 'incidents') {
+        const canReply = canReplyToThread('incidents', item);
+        return `<div class="data-table-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', ${canReply})">${canReply ? `${t('openConversation')} / ${t('reply')}` : t('openConversation')}</button></div>`;
+      }
       return '';
     }
     function tableHeadersForTab(tabId) {
@@ -3338,10 +3408,22 @@ function tileMetaRow(label, value) {
     }
     function tileActionsHtml(item, type) {
       const id = escapeHtml(item.id || '');
-      if (type === 'orders') return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
-      if (type === 'invoices') return `<div class="content-tile-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
-      if (type === 'requests') return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
-      if (type === 'incidents') return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      if (type === 'orders') {
+        const disabled = isDeliveredOrder(item);
+        return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" ${disabled ? 'disabled aria-disabled="true"' : `onclick="askAboutOrder(event, '${id}')"`}>${t('askAboutOrder')}</button></div>`;
+      }
+      if (type === 'invoices') {
+        const disabled = isPaidInvoice(item);
+        return `<div class="content-tile-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" ${disabled ? 'disabled aria-disabled="true"' : `onclick="openPayInvoice(event, '${id}')"`}>${t('payInvoice')}</button></div>`;
+      }
+      if (type === 'requests') {
+        const canReply = canReplyToThread('requests', item);
+        return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', ${canReply})">${canReply ? `${t('openConversation')} / ${t('reply')}` : t('openConversation')}</button></div>`;
+      }
+      if (type === 'incidents') {
+        const canReply = canReplyToThread('incidents', item);
+        return `<div class="content-tile-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', ${canReply})">${canReply ? `${t('openConversation')} / ${t('reply')}` : t('openConversation')}</button></div>`;
+      }
       return '';
     }
     function contentTileTemplate(item, tabId) {
