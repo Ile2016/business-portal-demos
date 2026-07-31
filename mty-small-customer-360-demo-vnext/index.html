@@ -1512,6 +1512,15 @@
       }
     }
 
+
+@media (max-width:700px){
+  #listViewBtn{display:none !important;}
+  #assetViewToggle{display:none !important;}
+  .tile-grid{grid-template-columns:1fr;gap:10px;padding:10px;}
+  .asset-tile{padding:14px;border-radius:14px;}
+  .data-table-wrap{display:none !important;}
+}
+
 </style>
 </head>
 <body>
@@ -1643,7 +1652,7 @@
     };
 
     const state = {
-      activeTab: 'assets', searchMode: 'customer', assetView: 'list', statusFilter: null, searchScope: 'allViews',
+      activeTab: 'assets', searchMode: 'customer', assetView: (window.innerWidth <= 700 ? 'tile' : 'list'), statusFilter: null, searchScope: 'allViews',
       language: localStorage.getItem('mtyLanguage') || 'fi',
       currentUserId: localStorage.getItem('mtyCurrentUserId') || 'admin-anna',
       selectedCompanyId: '', selectedItem: null, activeActionType: null, data: {}
@@ -1671,6 +1680,9 @@
     ];
 
     function t(key) { return i18n[state.language]?.[key] || i18n.fi[key] || key; }
+
+function isMobileView(){ return window.innerWidth <= 700; }
+
 
     function isEndUserMode() { return currentDemoUser().role === 'enduser'; }
     function tabLabelKey(tab) {
@@ -2545,13 +2557,18 @@
       updateContextActionButton();
       updateAssetViewToggleVisibility();
       if (!items.length) { list.innerHTML = `${filterPrefix}<div class="empty">${t('noResults')}</div>`; return; }
+      if (isMobileView()) {
+        list.innerHTML = `${filterPrefix}<div class="tile-grid">${items.map(item => genericTileTemplate(item, state.activeTab)).join('')}</div>`;
+        list.querySelectorAll('.generic-tile').forEach(tile => tile.addEventListener('click', event => openListRowFromClick(event, tile, tile.dataset.tab)));
+        return;
+      }
       if (state.activeTab === 'assets' && state.assetView === 'tile') {
         list.innerHTML = `${filterPrefix}<div class="tile-grid">${items.map(tileTemplate).join('')}</div>`;
         list.querySelectorAll('.asset-tile').forEach(tile => tile.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${tile.dataset.id}`; }));
         return;
       }
-      list.innerHTML = filterPrefix + dataTableTemplate(items, state.activeTab);    
-      bindClickableTableRows(list, state.activeTab);    
+      list.innerHTML = filterPrefix + dataTableTemplate(items, state.activeTab);
+      bindClickableTableRows(list, state.activeTab);
       return;
     }
     function renderContentSearch() {
@@ -2932,7 +2949,21 @@
       </div>`;
     }
 
-    function tileTemplate(item) {
+    
+function genericTileTemplate(item, tabId){
+ const type=dataKeyForTab(tabId);
+ const title=item.name||item.item||item.invoiceNumber||item.requestType||item.category||'-';
+ const sub=item.companyName||item.user||'';
+ const badge=item.status||item.category||'';
+ return `<div class="asset-tile generic-tile" data-id="${escapeHtml(item.id)}" data-tab="${escapeHtml(tabId)}">
+ <div class="asset-tile-title">${iconFor(type,item)} ${escapeHtml(title)}</div>
+ <div class="asset-tile-sub">${escapeHtml(sub)}</div>
+ <div class="asset-tile-sub">${escapeHtml(item.description||item.productType||item.invoiceType||'')}</div>
+ <div style="margin-top:10px"><span class="badge ${badgeClass(badge)}">${escapeHtml(translateStatus(translateCategory(badge)))}</span></div>
+ </div>`;
+}
+
+function tileTemplate(item) {
       const icon = iconFor('assets', item);
       return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('companyName')}: ${escapeHtml(item.companyName || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div class="asset-tile-sub">${t('fixedTerm')}: ${escapeHtml(item.fixedTermEndDate || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
     }
