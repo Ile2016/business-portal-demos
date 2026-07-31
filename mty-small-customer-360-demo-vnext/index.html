@@ -1365,7 +1365,7 @@
     }
     .data-table {
       width: 100%;
-      min-width: 840px;
+      min-width: 980px;
       border-collapse: separate;
       border-spacing: 0;
       font-size: 13px;
@@ -1432,7 +1432,7 @@
         border-radius: 12px;
       }
       .data-table {
-        min-width: 760px;
+        min-width: 860px;
         font-size: 12px;
       }
       .data-table thead th,
@@ -1442,24 +1442,37 @@
     }
 
 
-    .data-table-row td:first-child {
+    /* MTY clickable list rows: row opens details, compact action buttons stay as secondary actions */
+    .row {
       position: relative;
     }
-    .data-table-row td:first-child::after {
+    .row::after {
       content: '›';
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
       color: var(--telia);
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 950;
-      margin-left: 8px;
-      opacity: .7;
-      vertical-align: middle;
+      opacity: 0;
+      transition: opacity .15s ease, transform .15s ease;
+      pointer-events: none;
     }
-    .data-table-row:hover td:first-child::after {
-      opacity: 1;
+    .row:hover::after {
+      opacity: .75;
+      transform: translateY(-50%) translateX(2px);
     }
-    .data-table-row:focus-visible {
+    .row:focus-visible {
       outline: 3px solid rgba(153,10,227,.22);
       outline-offset: -3px;
+    }
+    .row-actions.compact-actions {
+      gap: 6px;
+    }
+    .row-actions.compact-actions .row-action-button {
+      padding: 5px 9px;
+      font-size: 11px;
     }
 
 </style>
@@ -2502,13 +2515,11 @@
       }
       if (state.activeTab === 'assets' && state.assetView === 'list') {  
         list.innerHTML = filterPrefix + assetTableTemplate(items);  
-        list.querySelectorAll('.data-table-row').forEach(row => { row.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${row.dataset.id}`; }); row.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.location.href = `asset-detail.html?id=${row.dataset.id}`; } }); });  
+        list.querySelectorAll('.data-table-row').forEach(row => row.addEventListener('click', () => { window.location.href = `asset-detail.html?id=${row.dataset.id}`; }));  
         return;  
       }  
       list.innerHTML = filterPrefix + items.map(item => rowTemplate(item, dataKeyForTab(state.activeTab))).join('');
-      list.querySelectorAll('.row').forEach(row => row.addEventListener('click', () => {
-        if (dataKeyForTab(state.activeTab) === 'assets') window.location.href = `asset-detail.html?id=${row.dataset.id}`;
-      }));
+      bindClickableRows(list, state.activeTab);
     }
     function renderContentSearch() {
       const area = document.getElementById('aiAnswerArea');
@@ -2538,6 +2549,29 @@
     function bindSuggestionButtons() {
       document.querySelectorAll('.suggestion-button').forEach(button => {
         button.addEventListener('click', () => { document.getElementById('searchInput').value = button.dataset.question || ''; renderContentSearch(); });
+      });
+    }
+
+
+    function openListRowFromClick(event, row, tabId) {
+      const id = row?.dataset?.id;
+      if (!id) return;
+      const type = dataKeyForTab(tabId);
+      if (type === 'assets') window.location.href = `asset-detail.html?id=${id}`;
+      else if (type === 'orders') openOrderDetail(event, id);
+      else if (type === 'invoices') openInvoiceDetail(event, id);
+      else if (type === 'requests') openThreadModal(event, 'requests', id, true);
+      else if (type === 'incidents') openThreadModal(event, 'incidents', id, true);
+    }
+    function bindClickableRows(container, tabId) {
+      container.querySelectorAll('.row').forEach(row => {
+        row.addEventListener('click', event => openListRowFromClick(event, row, tabId));
+        row.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openListRowFromClick(event, row, tabId);
+          }
+        });
       });
     }
 
@@ -2571,7 +2605,7 @@
         details = [[t('companyName'), item.companyName], [t('description'), item.description], [t('startDate'), item.startDate], [t('status'), translateStatus(item.status)]];
       }
       return `
-        <div class="row" data-id="${escapeHtml(item.id)}">
+        <div class="row" data-id="${escapeHtml(item.id)}" tabindex="0">
           <div class="icon">${icon}</div>
           <div>
             <div class="primary">${escapeHtml(primary || '-')}</div>
@@ -2586,13 +2620,12 @@
     function rowActions(item, type) {
       const id = escapeHtml(item.id || '');
       if (type === 'assets') return `<div class="row-actions"><a class="row-action-button primary" href="asset-detail.html?id=${id}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
-      if (type === 'orders') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openOrderDetail(event, '${id}')">${t('showOrder')}</button><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
-      if (type === 'invoices') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openInvoiceDetail(event, '${id}')">${t('showInvoice')}</button><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
-      if (type === 'requests') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openThreadModal(event, 'requests', '${id}', false)">${t('openConversation')}</button><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('reply')}</button></div>`;
-      if (type === 'incidents') return `<div class="row-actions"><button class="row-action-button" type="button" onclick="openThreadModal(event, 'incidents', '${id}', false)">${t('openConversation')}</button><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('reply')}</button></div>`;
+      if (type === 'orders') return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="askAboutOrder(event, '${id}')">${t('askAboutOrder')}</button></div>`;
+      if (type === 'invoices') return `<div class="row-actions compact-actions"><button class="row-action-button" type="button" onclick="openInvoicePdf(event, '${id}')">${t('invoicePdf')}</button><button class="row-action-button primary" type="button" onclick="openPayInvoice(event, '${id}')">${t('payInvoice')}</button></div>`;
+      if (type === 'requests') return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'requests', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
+      if (type === 'incidents') return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" onclick="openThreadModal(event, 'incidents', '${id}', true)">${t('openConversation')} / ${t('reply')}</button></div>`;
       return '';
     }
-
     function detailChips(details) {
       return details
         .filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '')
@@ -2785,10 +2818,11 @@
         t('companyName'),
         t('productSpeed'),
         t('category'),
-        t('fixedTerm')
+        t('fixedTerm'),
+        t('actions')
       ];
       const rows = items.map(item => `
-        <tr class="data-table-row" data-id="${escapeHtml(item.id)}" tabindex="0" aria-label="${escapeHtml((item.name || '-') + ' - ' + t('showDetails'))}">
+        <tr class="data-table-row" data-id="${escapeHtml(item.id)}">
           <td><div class="data-table-primary"><span class="data-table-icon">${iconFor('assets', item)}</span><span>${escapeHtml(item.name || '-')}</span></div></td>
           <td>${escapeHtml(item.type || '-')}</td>
           <td>${escapeHtml(item.user || '-')}</td>
@@ -2796,6 +2830,7 @@
           <td><span class="data-table-muted">${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</span></td>
           <td><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || '-'))}</span></td>
           <td>${escapeHtml(item.fixedTermEndDate || '-')}</td>
+          <td><div class="data-table-actions"><a class="row-action-button primary" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div></td>
         </tr>`).join('');
       return `<div class="data-table-wrap" role="region" aria-label="${escapeHtml(t('assets'))}" tabindex="0">
         <table class="data-table">
