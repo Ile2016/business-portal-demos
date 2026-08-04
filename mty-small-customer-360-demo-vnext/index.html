@@ -2496,7 +2496,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const btn = document.getElementById("contextActionBtn");  
       if (!btn) return;  
       const cfg = {  
-        assets: [t('contextActionAssets'), () => window.open('https://kauppa.telia.fi/yksityisille/tuotteet/puhelinliittymat.aspx','_blank')],  
+        assets: [t('contextActionAssets'), () => { const user=currentDemoUser(); if(user.role==='enduser'){ window.open('https://kauppa.telia.fi/yksityisille/tuotteet/puhelinliittymat.aspx','_blank'); } else { window.open('https://www.telia.fi/yrityksille','_blank'); } }],  
         orders: [t('contextActionOrders'), () => alert("Demo: raportti tulostettaisiin tästä")],  
         invoices: [t('contextActionInvoices'), () => openActionModal("contact")],  
         requests: [t('contextActionRequests'), () => openActionModal("request")],  
