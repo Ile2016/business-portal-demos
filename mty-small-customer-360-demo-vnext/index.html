@@ -1929,6 +1929,45 @@
       }
     }
 
+
+    /* MTY mobile subscription asset detail: usage, costs and action-first layout */
+    .asset-detail-modern { display: grid; gap: 16px; }
+    .asset-detail-hero { border: 1px solid #ead7ff; background: linear-gradient(135deg, #fbf5ff, #ffffff); border-radius: 18px; padding: 16px; display: grid; gap: 12px; }
+    .asset-detail-hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+    .asset-detail-title-block h4 { margin: 0; font-size: 22px; line-height: 1.2; }
+    .asset-detail-title-block p { margin: 5px 0 0; color: var(--muted); font-weight: 750; line-height: 1.35; }
+    .asset-cost-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .asset-cost-card { border: 1px solid var(--border); background: #ffffff; border-radius: 16px; padding: 14px; box-shadow: 0 8px 22px rgba(15, 23, 42, .05); }
+    .asset-cost-label { color: var(--muted); font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 5px; }
+    .asset-cost-value { font-size: 26px; font-weight: 950; color: var(--telia); line-height: 1.05; }
+    .asset-billing-period { color: var(--muted); font-size: 12px; font-weight: 750; margin-top: 7px; }
+    .asset-usage-card { border: 1px solid var(--border); background: #ffffff; border-radius: 18px; padding: 16px; display: grid; gap: 14px; }
+    .asset-section-title { margin: 0; font-size: 18px; line-height: 1.25; }
+    .usage-metric { display: grid; gap: 7px; padding-bottom: 13px; border-bottom: 1px solid #eef2f7; }
+    .usage-metric:last-child { border-bottom: 0; padding-bottom: 0; }
+    .usage-metric-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-weight: 950; }
+    .usage-info-dot { display: inline-grid; place-items: center; width: 18px; height: 18px; border: 1px solid var(--blue); border-radius: 999px; color: var(--blue); font-size: 12px; font-weight: 950; margin-left: 5px; }
+    .usage-bar { height: 8px; border-radius: 999px; background: #e5e7eb; overflow: hidden; }
+    .usage-bar-fill { height: 100%; width: var(--usage-width, 0%); border-radius: inherit; background: linear-gradient(90deg, var(--telia), #c084fc); }
+    .usage-metric-values { display: flex; justify-content: space-between; gap: 12px; color: var(--text); font-weight: 750; line-height: 1.35; }
+    .asset-detail-actions { border: 1px solid var(--border); background: #ffffff; border-radius: 18px; padding: 16px; }
+    .asset-action-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+    .asset-action-button { border: 1px solid #ead7ff; background: #f8f5ff; color: #55208a; border-radius: 14px; padding: 11px 12px; cursor: pointer; font: inherit; font-weight: 900; text-align: left; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
+    .asset-action-button:hover { transform: translateY(-1px); background: #ffffff; box-shadow: var(--shadow); }
+    .asset-secondary-section { border: 1px solid var(--border); background: #fbfcfe; border-radius: 18px; padding: 16px; }
+    .asset-secondary-section .mini-list { margin-top: 10px; }
+    body[data-design-theme="telia"] .asset-detail-hero, body[data-design-theme="telia"] .asset-action-button { border-color: #dec6ec; background: #fbf7ff; color: #5e0b85; }
+    body[data-design-theme="telia"] .usage-bar-fill { background: linear-gradient(90deg, #5e0b85, #8e24aa); }
+    @media (max-width:700px) {
+      .action-modal-content { width: min(100%, 96vw); max-height: 94vh; border-radius: 18px; }
+      .action-modal-body { padding: 14px; }
+      .asset-detail-hero, .asset-usage-card, .asset-detail-actions, .asset-secondary-section { border-radius: 16px; padding: 14px; }
+      .asset-cost-grid { grid-template-columns: 1fr 1fr; }
+      .asset-cost-value { font-size: 22px; }
+      .asset-action-grid { grid-template-columns: 1fr; }
+      .usage-metric-values { font-size: 13px; }
+    }
+
 </style>
 </head>
 <body>
@@ -3169,7 +3208,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const id = row?.dataset?.id;
       if (!id) return;
       const type = dataKeyForTab(tabId);
-      if (type === 'assets') window.location.href = `asset-detail.html?id=${id}`;
+      if (type === 'assets') openAssetDetailModal(event, id);
       else if (type === 'orders') openOrderDetail(event, id);
       else if (type === 'invoices') openInvoiceDetail(event, id);
       else if (type === 'requests') {
@@ -3247,7 +3286,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
 
     function rowActions(item, type) {
       const id = escapeHtml(item.id || '');
-      if (type === 'assets') return `<div class="row-actions"><a class="row-action-button primary" href="asset-detail.html?id=${id}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
+      if (type === 'assets') return `<div class="row-actions"><button class="row-action-button primary" type="button" onclick="openAssetDetailModal(event, '${id}')">${t('showDetails')}</button></div>`;
       if (type === 'orders') {
         const disabled = isDeliveredOrder(item);
         return `<div class="row-actions compact-actions"><button class="row-action-button primary" type="button" ${disabled ? 'disabled aria-disabled="true"' : `onclick="askAboutOrder(event, '${id}')"`}>${t('askAboutOrder')}</button></div>`;
@@ -3336,6 +3375,96 @@ function isMobileView(){ return window.innerWidth <= 700; }
       return `<div class="pdf-preview"><div class="pdf-preview-header"><div class="pdf-preview-title">TELIA</div><div>${escapeHtml(t('pdfPreview'))}</div></div>${recordSummary([[t('invoiceNumber'), invoice.invoiceNumber], [t('invoiceDate'), invoice.invoiceDate], [t('companyName'), invoice.companyName], [t('billingAccount'), invoice.billingAccount], [t('referenceNumber'), invoice.referenceNumber], [t('status'), translateStatus(invoice.status)]])}<div class="pdf-preview-total">${escapeHtml(t('amount'))}: ${escapeHtml(formatCurrency(invoice.amount))}</div></div>`;
     }
 
+    function mobileUsageText(key) {
+      const labels = {
+        fi: { title: 'Liittymän käyttö', data: 'Data', euData: 'EU-data', calls: 'Puhelut', messages: 'Viestit', used: 'käytetty', monthlyPrice: 'Kuukausihinta', balance: 'Saldo', billingPeriod: 'Käyttö laskutuskaudelta', subscriptionInfo: 'Liittymän tiedot', relatedOrders: 'Liittyvät tilaukset', otherAssets: 'Käyttäjän muut assetit', noOtherAssets: 'Ei muita assetteja tälle käyttäjälle mock-datassa.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', actionsHint: 'Nopeat toiminnot tähän liittymään.', balanceHint: 'Saldo näyttää reaaliaikaisen kk-hinnan ylittävän käytön.' },
+        en: { title: 'Subscription usage', data: 'Data', euData: 'EU data', calls: 'Calls', messages: 'Messages', used: 'used', monthlyPrice: 'Monthly price', balance: 'Balance', billingPeriod: 'Usage for billing period', subscriptionInfo: 'Subscription details', relatedOrders: 'Related orders', otherAssets: 'User’s other assets', noOtherAssets: 'No other assets for this user in mock data.', noRelatedOrders: 'No related orders in mock data.', actionsHint: 'Quick actions for this subscription.', balanceHint: 'Balance shows real-time usage above the monthly price.' },
+        sv: { title: 'Abonnemangsanvändning', data: 'Data', euData: 'EU-data', calls: 'Samtal', messages: 'Meddelanden', used: 'använt', monthlyPrice: 'Månadspris', balance: 'Saldo', billingPeriod: 'Användning under faktureringsperioden', subscriptionInfo: 'Abonnemangsuppgifter', relatedOrders: 'Relaterade beställningar', otherAssets: 'Användarens andra tillgångar', noOtherAssets: 'Inga andra tillgångar för användaren i mockdata.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', actionsHint: 'Snabbåtgärder för abonnemanget.', balanceHint: 'Saldo visar realtidsanvändning över månadspriset.' }
+      };
+      return labels[state.language]?.[key] || labels.fi[key] || key;
+    }
+    function seededNumber(seed, min, max) {
+      const chars = String(seed || 'mty-demo');
+      let hash = 0;
+      for (let i = 0; i < chars.length; i++) hash = ((hash << 5) - hash) + chars.charCodeAt(i);
+      const normalized = Math.abs(hash % 10000) / 10000;
+      return Math.round(min + normalized * (max - min));
+    }
+    function mockMobileUsage(asset) {
+      const seed = asset?.id || asset?.name || asset?.user || 'subscription';
+      const monthlyPrice = Number((24.90 + (seededNumber(seed + 'price', 0, 1200) / 100)).toFixed(2));
+      const balance = Number((seededNumber(seed + 'balance', 0, 1890) / 100).toFixed(2));
+      const dataLimit = seededNumber(seed + 'dataLimit', 80, 300);
+      const dataUsed = Math.min(dataLimit, seededNumber(seed + 'dataUsed', 8, Math.max(12, dataLimit - 8)));
+      const euLimit = seededNumber(seed + 'euLimit', 25, 80);
+      const euUsed = Math.min(euLimit, seededNumber(seed + 'euUsed', 1, Math.max(2, euLimit - 3)));
+      const callsLimit = seededNumber(seed + 'callsLimit', 1500, 5000);
+      const callsUsed = Math.min(callsLimit, seededNumber(seed + 'callsUsed', 30, Math.max(40, callsLimit - 200)));
+      const messagesCost = Number((seededNumber(seed + 'messages', 0, 650) / 100).toFixed(2));
+      return { monthlyPrice, balance, dataLimit, dataUsed, euLimit, euUsed, callsLimit, callsUsed, messagesCost, period: '2.8.2026 – 1.9.2026' };
+    }
+    function usageMetric(label, usedText, limitText, percent, showInfo = true) {
+      const width = Math.max(0, Math.min(100, Number(percent) || 0));
+      return `<div class="usage-metric"><div class="usage-metric-header"><span>${escapeHtml(label)}${showInfo ? '<span class="usage-info-dot" title="Info">i</span>' : ''}</span></div><div class="usage-bar"><div class="usage-bar-fill" style="--usage-width:${width}%"></div></div><div class="usage-metric-values"><span>${escapeHtml(usedText)}</span><span>${escapeHtml(limitText)}</span></div></div>`;
+    }
+    function openAssetDetailModal(event, id) {
+      event?.stopPropagation?.();
+      const asset = findRecord('assets', id);
+      if (!asset) return;
+      showModalContent(asset.name || t('assets'), assetDetailModern(asset), iconFor('assets', asset), asset.companyName || '');
+    }
+    function assetDetailModern(asset) {
+      const usage = mockMobileUsage(asset);
+      const isMobileSubscription = asset.type === 'Matkapuhelin liittymä';
+      const relatedOrders = companyItems('orders').filter(o => o.item === asset.name || o.user === asset.user || o.productType === asset.type).slice(0, 4);
+      const otherAssets = companyItems('assets').filter(item => item.id !== asset.id && item.user && item.user === asset.user).slice(0, 4);
+      const actions = actionsForAsset(asset);
+      const dataPercent = usage.dataLimit ? (usage.dataUsed / usage.dataLimit) * 100 : 0;
+      const euPercent = usage.euLimit ? (usage.euUsed / usage.euLimit) * 100 : 0;
+      const callsPercent = usage.callsLimit ? (usage.callsUsed / usage.callsLimit) * 100 : 0;
+      const usageHtml = isMobileSubscription ? `
+        <section class="asset-usage-card">
+          <h3 class="asset-section-title">${escapeHtml(mobileUsageText('title'))}</h3>
+          ${usageMetric(mobileUsageText('data'), `${usage.dataUsed} GB ${mobileUsageText('used')}`, `${usage.dataLimit} GB`, dataPercent)}
+          ${usageMetric(mobileUsageText('euData'), `${usage.euUsed} GB ${mobileUsageText('used')}`, `${usage.euLimit} GB`, euPercent)}
+          ${usageMetric(mobileUsageText('calls'), `${usage.callsUsed} min ${mobileUsageText('used')}`, `${usage.callsLimit} min`, callsPercent)}
+          ${usageMetric(mobileUsageText('messages'), formatCurrency(usage.messagesCost), '', 0, false)}
+        </section>` : '';
+      return `<div class="asset-detail-modern">
+        <section class="asset-detail-hero">
+          <div class="asset-detail-hero-top">
+            <div class="asset-detail-title-block">
+              <h4>${escapeHtml(asset.name || '-')}</h4>
+              <p>${escapeHtml([asset.type, asset.subscriptionTypeOrSpeed, asset.user].filter(Boolean).join(' · '))}</p>
+            </div>
+            <span class="badge ${badgeClass(asset.category)}">${escapeHtml(translateCategory(asset.category || ''))}</span>
+          </div>
+          <div class="asset-cost-grid">
+            <div class="asset-cost-card"><div class="asset-cost-label">${escapeHtml(mobileUsageText('monthlyPrice'))}</div><div class="asset-cost-value">${escapeHtml(formatCurrency(usage.monthlyPrice))}</div></div>
+            <div class="asset-cost-card"><div class="asset-cost-label">${escapeHtml(mobileUsageText('balance'))}</div><div class="asset-cost-value">${escapeHtml(formatCurrency(usage.balance))}</div><div class="asset-billing-period">${escapeHtml(mobileUsageText('balanceHint'))}</div></div>
+          </div>
+          <div class="asset-billing-period">${escapeHtml(mobileUsageText('billingPeriod'))} ${escapeHtml(usage.period)}</div>
+        </section>
+        <section class="asset-detail-actions">
+          <h3 class="asset-section-title">${escapeHtml(t('actions'))}</h3>
+          <div class="asset-billing-period">${escapeHtml(mobileUsageText('actionsHint'))}</div>
+          ${actions.length ? `<div class="asset-action-grid">${actions.map(a => `<button class="asset-action-button" type="button" onclick="event.stopPropagation()">${escapeHtml(a)}</button>`).join('')}</div>` : `<div class="empty">${escapeHtml(t('noActions'))}</div>`}
+        </section>
+        ${usageHtml}
+        <section class="asset-secondary-section">
+          <h3 class="asset-section-title">${escapeHtml(mobileUsageText('subscriptionInfo'))}</h3>
+          ${recordSummary([[t('user'), asset.user || '-'], [t('companyName'), asset.companyName || '-'], [t('productSpeed'), asset.subscriptionTypeOrSpeed || '-'], [t('fixedTerm'), asset.fixedTermEndDate || '-']])}
+        </section>
+        <section class="asset-secondary-section">
+          <h3 class="asset-section-title">${escapeHtml(mobileUsageText('relatedOrders'))}</h3>
+          <div class="mini-list">${relatedOrders.length ? relatedOrders.map(o => `<div class="mini-item"><strong>${escapeHtml(o.productType)}</strong><br>${escapeHtml(o.item)} · ${escapeHtml(translateStatus(o.status))}</div>`).join('') : `<div class="mini-item">${escapeHtml(mobileUsageText('noRelatedOrders'))}</div>`}</div>
+        </section>
+        <section class="asset-secondary-section">
+          <h3 class="asset-section-title">${escapeHtml(mobileUsageText('otherAssets'))}</h3>
+          <div class="mini-list">${otherAssets.length ? otherAssets.map(item => `<div class="mini-item"><strong>${escapeHtml(item.type)}</strong><br>${escapeHtml(item.name)} · ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div>`).join('') : `<div class="mini-item">${escapeHtml(mobileUsageText('noOtherAssets'))}</div>`}</div>
+        </section>
+      </div>`;
+    }
     function findRecord(type, id) {
       return (state.data[type] || []).find(item => String(item.id) === String(id));
     }
@@ -3651,7 +3780,7 @@ function tileMetaRow(label, value) {
     }
 function tileTemplate(item) {
       const icon = iconFor('assets', item);
-      return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('companyName')}: ${escapeHtml(item.companyName || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div class="asset-tile-sub">${t('fixedTerm')}: ${escapeHtml(item.fixedTermEndDate || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><a class="detail-link" href="asset-detail.html?id=${escapeHtml(item.id)}" onclick="event.stopPropagation()">${t('showDetails')}</a></div>`;
+      return `<div class="asset-tile" data-id="${escapeHtml(item.id)}"><div class="asset-tile-title">${icon} ${escapeHtml(item.name || '-')}</div><div class="asset-tile-sub">${escapeHtml(item.type || '-')}</div><div class="asset-tile-sub">${t('companyName')}: ${escapeHtml(item.companyName || '-')}</div><div class="asset-tile-sub">${t('user')}: ${escapeHtml(item.user || '-')}</div><div class="asset-tile-sub">${t('productSpeed')}: ${escapeHtml(item.subscriptionTypeOrSpeed || '-')}</div><div class="asset-tile-sub">${t('fixedTerm')}: ${escapeHtml(item.fixedTermEndDate || '-')}</div><div style="margin-top:12px"><span class="badge ${badgeClass(item.category)}">${escapeHtml(translateCategory(item.category || ''))}</span></div><button class="row-action-button primary" type="button" style="margin-top:12px" onclick="openAssetDetailModal(event, '${escapeHtml(item.id)}')">${t('showDetails')}</button></div>`;
     }
 
 
