@@ -1941,6 +1941,10 @@
     .asset-cost-label { color: var(--muted); font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 5px; }
     .asset-cost-value { font-size: 26px; font-weight: 950; color: var(--telia); line-height: 1.05; }
     .asset-billing-period { color: var(--muted); font-size: 12px; font-weight: 750; margin-top: 7px; }
+    .asset-cost-breakdown { margin-top: 10px; display: grid; gap: 5px; color: var(--muted); font-size: 12px; font-weight: 750; }
+    .asset-cost-breakdown-row { display: flex; justify-content: space-between; gap: 10px; }
+    .asset-cost-breakdown-row strong { color: var(--text); font-weight: 900; }
+
     .asset-usage-card { border: 1px solid var(--border); background: #ffffff; border-radius: 18px; padding: 16px; display: grid; gap: 14px; }
     .asset-section-title { margin: 0; font-size: 18px; line-height: 1.25; }
     .usage-metric { display: grid; gap: 7px; padding-bottom: 13px; border-bottom: 1px solid #eef2f7; }
@@ -3377,9 +3381,9 @@ function isMobileView(){ return window.innerWidth <= 700; }
 
     function mobileUsageText(key) {
       const labels = {
-        fi: { title: 'Liittymän käyttö', data: 'Data', euData: 'EU-data', calls: 'Puhelut', messages: 'Viestit', used: 'käytetty', monthlyPrice: 'Kuukausihinta', balance: 'Saldo', billingPeriod: 'Käyttö laskutuskaudelta', subscriptionInfo: 'Liittymän tiedot', relatedOrders: 'Liittyvät tilaukset', otherAssets: 'Käyttäjän muut assetit', noOtherAssets: 'Ei muita assetteja tälle käyttäjälle mock-datassa.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', actionsHint: 'Nopeat toiminnot tähän liittymään.', balanceHint: 'Saldo näyttää reaaliaikaisen kk-hinnan ylittävän käytön.' },
-        en: { title: 'Subscription usage', data: 'Data', euData: 'EU data', calls: 'Calls', messages: 'Messages', used: 'used', monthlyPrice: 'Monthly price', balance: 'Balance', billingPeriod: 'Usage for billing period', subscriptionInfo: 'Subscription details', relatedOrders: 'Related orders', otherAssets: 'User’s other assets', noOtherAssets: 'No other assets for this user in mock data.', noRelatedOrders: 'No related orders in mock data.', actionsHint: 'Quick actions for this subscription.', balanceHint: 'Balance shows real-time usage above the monthly price.' },
-        sv: { title: 'Abonnemangsanvändning', data: 'Data', euData: 'EU-data', calls: 'Samtal', messages: 'Meddelanden', used: 'använt', monthlyPrice: 'Månadspris', balance: 'Saldo', billingPeriod: 'Användning under faktureringsperioden', subscriptionInfo: 'Abonnemangsuppgifter', relatedOrders: 'Relaterade beställningar', otherAssets: 'Användarens andra tillgångar', noOtherAssets: 'Inga andra tillgångar för användaren i mockdata.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', actionsHint: 'Snabbåtgärder för abonnemanget.', balanceHint: 'Saldo visar realtidsanvändning över månadspriset.' }
+        fi: { title: 'Liittymän käyttö', data: 'Data', euData: 'EU-data', calls: 'Puhelut', messages: 'Viestit', used: 'käytetty', monthlyPrice: 'Kuukausihinta', balance: 'Saldo', billingPeriod: 'Käyttö laskutuskaudelta', subscriptionInfo: 'Liittymän tiedot', relatedOrders: 'Liittyvät tilaukset', otherAssets: 'Käyttäjän muut assetit', noOtherAssets: 'Ei muita assetteja tälle käyttäjälle mock-datassa.', noRelatedOrders: 'Ei liittyviä tilauksia mock-datassa.', actionsHint: 'Nopeat toiminnot tähän liittymään.', extraUsage: 'Lisäkäyttö', balanceHint: 'Saldo sisältää kuukausihinnan ja tähän mennessä kertyneet lisämaksut.' },
+        en: { title: 'Subscription usage', data: 'Data', euData: 'EU data', calls: 'Calls', messages: 'Messages', used: 'used', monthlyPrice: 'Monthly price', balance: 'Balance', billingPeriod: 'Usage for billing period', subscriptionInfo: 'Subscription details', relatedOrders: 'Related orders', otherAssets: 'User’s other assets', noOtherAssets: 'No other assets for this user in mock data.', noRelatedOrders: 'No related orders in mock data.', actionsHint: 'Quick actions for this subscription.', extraUsage: 'Additional usage', balanceHint: 'Balance includes the monthly price and additional charges accumulated so far.' },
+        sv: { title: 'Abonnemangsanvändning', data: 'Data', euData: 'EU-data', calls: 'Samtal', messages: 'Meddelanden', used: 'använt', monthlyPrice: 'Månadspris', balance: 'Saldo', billingPeriod: 'Användning under faktureringsperioden', subscriptionInfo: 'Abonnemangsuppgifter', relatedOrders: 'Relaterade beställningar', otherAssets: 'Användarens andra tillgångar', noOtherAssets: 'Inga andra tillgångar för användaren i mockdata.', noRelatedOrders: 'Inga relaterade beställningar i mockdata.', actionsHint: 'Snabbåtgärder för abonnemanget.', extraUsage: 'Extra användning', balanceHint: 'Saldo inkluderar månadspriset och extra avgifter som hittills har uppstått.' }
       };
       return labels[state.language]?.[key] || labels.fi[key] || key;
     }
@@ -3393,7 +3397,8 @@ function isMobileView(){ return window.innerWidth <= 700; }
     function mockMobileUsage(asset) {
       const seed = asset?.id || asset?.name || asset?.user || 'subscription';
       const monthlyPrice = Number((24.90 + (seededNumber(seed + 'price', 0, 1200) / 100)).toFixed(2));
-      const balance = Number((seededNumber(seed + 'balance', 0, 1890) / 100).toFixed(2));
+      const extraUsage = Number((seededNumber(seed + 'extraUsage', 0, 1890) / 100).toFixed(2));
+      const balance = Number((monthlyPrice + extraUsage).toFixed(2));
       const dataLimit = seededNumber(seed + 'dataLimit', 80, 300);
       const dataUsed = Math.min(dataLimit, seededNumber(seed + 'dataUsed', 8, Math.max(12, dataLimit - 8)));
       const euLimit = seededNumber(seed + 'euLimit', 25, 80);
@@ -3401,7 +3406,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
       const callsLimit = seededNumber(seed + 'callsLimit', 1500, 5000);
       const callsUsed = Math.min(callsLimit, seededNumber(seed + 'callsUsed', 30, Math.max(40, callsLimit - 200)));
       const messagesCost = Number((seededNumber(seed + 'messages', 0, 650) / 100).toFixed(2));
-      return { monthlyPrice, balance, dataLimit, dataUsed, euLimit, euUsed, callsLimit, callsUsed, messagesCost, period: '2.8.2026 – 1.9.2026' };
+      return { monthlyPrice, extraUsage, balance, dataLimit, dataUsed, euLimit, euUsed, callsLimit, callsUsed, messagesCost, period: '2.8.2026 – 1.9.2026' };
     }
     function usageMetric(label, usedText, limitText, percent, showInfo = true) {
       const width = Math.max(0, Math.min(100, Number(percent) || 0));
@@ -3441,7 +3446,7 @@ function isMobileView(){ return window.innerWidth <= 700; }
           </div>
           <div class="asset-cost-grid">
             <div class="asset-cost-card"><div class="asset-cost-label">${escapeHtml(mobileUsageText('monthlyPrice'))}</div><div class="asset-cost-value">${escapeHtml(formatCurrency(usage.monthlyPrice))}</div></div>
-            <div class="asset-cost-card"><div class="asset-cost-label">${escapeHtml(mobileUsageText('balance'))}</div><div class="asset-cost-value">${escapeHtml(formatCurrency(usage.balance))}</div><div class="asset-billing-period">${escapeHtml(mobileUsageText('balanceHint'))}</div></div>
+            <div class="asset-cost-card"><div class="asset-cost-label">${escapeHtml(mobileUsageText('balance'))}</div><div class="asset-cost-value">${escapeHtml(formatCurrency(usage.balance))}</div><div class="asset-cost-breakdown"><div class="asset-cost-breakdown-row"><span>${escapeHtml(mobileUsageText('monthlyPrice'))}</span><strong>${escapeHtml(formatCurrency(usage.monthlyPrice))}</strong></div><div class="asset-cost-breakdown-row"><span>${escapeHtml(mobileUsageText('extraUsage'))}</span><strong>${escapeHtml(formatCurrency(usage.extraUsage))}</strong></div></div><div class="asset-billing-period">${escapeHtml(mobileUsageText('balanceHint'))}</div></div>
           </div>
           <div class="asset-billing-period">${escapeHtml(mobileUsageText('billingPeriod'))} ${escapeHtml(usage.period)}</div>
         </section>
