@@ -2418,9 +2418,22 @@ function isMobileView(){ return window.innerWidth <= 700; }
       if (designThemeSelect) {
         designThemeSelect.value = state.designTheme;
         designThemeSelect.addEventListener('change', event => {
-          state.designTheme = event.target.value === 'telia' ? 'telia' : 'default';
-          localStorage.setItem('mtyDesignTheme', state.designTheme);
-          applyDesignTheme();
+          const selectedTheme = event.target.value;
+          // UUSI NYKYINEN YRITYSPORTAALI
+if (selectedTheme === 'currentPortal') {
+window.location.href =
+'current-portal.html';
+return;
+}
+state.designTheme =
+selectedTheme === 'telia'
+? 'telia'
+: 'default';
+localStorage.setItem(
+'mtyDesignTheme',
+state.designTheme
+);
+applyDesignTheme();
         });
       }
       const companySelect = document.getElementById('companySelect');
