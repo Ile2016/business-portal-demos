@@ -93,7 +93,15 @@
     </div>
 
     <section class="action-strip" aria-label="Päätoiminnot">
-      <button class="portal-action" onclick="openCurrentLink('mobileSubscriptions')"><span class="icon">▣</span><span>Matkapuhelinliittymät ja mobiililaajakaistat</span></button>
+      <button
+id="mobileAssetsCard"
+class="portal-action"
+onclick="openCurrentLink('mobileSubscriptions')">
+<span class="icon">📱</span>
+<span id="mobileAssetsText">
+Matkapuhelinliittymät ja mobiililaajakaistat
+</span>
+</button>
       <button class="portal-action" onclick="openCurrentLink('newMobileSubscription')"><span class="icon">▣</span><span>Avaa uusi matkapuhelinliittymä</span></button>
       <button class="portal-action" onclick="openCurrentLink('invoices')"><span class="icon">▤</span><span>Laskut</span></button>
       <button class="portal-action" onclick="openCurrentLink('contactUs')"><span class="icon">♙</span><span>Ota meihin yhteyttä</span></button>
