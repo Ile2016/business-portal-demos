@@ -235,6 +235,23 @@ Matkapuhelinliittymät ja mobiililaajakaistat
       clearTimeout(window.__toastTimer);
       window.__toastTimer = setTimeout(()=>el.classList.remove('show'),2600);
     }
+    function updateMainCard(){
+const company =
+document.getElementById('companySelect').value;
+const label =
+document.getElementById('mobileAssetsText');
+if(!label) return;
+if(company === 'Demo Yritys Oy'){
+label.innerHTML =
+'📱 24 liittymää<br>' +
+15
+'💻 12 laitetta';
+} else {
+label.innerHTML =
+'Matkapuhelinliittymät ja mobiililaajakaistat';
+
+}
+}
     renderQuickLinks();
     openCurrentLink('mobileSubscriptions');
   </script>
