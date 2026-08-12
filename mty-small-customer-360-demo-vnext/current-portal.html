@@ -1,1 +1,235 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nykyinen Telia Yritysportaali - mock</title>
+  <style>
+    :root{
+      --telia:#990ae3;
+      --telia-dark:#3b0052;
+      --telia-deep:#21002d;
+      --bg:#f4f4f5;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#666;
+      --border:#e5e7eb;
+      --shadow:0 8px 24px rgba(15,23,42,.08);
+      --radius:10px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+    a{color:inherit}
+    .topbar{height:64px;background:#fff;display:flex;align-items:center;gap:28px;padding:0 32px;border-bottom:1px solid #eee;position:sticky;top:0;z-index:20}
+    .brand{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:800;color:var(--telia)}
+    .brand-mark{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7d00c6,#d600ff);position:relative;box-shadow:inset 0 -8px 0 rgba(255,255,255,.22)}
+    .nav{display:flex;align-items:center;gap:4px;flex:1;height:100%}
+    .nav button{height:100%;border:0;background:transparent;padding:0 14px;font:inherit;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;gap:6px}
+    .nav button.active{border-bottom-color:var(--telia);color:var(--telia)}
+    .top-icons{display:flex;align-items:center;gap:16px;color:#222}
+    .user-block{font-size:11px;line-height:1.2;font-weight:700;max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .avatar{width:24px;height:24px;border-radius:50%;background:var(--telia);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:800}
+    .hero{background:linear-gradient(100deg,var(--telia-deep) 0%,#33004e 38%,#590083 60%,#17001f 100%);color:#fff;min-height:136px;position:relative;overflow:hidden;padding:28px 32px 46px}
+    .hero:after{content:"";position:absolute;right:-80px;top:-90px;width:720px;height:300px;background:repeating-linear-gradient(165deg,rgba(255,255,255,.18) 0 8px,rgba(255,255,255,.04) 8px 18px);transform:rotate(-5deg);opacity:.5;border-radius:50%}
+    .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:22px;align-items:end;max-width:1500px;margin:0 auto}
+    .hero h1{font-size:34px;margin:0;font-weight:800}
+    .field label{display:block;font-size:12px;font-weight:800;margin-bottom:8px;color:#fff}
+    .field input,.field select{width:100%;height:40px;border:0;background:#fff;padding:0 14px;font-size:14px}
+    .search-wrap{position:relative}.search-wrap span{position:absolute;right:12px;top:9px;color:#111;font-size:20px}
+    .container{max-width:1500px;margin:-22px auto 40px;padding:0 30px;position:relative;z-index:5}
+    .portal-mode{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+    .mode-btn{border:1px solid var(--border);background:#fff;border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:800;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+    .mode-btn.active{background:var(--telia);border-color:var(--telia);color:#fff}
+    .action-strip{background:#fff;border-radius:6px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(4,1fr);min-height:124px;position:relative;overflow:hidden;margin-bottom:20px}
+    .action-strip:after{content:"⚙";position:absolute;right:16px;top:10px;font-size:22px}
+    .portal-action{border:0;background:transparent;cursor:pointer;display:grid;place-items:center;text-align:center;padding:24px 14px;border-right:1px solid #d1d5db;font:inherit;font-weight:600}
+    .portal-action:last-child{border-right:0}
+    .portal-action .icon{font-size:28px;line-height:1;margin-bottom:10px;color:#222}
+    .portal-action:hover,.quick-link:hover,.notification:hover{background:#faf5ff;color:var(--telia)}
+    .layout{display:grid;grid-template-columns:1fr 1.03fr;gap:20px}
+    .stack{display:grid;gap:14px}
+    .card{background:#fff;border-radius:6px;box-shadow:var(--shadow);padding:20px;border:1px solid #eee}
+    .card h2{font-size:20px;margin:0 0 16px;display:flex;align-items:center;gap:12px}
+    .quick-link-list{display:grid;gap:9px;margin-left:30px}
+    .quick-link{border:0;background:transparent;text-align:left;text-decoration:underline;font:inherit;cursor:pointer;width:max-content;max-width:100%;padding:2px 0}
+    .puk-search{display:flex;border:1px solid #888;height:40px;margin-top:18px;background:#fff}.puk-search input{border:0;flex:1;padding:0 12px;font-size:14px}.puk-search button{width:44px;border:0;background:#fff;cursor:pointer;font-size:20px}
+    .notification{display:grid;grid-template-columns:48px 1fr;gap:0;align-items:center;padding:8px 0;border-bottom:1px solid #ddd;background:transparent;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;cursor:pointer;font:inherit;color:var(--telia)}
+    .badge-pill{background:var(--telia);color:#fff;border-radius:999px;min-width:34px;height:26px;display:inline-grid;place-items:center;font-weight:800;font-size:13px}
+    .news-image{height:260px;background:linear-gradient(110deg,#e6e7eb,#f5f5f5 45%,#d9dce2);display:grid;place-items:center;margin-bottom:14px;position:relative;overflow:hidden}
+    .phone-mock{width:190px;height:170px;border-radius:16px;background:linear-gradient(135deg,#20242d,#8e8e96);box-shadow:16px 12px 28px rgba(0,0,0,.18);position:relative}.phone-mock:before{content:"SAMSUNG";position:absolute;top:-32px;left:40px;letter-spacing:.12em;font-weight:900}.phone-mock:after{content:"Galaxy Z Fold8 Ultra for business";position:absolute;left:-210px;top:60px;font-size:14px;font-weight:700;color:#111;white-space:nowrap}
+    .cta{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--telia);background:#fff;color:var(--telia);border-radius:999px;padding:10px 18px;font-weight:800;text-decoration:none;cursor:pointer}.cta:hover{background:#faf5ff}
+    .dots{text-align:center;margin-top:24px}.dots span{display:inline-block;width:14px;height:14px;background:#d1d5db;border-radius:50%;margin:0 5px}.dots span.active{background:var(--telia)}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+    .link-preview{display:grid;gap:14px}.preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.preview-card{border:1px solid var(--border);border-radius:12px;background:#fbfcfe;padding:14px}.preview-card strong{display:block;margin-bottom:6px}.mapping-table{width:100%;border-collapse:collapse;font-size:13px}.mapping-table th,.mapping-table td{border-bottom:1px solid #eee;padding:9px 8px;text-align:left}.mapping-table th{background:#fbfcfe}.small{color:var(--muted);font-size:13px;line-height:1.45}.toast{position:fixed;right:22px;bottom:22px;max-width:420px;background:#111827;color:#fff;padding:14px 16px;border-radius:12px;box-shadow:0 18px 44px rgba(0,0,0,.25);display:none;z-index:50}.toast.show{display:block}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.action-strip{grid-template-columns:1fr}.portal-action{border-right:0;border-bottom:1px solid #d1d5db}.nav{overflow-x:auto}.topbar{padding:0 16px}.user-block{display:none}.preview-grid{grid-template-columns:1fr}.container{padding:0 14px}.hero{padding-left:16px;padding-right:16px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark"></span><span>Telia</span></div>
+    <nav class="nav" aria-label="Nykyinen portaali">
+      <button class="active" data-tab="subscriptions">Liittymät ja laitteet⌄</button>
+      <button data-tab="contacts">Yhteystiedot ja viestit⌄</button>
+      <button data-tab="orders">Tilaukset⌄</button>
+      <button data-tab="billing">Laskutus⌄</button>
+      <button data-tab="company">Yrityksen tiedot</button>
+    </nav>
+    <div class="top-icons" aria-label="Työkalut"><span>⌕</span><span>♧</span><span>▣</span><div class="user-block">Ilkka Koivunen<br>TESTI ILKKA KOIVUNEN OY - NOT USED IN...</div><div class="avatar">IK</div></div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <h1>Hei, Ilkka</h1>
+      <div class="field"><label for="aiSearch">Kysy apua</label><div class="search-wrap"><input id="aiSearch" placeholder="Kysy AI-assistentilta" /><span>⌕</span></div></div>
+      <div class="field"><label for="companySelect">Hallinnoit nyt yritystä:</label><select id="companySelect"><option>TESTI ILKKA KOIVUNEN OY - NOT USED IN END-TO-END TEST</option><option>Rakennus Nieminen Oy</option><option>Demo Yritys Oy</option></select></div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="portal-mode">
+      <button class="mode-btn active" type="button" onclick="showPortalMode('current')">Nykyinen Telia Yritysportaali</button>
+      <button class="mode-btn" type="button" onclick="openMtyView('allViews')">Avaa MTY Small Customer 360</button>
+      <button class="mode-btn" type="button" onclick="showMapping()">Näytä linkitykset</button>
+    </div>
+
+    <section class="action-strip" aria-label="Päätoiminnot">
+      <button class="portal-action" onclick="openCurrentLink('mobileSubscriptions')"><span class="icon">▣</span><span>Matkapuhelinliittymät ja mobiililaajakaistat</span></button>
+      <button class="portal-action" onclick="openCurrentLink('newMobileSubscription')"><span class="icon">▣</span><span>Avaa uusi matkapuhelinliittymä</span></button>
+      <button class="portal-action" onclick="openCurrentLink('invoices')"><span class="icon">▤</span><span>Laskut</span></button>
+      <button class="portal-action" onclick="openCurrentLink('contactUs')"><span class="icon">♙</span><span>Ota meihin yhteyttä</span></button>
+    </section>
+
+    <section class="layout">
+      <div class="stack">
+        <article class="card">
+          <h2>🔗 Pikalinkit <span style="margin-left:auto;font-size:19px">⚙</span></h2>
+          <div class="quick-link-list" id="quickLinks"></div>
+        </article>
+        <article class="card">
+          <h2>⌕ Etsi PUK-koodit</h2>
+          <div class="puk-search"><input id="pukInput" placeholder="Hae mobiilinumerolla tai nimellä" /><button onclick="searchPuk()">⌕</button></div>
+          <p class="small">Mock-haku näyttää esimerkkituloksen ja linkittää liittymien näkymään.</p>
+        </article>
+        <article class="card">
+          <h2>🧭 Valittu linkitys</h2>
+          <div id="selectedLinkPreview" class="link-preview"><p class="small">Valitse pikalinkki, ilmoitus tai päätoiminto. Näet, mihin nykyisen portaalin toiminto linkittyy MTY Small Customer 360 -demossa.</p></div>
+        </article>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <h2>♧ Ilmoitukset</h2>
+          <button class="notification" onclick="openCurrentLink('incidentExtraInfo')"><span class="badge-pill">18</span><span>Vikailmoitusta odottaa lisätietoja</span></button>
+          <button class="notification" onclick="openCurrentLink('openInvoices')"><span class="badge-pill">99+</span><span>Avoimia laskua (99+ erääntynyt)</span></button>
+        </article>
+        <article class="card">
+          <h2>▤ Uutisia ja tarjouksia</h2>
+          <div class="news-image"><div class="phone-mock"></div></div>
+          <h3 style="margin:0 0 4px">Samsung Galaxy Z -sarja</h3>
+          <p style="margin:0 0 14px">Ennakkotilaa ja hyödynnä nopean tilaajan etu viimeistään 16.8.</p>
+          <button class="cta" onclick="openCurrentLink('deviceCampaign')">Ennakkotilaa ›</button>
+          <div class="dots"><span></span><span class="active"></span><span></span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:20px">
+      <h2>Nykyinen portaali vs. MTY Small Customer 360</h2>
+      <div class="preview-grid">
+        <div class="preview-card"><strong>Nykyinen Telia Yritysportaali</strong><span class="small">Kuvakaappauksen mukainen etusivu, pikalinkit, ilmoitukset, PUK-haku, uutiset ja päätoiminnot.</span></div>
+        <div class="preview-card"><strong>MTY Small Customer 360</strong><span class="small">Linkitykset nykyisen demon näkymiin: liittymät, tilaukset, laskut, laskutilit, palvelupyynnöt, vikailmoitukset, käyttäjähallinta ja muut Telia-palvelut.</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const MTY_DEMO_BASE = 'index.html';
+    const linkMappings = {
+      mobileSubscriptions:{label:'Matkapuhelinliittymät ja mobiililaajakaistat', current:'Pääkortti', mtyView:'assets', mtyLabel:'Liittymät ja palvelut', description:'Avaa nykyisessä portaalissa liittymien listauksen. MTY-demossa vastaa Assets / Liittymät ja palvelut -näkymää.'},
+      newMobileSubscription:{label:'Avaa uusi matkapuhelinliittymä', current:'Pääkortti', mtyView:'assets', action:'order', mtyLabel:'Tilaa liittymä tai laite', description:'Vastaa nykyistä liittymän avauspolkua. MTY-demossa ohjataan liittymän tai laitteen tilauspolkuun.'},
+      invoices:{label:'Laskut', current:'Pääkortti', mtyView:'invoices', mtyLabel:'Laskut', description:'Avaa laskujen listauksen ja laskun käsittelyn.'},
+      contactUs:{label:'Ota meihin yhteyttä', current:'Pääkortti', mtyView:'requests', action:'contact', mtyLabel:'Palvelupyynnöt / Ota yhteyttä', description:'Ohjaa yhteydenottoon, chat-polkuun tai palvelupyynnön luontiin.'},
+      billingAccounts:{label:'Laskutustilit', current:'Pikalinkki', mtyView:'billing', mtyLabel:'Laskutilit', description:'Avaa laskutilien listan ja laskutustietojen hallinnan.'},
+      transferMobile:{label:'Matkapuhelinliittymän siirto yritykselle', current:'Pikalinkki', mtyView:'orders', action:'order', mtyLabel:'Tilaukset', description:'Mock-linkki tilauspolkuun, jossa siirto näkyy tilauksena tai palvelumuutoksena.'},
+      changeBilling:{label:'Muuta laskutustietoja', current:'Pikalinkki', mtyView:'billing', action:'editBilling', mtyLabel:'Laskutilit / muuta laskutustietoja', description:'Kytketään Billing Accounts -näkymän Muuta laskutustietoja -toimintoon.'},
+      serviceRequestsEU:{label:'Palvelupyynnöt (Tietosijainti EU)', current:'Pikalinkki', mtyView:'requests', mtyLabel:'Palvelupyynnöt', description:'Avaa palvelupyyntöjen listauksen. Tietosijainti toimii mock-tekstinä nykyisessä portaalissa.'},
+      serviceRequestsFI:{label:'Palvelupyynnöt (Tietosijainti FI)', current:'Pikalinkki', mtyView:'requests', mtyLabel:'Palvelupyynnöt', description:'Avaa palvelupyyntöjen listauksen FI-tietosijainnin esimerkillä.'},
+      reports:{label:'Raportit', current:'Pikalinkki', mtyView:'allViews', mtyLabel:'Kaikki näkymät / yhteenveto', description:'Raportit linkittyvät yhteenveto- ja kaikki näkymät -tasoon.'},
+      orderSim:{label:'Tilaa SIM-kortteja', current:'Pikalinkki', mtyView:'assets', action:'order', mtyLabel:'Tilaa liittymä tai laite', description:'Ohjaa liittymä- ja SIM-tilauspolkuun.'},
+      orders:{label:'Tilaukset', current:'Pikalinkki / ylänavigaatio', mtyView:'orders', mtyLabel:'Tilaukset', description:'Avaa tilausten listauksen.'},
+      oldDeviceManagement:{label:'Vanha tuotehallinta', current:'Pikalinkki', mtyView:'otherServices', mtyLabel:'Muut Telia-palvelut', description:'Esitetään nykyisessä portaalissa legacy-linkkinä, joka MTY-demossa linkittyy Muut Telia-palvelut -katalogiin.'},
+      oldBusinessPortal:{label:'Vanha yritysportaali', current:'Pikalinkki', mtyView:'otherServices', mtyLabel:'Muut Telia-palvelut', description:'Legacy-portaalin linkki kuvataan Muut Telia-palvelut -katalogissa.'},
+      incidents:{label:'Vikailmoitukset', current:'Pikalinkki', mtyView:'incidents', mtyLabel:'Vikailmoitukset', description:'Avaa vikailmoitusten listauksen ja keskusteluketjut.'},
+      companyUsers:{label:'Yrityksen käyttäjät & käyttäjäroolit', current:'Pikalinkki', mtyView:'users', action:'settings', mtyLabel:'Asetukset / käyttäjien hallinta', description:'Kytketään nykyisen demon asetuksiin ja käyttäjäroolien vaihtoon.'},
+      companyInfo:{label:'Yrityksen tiedot', current:'Pikalinkki / ylänavigaatio', mtyView:'allViews', mtyLabel:'Asiakkaan tiedot / yhteenveto', description:'Yrityksen perustiedot esitetään MTY-demossa asiakkaan yhteenvetotasolla.'},
+      incidentExtraInfo:{label:'Vikailmoitusta odottaa lisätietoja', current:'Ilmoitus', mtyView:'incidents', mtyLabel:'Avoimet vikailmoitukset', description:'Ilmoitus avaa suodatettuna vikailmoitukset, joissa asiakasta pyydetään täydentämään tietoja.'},
+      openInvoices:{label:'Avoimia laskuja', current:'Ilmoitus', mtyView:'invoices', mtyLabel:'Avoimet laskut', description:'Ilmoitus avaa laskut ja avoimet/erääntyneet laskut.'},
+      deviceCampaign:{label:'Samsung Galaxy Z -sarja', current:'Uutinen ja tarjous', mtyView:'assets', action:'order', mtyLabel:'Tilaa laite', description:'Kampanja ohjaa laitteen tilauspolkuun.'},
+      pukSearch:{label:'Etsi PUK-koodit', current:'Haku', mtyView:'assets', mtyLabel:'Liittymän detail-näkymä', description:'PUK-haku ohjaa liittymän tarkempiin tietoihin.'}
+    };
+    const quickLinkOrder = ['billingAccounts','transferMobile','changeBilling','serviceRequestsEU','serviceRequestsFI','reports','orderSim','orders','oldDeviceManagement','oldBusinessPortal','incidents','companyUsers','companyInfo'];
+    function renderQuickLinks(){
+      const el = document.getElementById('quickLinks');
+      el.innerHTML = quickLinkOrder.map(id => `<button class="quick-link" type="button" onclick="openCurrentLink('${id}')">${linkMappings[id].label}</button>`).join('');
+    }
+    function mtyUrl(view){
+      const hashMap = {allViews:'allViews',assets:'assets',orders:'orders',invoices:'invoices',billing:'billing',requests:'requests',incidents:'incidents',otherServices:'otherServices',users:'settings'};
+      const mapped = hashMap[view] || view || 'allViews';
+      return `${MTY_DEMO_BASE}?mtyView=${encodeURIComponent(mapped)}#${encodeURIComponent(mapped)}`;
+    }
+    function openCurrentLink(id){
+      const cfg = linkMappings[id];
+      if(!cfg) return;
+      document.getElementById('selectedLinkPreview').innerHTML = `
+        <div class="preview-grid">
+          <div class="preview-card"><strong>Nykyinen portaali</strong><span class="small">${cfg.current}<br>${cfg.label}</span></div>
+          <div class="preview-card"><strong>MTY-demo</strong><span class="small">${cfg.mtyLabel}<br>Näkymäavain: <code>${cfg.mtyView}</code></span></div>
+        </div>
+        <p>${cfg.description}</p>
+        <button class="cta" type="button" onclick="openMtyView('${cfg.mtyView}')">Avaa MTY-näkymä ›</button>
+      `;
+      toast(`${cfg.label} → ${cfg.mtyLabel}`);
+    }
+    function openMtyView(view){
+      window.location.href = mtyUrl(view);
+    }
+    function showMapping(){
+      document.getElementById('selectedLinkPreview').innerHTML = `
+        <table class="mapping-table">
+          <thead><tr><th>Nykyinen portaali</th><th>MTY-näkymä</th><th>Avain</th></tr></thead>
+          <tbody>${Object.values(linkMappings).map(m => `<tr><td>${m.label}</td><td>${m.mtyLabel}</td><td><code>${m.mtyView}</code></td></tr>`).join('')}</tbody>
+        </table>
+      `;
+      toast('Linkitystaulukko avattu');
+    }
+    function searchPuk(){
+      const value = document.getElementById('pukInput').value.trim();
+      openCurrentLink('pukSearch');
+      toast(value ? `Demo: PUK-koodi löytyi haulla "${value}"` : 'Demo: PUK-koodi löytyy liittymän detail-näkymästä');
+    }
+    function showPortalMode(){
+      document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+      toast('Nykyinen Telia Yritysportaali -mock on aktiivinen');
+    }
+    document.querySelectorAll('.nav button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const map = {subscriptions:'mobileSubscriptions',contacts:'companyUsers',orders:'orders',billing:'invoices',company:'companyInfo'};
+        openCurrentLink(map[btn.dataset.tab] || 'mobileSubscriptions');
+      });
+    });
+    function toast(message){
+      const el = document.getElementById('toast');
+      el.textContent = message;
+      el.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(()=>el.classList.remove('show'),2600);
+    }
+    renderQuickLinks();
+    openCurrentLink('mobileSubscriptions');
+  </script>
+</body>
+</html>
 
