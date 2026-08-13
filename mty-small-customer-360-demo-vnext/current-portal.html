@@ -264,21 +264,24 @@ function openMobileSubscription() {
 const company =
 document.getElementById('companySelect')?.value || '';
 if (company.includes('TESTI ILKKA KOIVUNEN')) {
-window.open(
-'https://www.telia.fi/yrityksille/kauppa/tuotteet/puhelinliittymat',
-'_blank'
-);
+window.location.href =
+'https://www.telia.fi/yrityksille/kauppa/tuotteet/puhelinliittymat';
 } else {
-document.getElementById('selectedLinkPreview').innerHTML = `
-<div class="preview-card">
-<strong>Vanha Yritysportaali</strong>
-<p class="small">
-Matkapuhelinliittymien tilaaminen tehdään edelleen MTY-palvelussa.
-</p>
-</div>
-`;
-toast('Vanha Yritysportaali: Avaa matkapuhelinliittymä');
+document
+.getElementById('legacySubscriptionModal')
+.classList.add('show');
+const legacySelect =
+document.getElementById('legacyCompanySelect');
+if (legacySelect) {
+legacySelect.innerHTML =
+`<option selected>${company}</option>`;
 }
+}
+}
+function closeLegacySubscription() {
+document
+.getElementById('legacySubscriptionModal')
+.classList.remove('show');
 }
 function showMapping(){
     }
