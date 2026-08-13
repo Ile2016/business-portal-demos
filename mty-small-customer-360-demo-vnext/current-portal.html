@@ -193,7 +193,29 @@
       toast(`${cfg.label} → ${cfg.mtyLabel}`);
     }
     function openMtyView(view){
-      window.location.href = mtyUrl(view);
+window.location.href = mtyUrl(view);
+}
+function openMobileSubscription() {
+const company =
+document.getElementById('companySelect')?.value || '';
+if (company.includes('TESTI ILKKA KOIVUNEN')) {
+window.open(
+'https://www.telia.fi/yrityksille/kauppa/tuotteet/puhelinliittymat',
+'_blank'
+);
+} else {
+document.getElementById('selectedLinkPreview').innerHTML = `
+<div class="preview-card">
+<strong>Vanha Yritysportaali</strong>
+<p class="small">
+Matkapuhelinliittymien tilaaminen tehdään edelleen MTY-palvelussa.
+</p>
+</div>
+`;
+toast('Vanha Yritysportaali: Avaa matkapuhelinliittymä');
+}
+}
+function showMapping(){
     }
     function showMapping(){
       document.getElementById('selectedLinkPreview').innerHTML = `
