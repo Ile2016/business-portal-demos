@@ -253,6 +253,31 @@ function showMapping(){
     renderQuickLinks();
     openCurrentLink('mobileSubscriptions');
   </script>
+  <div class="toast" id="toast"></div>
+<div id="legacySubscriptionModal" class="legacy-modal">
+<div class="legacy-content">
+<button class="legacy-back" onclick="closeLegacySubscription()">
+← TAKAISIN
+</button>
+<h2>Avaa uusi liittymä</h2>
+<div class="legacy-card">
+<label>Yritys *</label>
+<select id="legacyCompanySelect">
+<option>Valitse yritys</option>
+<option>Rakennus Nieminen Oy</option>
+<option>Demo Yritys Oy</option>
+</select>
+<div style="text-align:right;margin-top:40px">
+<button class="legacy-next">
+JATKA →
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+...
+</script>
 </body>
 </html>
 
