@@ -93,17 +93,8 @@
     </div>
 
     <section class="action-strip" aria-label="Päätoiminnot">
-      <button
-        id="mobileAssetsCard"
-class="portal-action"
-onclick="openAssetsGridView()">
-<span class="icon">📱</span>
-sspan id="mobileAssetsText">
-Matkapuhelinliittymät ja mobiililaajakaistat
-</span>
-</button>
-
-      <button class="portal-action"onclick="window.location.href='index.html'"><span class="icon">▣</span><span>Avaa uusi matkapuhelinliittymä</span></button>
+      <button class="portal-action" onclick="openCurrentLink('mobileSubscriptions')"><span class="icon">▣</span><span>Matkapuhelinliittymät ja mobiililaajakaistat</span></button>
+      <button class="portal-action" onclick="openCurrentLink('newMobileSubscription')"><span class="icon">▣</span><span>Avaa uusi matkapuhelinliittymä</span></button>
       <button class="portal-action" onclick="openCurrentLink('invoices')"><span class="icon">▤</span><span>Laskut</span></button>
       <button class="portal-action" onclick="openCurrentLink('contactUs')"><span class="icon">♙</span><span>Ota meihin yhteyttä</span></button>
     </section>
@@ -236,23 +227,6 @@ Matkapuhelinliittymät ja mobiililaajakaistat
       clearTimeout(window.__toastTimer);
       window.__toastTimer = setTimeout(()=>el.classList.remove('show'),2600);
     }
-    function updateMainCard(){
-const company =
-document.getElementById('companySelect').value;
-const label =
-document.getElementById('mobileAssetsText');
-if(!label) return;
-if(company === 'Demo Yritys Oy'){
-label.innerHTML =
-'📱 24 liittymää<br>' +
-15
-'💻 12 laitetta';
-} else {
-label.innerHTML =
-'Matkapuhelinliittymät ja mobiililaajakaistat';
-
-}
-}
     renderQuickLinks();
     openCurrentLink('mobileSubscriptions');
   </script>
