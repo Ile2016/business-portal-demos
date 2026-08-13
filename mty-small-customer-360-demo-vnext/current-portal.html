@@ -266,6 +266,20 @@ Matkapuhelinliittymät ja mobiililaajakaistat
     function openMtyView(view){
 window.location.href = mtyUrl(view);
 }
+function updatePortalTexts() {
+const company =
+document.getElementById('companySelect')?.value || '';
+const mobileAssetsText =
+document.getElementById('mobileAssetsText');
+if (!mobileAssetsText) return;
+if (company.includes('TESTI ILKKA KOIVUNEN')) {
+mobileAssetsText.textContent =
+'Matkapuhelinliittymät ja laitteet';
+} else {
+mobileAssetsText.textContent =
+'Matkapuhelinliittymät ja mobiililaajakaistat';
+}
+}    
 function openMobileSubscription() {
 const company =
 document.getElementById('companySelect')?.value || '';
