@@ -61,7 +61,72 @@
     .dots{text-align:center;margin-top:24px}.dots span{display:inline-block;width:14px;height:14px;background:#d1d5db;border-radius:50%;margin:0 5px}.dots span.active{background:var(--telia)}
     .tab-panel{display:none}.tab-panel.active{display:block}
     .link-preview{display:grid;gap:14px}.preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.preview-card{border:1px solid var(--border);border-radius:12px;background:#fbfcfe;padding:14px}.preview-card strong{display:block;margin-bottom:6px}.mapping-table{width:100%;border-collapse:collapse;font-size:13px}.mapping-table th,.mapping-table td{border-bottom:1px solid #eee;padding:9px 8px;text-align:left}.mapping-table th{background:#fbfcfe}.small{color:var(--muted);font-size:13px;line-height:1.45}.toast{position:fixed;right:22px;bottom:22px;max-width:420px;background:#111827;color:#fff;padding:14px 16px;border-radius:12px;box-shadow:0 18px 44px rgba(0,0,0,.25);display:none;z-index:50}.toast.show{display:block}
-    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.action-strip{grid-template-columns:1fr}.portal-action{border-right:0;border-bottom:1px solid #d1d5db}.nav{overflow-x:auto}.topbar{padding:0 16px}.user-block{display:none}.preview-grid{grid-template-columns:1fr}.container{padding:0 14px}.hero{padding-left:16px;padding-right:16px}}
+   .legacy-modal{
+display:none;
+position:fixed;
+inset:0;
+background:#f3f3f4;
+z-index:9999;
+overflow:auto;
+}
+.legacy-modal.show{
+display:block;
+}
+.legacy-content{
+max-width:1100px;
+margin:0 auto;
+padding:30px;
+}
+.legacy-back{
+background:#990ae3;
+color:#fff;
+border:0;
+border-radius:999px;
+padding:12px 24px;
+font-weight:700;
+cursor:pointer;
+margin-bottom:30px;
+}
+.legacy-card{
+background:#fff;
+border-radius:16px;
+padding:30px;
+min-height:250px;
+box-shadow:0 6px 20px rgba(0,0,0,.08);
+}
+.legacy-card label{
+display:block;
+margin-bottom:8px;
+font-weight:700;
+}
+.legacy-card select{
+width:500px;
+max-width:100%;
+height:40px;
+}
+.legacy-next{
+background:#d1d5db;
+color:#fff;
+border:0;
+border-radius:999px;
+padding:12px 28px;
+font-weight:700;
+}
+Show more lines
+
+Rakenteen pitäisi näyttää tältä:
+
+CSS
+.toast{...}
+.toast.show{display:block}
+.legacy-modal{...}
+.legacy-modal.show{...}
+.legacy-content{...}
+@media(max-width:900px){
+...
+}
+`
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.action-strip{grid-template-columns:1fr}.portal-action{border-right:0;border-bottom:1px solid #d1d5db}.nav{overflow-x:auto}.topbar{padding:0 16px}.user-block{display:none}.preview-grid{grid-template-columns:1fr}.container{padding:0 14px}.hero{padding-left:16px;padding-right:16px}}
   </style>
 </head>
 <body>
