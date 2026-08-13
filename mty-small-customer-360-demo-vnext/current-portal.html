@@ -339,7 +339,11 @@ function showMapping(){
       window.__toastTimer = setTimeout(()=>el.classList.remove('show'),2600);
     }
     renderQuickLinks();
-    openCurrentLink('mobileSubscriptions');
+updatePortalTexts();
+openCurrentLink('mobileSubscriptions');
+document
+.getElementById('companySelect')
+.addEventListener('change', updatePortalTexts);
   </script>
   <div class="toast" id="toast"></div>
 <div id="legacySubscriptionModal" class="legacy-modal">
